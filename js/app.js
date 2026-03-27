@@ -251,18 +251,17 @@ const App = {
         const scenicList = document.getElementById('scenic-list');
         if (scenicList) {
             scenicList.addEventListener('click', (e) => {
-                const card = e.target.closest('.spot-card');
-                if (card && card.dataset.spotId) {
-                    const spotId = card.dataset.spotId;
-                    this.toggleFavorite(spotId);
-                }
-                
                 const favoriteBtn = e.target.closest('.card-favorite-btn');
                 if (favoriteBtn) {
+                    e.stopPropagation();
                     const card = favoriteBtn.closest('.spot-card');
                     if (card && card.dataset.spotId) {
                         const spotId = card.dataset.spotId;
                         this.toggleFavorite(spotId);
+                        const spot = this.allSpots.find(s => s.id === spotId);
+                        if (spot) {
+                            this.showSpotDetail(spotId);
+                        }
                     }
                 }
             });
