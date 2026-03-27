@@ -733,6 +733,15 @@ const App = {
         };
     },
 
+    extractUidFromMapUrl: function(mapUrl) {
+        if (!mapUrl) return null;
+        const match = mapUrl.match(/[?&]uid=([^&]+)/);
+        if (match) {
+            return match[1];
+        }
+        return null;
+    },
+
     confirmRouteDesign: function() {
         if (this.selectedRouteSpots.length < 2) {
             alert('请至少选择2个景点');
@@ -743,31 +752,39 @@ const App = {
             this.allSpots.find(s => s.id === id)
         ).filter(spot => spot);
 
-        const coordinates = [];
-        const spotNames = [];
+        const spotInfos = [];
 
         selectedSpots.forEach(spot => {
-            const coords = this.extractCoordinatesFromMapUrl(spot.map_url);
-            if (coords) {
-                coordinates.push(`${coords.latitude.toFixed(6)},${coords.longitude.toFixed(6)}`);
-                spotNames.push(spot.name);
+            const uid = this.extractUidFromMapUrl(spot.map_url);
+            let mcCoords = null;
+            if (spot.map_url) {
+                const match = spot.map_url.match(/@([\d.]+),([\d.]+)/);
+                if (match) {
+                    mcCoords = { x: parseFloat(match[1]), y: parseFloat(match[2]) };
+                }
             }
+            spotInfos.push({
+                name: spot.name,
+                uid: uid,
+                mcCoords: mcCoords
+            });
         });
 
-        if (coordinates.length < 2) {
-            alert('无法获取足够的景点坐标信息');
+        if (spotInfos.length < 2) {
+            alert('无法获取足够的景点信息');
             return;
         }
 
-        this.designRoute(coordinates, spotNames);
+        this.designRoute(spotInfos);
     },
 
-    designRoute: async function(coordinates, spotNames) {
+    designRoute: async function(spotInfos) {
+        const spotNames = spotInfos.map(s => s.name);
         this.showRouteLoading(spotNames);
         
         try {
             await new Promise(resolve => setTimeout(resolve, 1000));
-            this.showRouteResult(coordinates, spotNames);
+            this.showRouteResult(spotInfos);
         } catch (error) {
             console.error('路线规划失败:', error);
             alert('路线规划失败，请稍后重试');
@@ -806,12 +823,13 @@ const App = {
         document.body.appendChild(modal);
     },
 
-    showRouteResult: function(coordinates, spotNames) {
+    showRouteResult: function(spotInfos) {
         const loadingModal = document.getElementById('route-loading-modal');
         if (loadingModal) {
             loadingModal.remove();
         }
 
+        const spotNames = spotInfos.map(s => s.name);
         const modal = document.createElement('div');
         modal.id = 'route-result-modal';
         modal.className = 'modal show';
@@ -912,7 +930,7 @@ const App = {
         
         const openMapBtn = document.getElementById('open-map-btn');
         openMapBtn.addEventListener('click', () => {
-            this.openBaiduMapWithSpots(spotNames, selectedMode.current);
+            this.openBaiduMapWithSpots(spotInfos, selectedMode.current);
         });
         
         const closeBtn = document.getElementById('route-modal-close');
@@ -929,18 +947,55 @@ const App = {
         overlay.addEventListener('click', closeModal);
     },
 
-    openBaiduMapWithSpots: function(spotNames, mode) {
-        if (spotNames.length >= 2) {
-            const origin = encodeURIComponent(spotNames[0]);
-            const destination = encodeURIComponent(spotNames[spotNames.length - 1]);
-            const waypoints = spotNames.slice(1, spotNames.length - 1).map(name => encodeURIComponent(name)).join('|');
+    openBaiduMapWithSpots: function(spotInfos, mode) {
+        if (spotInfos.length >= 2) {
+            const origin = spotInfos[0];
+            const dest = spotInfos[spotInfos.length - 1];
+            const originName = encodeURIComponent(origin.name);
+            const destName = encodeURIComponent(dest.name);
             
-            const modeParam = mode === 'transit' ? 'bus' : mode === 'riding' ? 'bike' : 'walk';
-            let mapUrl = `https://map.baidu.com/dir/${origin}/${destination}/${modeParam}/`;
+            let centerX = 0;
+            let centerY = 0;
             
-            if (waypoints) {
-                mapUrl += `?via=${waypoints}`;
+            if (origin.mcCoords && dest.mcCoords) {
+                centerX = (origin.mcCoords.x + dest.mcCoords.x) / 2;
+                centerY = (origin.mcCoords.y + dest.mcCoords.y) / 2;
+            } else if (origin.mcCoords) {
+                centerX = origin.mcCoords.x;
+                centerY = origin.mcCoords.y;
+            } else if (dest.mcCoords) {
+                centerX = dest.mcCoords.x;
+                centerY = dest.mcCoords.y;
+            } else {
+                centerX = 13523879.89;
+                centerY = 3641052.94;
             }
+            
+            let mapUrl = `https://map.baidu.com/dir/${originName}/${destName}/@${centerX.toFixed(6)},${centerY.toFixed(6)},13z/index%3D1?`;
+            
+            const queryParams = [];
+            queryParams.push('querytype=bt');
+            queryParams.push('bttp=0');
+            queryParams.push('c=289');
+            queryParams.push('sy=0');
+            
+            if (dest.uid && dest.mcCoords) {
+                const enParam = `en=1$$${dest.uid}$$${dest.mcCoords.x.toFixed(2)},${dest.mcCoords.y.toFixed(2)}$$${destName}$$$$$$`;
+                queryParams.push(enParam);
+            }
+            
+            if (origin.uid && origin.mcCoords) {
+                const snParam = `sn=0$$${origin.uid}$$${origin.mcCoords.x.toFixed(6)},${origin.mcCoords.y.toFixed(6)}$$${originName}$$$$$$`;
+                queryParams.push(snParam);
+            }
+            
+            queryParams.push(`sq=${destName}`);
+            queryParams.push(`eq=${originName}`);
+            queryParams.push('exptype=dep');
+            queryParams.push('version=5');
+            queryParams.push('da_src=shareurl');
+            
+            mapUrl += queryParams.join('&');
             
             window.open(mapUrl, '_blank');
         }
