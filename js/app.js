@@ -652,6 +652,7 @@ const App = {
             routeBtn.classList.add('active');
             routeBtn.innerHTML = '<span class="btn-icon">✖️</span><span>退出模式</span>';
             routeBar.classList.remove('hidden');
+            this.updateSelectionLimitMessage();
         } else {
             routeBtn.classList.remove('active');
             routeBtn.innerHTML = '<span class="btn-icon">🗺️</span><span>线路设计模式</span>';
@@ -667,18 +668,43 @@ const App = {
         if (index > -1) {
             this.selectedRouteSpots.splice(index, 1);
         } else {
+            if (this.selectedRouteSpots.length >= 7) {
+                this.updateSelectionLimitMessage('已达上限');
+                return;
+            }
             this.selectedRouteSpots.push(spotId);
         }
 
         this.updateSelectedCount();
         this.updateConfirmButtonState();
         this.updateCardSelectionState(spotId);
+        this.updateSelectionLimitMessage();
     },
 
     updateSelectedCount: function() {
         const countEl = document.getElementById('selected-count-num');
         if (countEl) {
             countEl.textContent = this.selectedRouteSpots.length;
+        }
+    },
+
+    updateSelectionLimitMessage: function(message) {
+        const msgEl = document.getElementById('selection-limit-message');
+        if (!msgEl) return;
+        
+        if (message) {
+            msgEl.textContent = message;
+            msgEl.classList.add('show');
+        } else {
+            if (this.selectedRouteSpots.length === 7) {
+                msgEl.textContent = '已达上限';
+                msgEl.classList.add('show');
+            } else if (this.selectedRouteSpots.length >= 6) {
+                msgEl.textContent = '只能选择7个景点';
+                msgEl.classList.add('show');
+            } else {
+                msgEl.classList.remove('show');
+            }
         }
     },
 
@@ -830,12 +856,20 @@ const App = {
         }
 
         const spotNames = spotInfos.map(s => s.name);
+        const hasWaypoints = spotInfos.length > 2;
         const modal = document.createElement('div');
         modal.id = 'route-result-modal';
         modal.className = 'modal show';
         
-        const travelModes = ['transit', 'riding', 'walking'];
-        const modeNames = { transit: '🚌 公共交通', riding: '🚲 骑行', walking: '🚶 步行' };
+        const travelModes = hasWaypoints ? ['driving'] : ['transit', 'riding', 'walking', 'driving'];
+        const modeNames = { transit: '🚌 公共交通', riding: '🚲 骑行', walking: '🚶 步行', driving: '🚗 驾车' };
+        const defaultMode = hasWaypoints ? 'driving' : 'transit';
+        
+        if (hasWaypoints) {
+            modeNames.transit = '🚌 公共交通 (不支持途经点)';
+            modeNames.riding = '🚲 骑行 (不支持途经点)';
+            modeNames.walking = '🚶 步行 (不支持途经点)';
+        }
         
         modal.innerHTML = `
             <div class="modal-overlay"></div>
@@ -848,12 +882,12 @@ const App = {
                     
                     <div style="background: var(--shanghai-cream); padding: 1.5rem; border: 1px solid var(--shanghai-light); margin-bottom: 1.5rem;">
                         <h3 style="color: var(--shanghai-navy); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-                            <span>📋</span> 选择的景点（共${spotNames.length}个）
+                            <span>📋</span> 选择的景点（共${spotNames.length}个）${hasWaypoints ? '<span style="font-size: 0.85rem; color: var(--shanghai-gold); font-weight: normal; background: white; padding: 0.2rem 0.5rem; border: 1px solid var(--shanghai-gold);">含途经点</span>' : ''}
                         </h3>
                         <div style="display: flex; flex-wrap: wrap; gap: 0.8rem;">
                             ${spotNames.map((name, index) => `
                                 <div style="background: white; padding: 0.5rem 1rem; border: 2px solid ${index === 0 ? 'var(--shanghai-gold)' : 'var(--shanghai-light)'}; border-radius: 0; display: flex; align-items: center; gap: 0.5rem;">
-                                    <span style="width: 24px; height: 24px; background: ${index === 0 ? 'var(--shanghai-gold)' : 'var(--shanghai-light)'}; color: ${index === 0 ? 'white' : 'var(--shanghai-dark)'}; display: flex; align-items: center; justify-content: center; font-weight: bold; border-radius: 50%; font-size: 0.85rem;">${index + 1}</span>
+                                    <span style="width: 24px; height: 24px; background: ${index === 0 ? 'var(--shanghai-gold)' : 'var(--shanghai-light)'}; color: ${index === 0 ? 'white' : 'var(--shanghai-dark)'}; display: flex; align-items: center; justify-content: center; font-weight: bold; border-radius: 50%; font-size: 0.85rem;">${index === 0 ? '起' : index === spotNames.length - 1 ? '终' : index}</span>
                                     <span style="font-weight: 500;">${name}</span>
                                     ${index < spotNames.length - 1 ? '<span style="color: var(--shanghai-gold); font-weight: bold;">→</span>' : ''}
                                 </div>
@@ -867,17 +901,18 @@ const App = {
                         </h3>
                         <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
                             ${travelModes.map((mode, index) => `
-                                <button class="travel-mode-btn ${index === 0 ? 'active' : ''}" data-mode="${mode}" style="flex: 1; min-width: 150px; padding: 1rem; background: ${index === 0 ? 'linear-gradient(135deg, var(--shanghai-gold) 0%, var(--shanghai-navy) 100%)' : 'white'}; color: ${index === 0 ? 'white' : 'var(--shanghai-dark)'}; border: 3px solid ${index === 0 ? 'var(--shanghai-gold)' : 'var(--shanghai-light)'}; border-radius: 0; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">
+                                <button class="travel-mode-btn ${mode === defaultMode ? 'active' : ''}" data-mode="${mode}" style="flex: 1; min-width: 150px; padding: 1rem; background: ${mode === defaultMode ? 'linear-gradient(135deg, var(--shanghai-gold) 0%, var(--shanghai-navy) 100%)' : 'white'}; color: ${mode === defaultMode ? 'white' : 'var(--shanghai-dark)'}; border: 3px solid ${mode === defaultMode ? 'var(--shanghai-gold)' : 'var(--shanghai-light)'}; border-radius: 0; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">
                                     ${modeNames[mode]}
                                 </button>
                             `).join('')}
                         </div>
+                        ${hasWaypoints ? '<p style="color: var(--shanghai-gold); font-size: 0.9rem; margin-top: 0.8rem; padding-left: 0.5rem;"><strong>提示：</strong>只有驾车模式支持途经点</p>' : ''}
                     </div>
                     
                     <div id="route-info" style="background: var(--shanghai-cream); padding: 1.5rem; border-left: 4px solid var(--shanghai-gold); margin-bottom: 1.5rem;">
-                        <h4 style="color: var(--shanghai-navy); margin-bottom: 0.8rem;">📊 路线预览（公共交通）</h4>
-                        <p style="color: var(--shanghai-dark); margin-bottom: 0.5rem;"><strong>总距离：</strong>约 4.2 公里</p>
-                        <p style="color: var(--shanghai-dark); margin-bottom: 0.5rem;"><strong>预计用时：</strong>约 55 分钟</p>
+                        <h4 style="color: var(--shanghai-navy); margin-bottom: 0.8rem;">📊 路线预览（${modeNames[defaultMode]}）</h4>
+                        <p style="color: var(--shanghai-dark); margin-bottom: 0.5rem;"><strong>总距离：</strong>约 ${hasWaypoints ? '7.7' : '4.2'} 公里</p>
+                        <p style="color: var(--shanghai-dark); margin-bottom: 0.5rem;"><strong>预计用时：</strong>约 ${hasWaypoints ? '23' : '55'} 分钟</p>
                         <p style="color: var(--shanghai-dark); font-style: italic;">（以上为示例数据，实际以百度地图为准）</p>
                     </div>
                     
@@ -895,11 +930,17 @@ const App = {
         
         document.body.appendChild(modal);
         
-        const selectedMode = { current: 'transit' };
+        const selectedMode = { current: defaultMode };
         
         const travelModeBtns = modal.querySelectorAll('.travel-mode-btn');
         travelModeBtns.forEach(btn => {
             btn.addEventListener('click', () => {
+                const mode = btn.dataset.mode;
+                if (hasWaypoints && mode !== 'driving') {
+                    alert('只有驾车模式支持途经点，请选择驾车模式！');
+                    return;
+                }
+                
                 travelModeBtns.forEach(b => {
                     b.style.background = 'white';
                     b.style.color = 'var(--shanghai-dark)';
@@ -915,7 +956,8 @@ const App = {
                 const modeInfo = {
                     transit: { distance: '约 4.2 公里', time: '约 55 分钟', name: '公共交通' },
                     riding: { distance: '约 3.8 公里', time: '约 25 分钟', name: '骑行' },
-                    walking: { distance: '约 3.5 公里', time: '约 50 分钟', name: '步行' }
+                    walking: { distance: '约 3.5 公里', time: '约 50 分钟', name: '步行' },
+                    driving: { distance: hasWaypoints ? '约 7.7 公里' : '约 6.7 公里', time: hasWaypoints ? '约 23 分钟' : '约 19 分钟', name: '驾车' }
                 };
                 const info = modeInfo[selectedMode.current];
                 const routeInfoEl = document.getElementById('route-info');
@@ -930,6 +972,10 @@ const App = {
         
         const openMapBtn = document.getElementById('open-map-btn');
         openMapBtn.addEventListener('click', () => {
+            if (hasWaypoints && selectedMode.current !== 'driving') {
+                alert('只有驾车模式支持途经点，请先选择驾车模式！');
+                return;
+            }
             this.openBaiduMapWithSpots(spotInfos, selectedMode.current);
         });
         
@@ -949,51 +995,93 @@ const App = {
 
     openBaiduMapWithSpots: function(spotInfos, mode) {
         if (spotInfos.length >= 2) {
+            const hasWaypoints = spotInfos.length > 2;
             const origin = spotInfos[0];
             const dest = spotInfos[spotInfos.length - 1];
-            const originName = encodeURIComponent(origin.name);
-            const destName = encodeURIComponent(dest.name);
+            const waypoints = spotInfos.slice(1, spotInfos.length - 1);
+            
+            const pathParts = [encodeURIComponent(origin.name)];
+            waypoints.forEach(wp => pathParts.push(encodeURIComponent(wp.name)));
+            pathParts.push(encodeURIComponent(dest.name));
             
             let centerX = 0;
             let centerY = 0;
             
-            if (origin.mcCoords && dest.mcCoords) {
-                centerX = (origin.mcCoords.x + dest.mcCoords.x) / 2;
-                centerY = (origin.mcCoords.y + dest.mcCoords.y) / 2;
+            const allMcCoords = spotInfos.filter(s => s.mcCoords).map(s => s.mcCoords);
+            if (allMcCoords.length >= 2) {
+                const minX = Math.min(...allMcCoords.map(c => c.x));
+                const maxX = Math.max(...allMcCoords.map(c => c.x));
+                const minY = Math.min(...allMcCoords.map(c => c.y));
+                const maxY = Math.max(...allMcCoords.map(c => c.y));
+                centerX = (minX + maxX) / 2;
+                centerY = (minY + maxY) / 2;
             } else if (origin.mcCoords) {
                 centerX = origin.mcCoords.x;
                 centerY = origin.mcCoords.y;
-            } else if (dest.mcCoords) {
-                centerX = dest.mcCoords.x;
-                centerY = dest.mcCoords.y;
             } else {
                 centerX = 13523879.89;
                 centerY = 3641052.94;
             }
             
-            let mapUrl = `https://map.baidu.com/dir/${originName}/${destName}/@${centerX.toFixed(6)},${centerY.toFixed(6)},13z/index%3D1?`;
+            let mapUrl = `https://map.baidu.com/dir/${pathParts.join('/')}/@${centerX.toFixed(6)},${centerY.toFixed(6)},13z?`;
             
             const queryParams = [];
-            queryParams.push('querytype=bt');
-            queryParams.push('bttp=0');
-            queryParams.push('c=289');
-            queryParams.push('sy=0');
             
-            if (dest.uid && dest.mcCoords) {
-                const enParam = `en=1$$${dest.uid}$$${dest.mcCoords.x.toFixed(2)},${dest.mcCoords.y.toFixed(2)}$$${destName}$$$$$$`;
-                queryParams.push(enParam);
+            if (hasWaypoints) {
+                queryParams.push('querytype=nav');
+                queryParams.push('c=289');
+                
+                if (origin.mcCoords) {
+                    const snParam = `sn=1$$$$${origin.mcCoords.x.toFixed(2)},${origin.mcCoords.y.toFixed(2)}$$${encodeURIComponent(origin.name)}$$0$$$$`;
+                    queryParams.push(snParam);
+                }
+                
+                if (dest.uid && dest.mcCoords) {
+                    let enParts = [`2$$${dest.uid}$$${dest.mcCoords.x.toFixed(2)},${dest.mcCoords.y.toFixed(2)}$$${encodeURIComponent(dest.name)}$$0$$$$$$`];
+                    
+                    [...waypoints].reverse().forEach((wp, i) => {
+                        if (wp.uid && wp.mcCoords) {
+                            enParts.push(`1$$ to:0$$${wp.uid}$$${wp.mcCoords.x.toFixed(2)},${wp.mcCoords.y.toFixed(2)}$$${encodeURIComponent(wp.name)}$$0$$$$`);
+                        }
+                    });
+                    
+                    const enParam = `en=${enParts.join('')}`;
+                    queryParams.push(enParam);
+                }
+                
+                queryParams.push('sc=289');
+                const ecParts = ['289'];
+                waypoints.forEach(() => ecParts.push('289'));
+                queryParams.push(`ec=${ecParts.join('+to:')}`);
+                queryParams.push('pn=0');
+                queryParams.push('rn=5');
+                queryParams.push('mrs=0');
+                queryParams.push('version=4');
+                queryParams.push('route_traffic=1');
+                queryParams.push('sy=0');
+                queryParams.push('da_src=shareurl');
+            } else {
+                queryParams.push('querytype=bt');
+                queryParams.push('bttp=0');
+                queryParams.push('c=289');
+                queryParams.push('sy=0');
+                
+                if (dest.uid && dest.mcCoords) {
+                    const enParam = `en=1$$${dest.uid}$$${dest.mcCoords.x.toFixed(2)},${dest.mcCoords.y.toFixed(2)}$$${encodeURIComponent(dest.name)}$$$$$$`;
+                    queryParams.push(enParam);
+                }
+                
+                if (origin.uid && origin.mcCoords) {
+                    const snParam = `sn=0$$${origin.uid}$$${origin.mcCoords.x.toFixed(6)},${origin.mcCoords.y.toFixed(6)}$$${encodeURIComponent(origin.name)}$$$$$$`;
+                    queryParams.push(snParam);
+                }
+                
+                queryParams.push(`sq=${encodeURIComponent(dest.name)}`);
+                queryParams.push(`eq=${encodeURIComponent(origin.name)}`);
+                queryParams.push('exptype=dep');
+                queryParams.push('version=5');
+                queryParams.push('da_src=shareurl');
             }
-            
-            if (origin.uid && origin.mcCoords) {
-                const snParam = `sn=0$$${origin.uid}$$${origin.mcCoords.x.toFixed(6)},${origin.mcCoords.y.toFixed(6)}$$${originName}$$$$$$`;
-                queryParams.push(snParam);
-            }
-            
-            queryParams.push(`sq=${destName}`);
-            queryParams.push(`eq=${originName}`);
-            queryParams.push('exptype=dep');
-            queryParams.push('version=5');
-            queryParams.push('da_src=shareurl');
             
             mapUrl += queryParams.join('&');
             
