@@ -53,6 +53,72 @@
         <p>© 2026 景点展示系统</p>
     </footer>
     
+    <!-- 景点详情弹窗 -->
+    <div id="spot-detail-modal" class="modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close">&times;</button>
+            <div class="modal-body">
+                <div class="modal-header">
+                    <h2 id="modal-spot-name"></h2>
+                    <p id="modal-spot-city" class="modal-city"></p>
+                </div>
+                <div class="modal-main">
+                    <div class="modal-image-container">
+                        <img id="modal-spot-image" src="" alt="">
+                    </div>
+                    <div class="modal-details">
+                        <div class="modal-section">
+                            <h3>景点简介</h3>
+                            <p id="modal-spot-description"></p>
+                        </div>
+                        <div class="modal-section">
+                            <h3>详细描述</h3>
+                            <p id="modal-spot-full-description"></p>
+                        </div>
+                        <div class="modal-section">
+                            <h3>历史沿革</h3>
+                            <p id="modal-spot-history"></p>
+                        </div>
+                        <div class="modal-section">
+                            <h3>游玩时长</h3>
+                            <p id="modal-spot-play-time"></p>
+                        </div>
+                        <div class="modal-section">
+                            <h3>游览提示</h3>
+                            <p id="modal-spot-tips"></p>
+                        </div>
+                        <div class="modal-section">
+                            <h3>信息来源</h3>
+                            <a id="modal-spot-encyclopedia" href="" target="_blank" class="encyclopedia-btn">
+                                <span>📚 百度百科</span>
+                                <span class="btn-icon">→</span>
+                            </a>
+                        </div>
+                        <div class="modal-meta">
+                            <span class="meta-item">
+                                <span class="meta-label">评分：</span>
+                                <span id="modal-spot-rating"></span>
+                            </span>
+                            <span class="meta-item">
+                                <span class="meta-label">票价：</span>
+                                <span id="modal-spot-price"></span>
+                            </span>
+                            <span class="meta-item">
+                                <span class="meta-label">开放时间：</span>
+                                <span id="modal-spot-open-time"></span>
+                            </span>
+                            <span class="meta-item">
+                                <span class="meta-label">标签：</span>
+                                <span id="modal-spot-tags" class="modal-tags"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <!-- 主应用脚本 -->
     <script src="js/app.js"></script>
 </body>

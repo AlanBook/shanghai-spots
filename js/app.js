@@ -13,6 +13,7 @@ const App = {
         this.setupSearch();
         this.setupTagFilter();
         this.setupSort();
+        this.setupModal();
     },
     
     /**
@@ -105,6 +106,80 @@ const App = {
                 this.currentSort = sortSelect.value;
                 this.filterByTags();
             });
+        }
+    },
+    
+    setupModal: function() {
+        const modal = document.getElementById('spot-detail-modal');
+        const closeBtn = document.getElementById('modal-close');
+        const scenicList = document.getElementById('scenic-list');
+        
+        if (scenicList) {
+            scenicList.addEventListener('click', (e) => {
+                const card = e.target.closest('.spot-card');
+                if (card && card.dataset.spotId) {
+                    this.showSpotDetail(card.dataset.spotId);
+                }
+            });
+        }
+        
+        if (closeBtn && modal) {
+            closeBtn.addEventListener('click', () => {
+                this.closeModal();
+            });
+        }
+        
+        if (modal) {
+            modal.addEventListener('click', (e) => {
+                if (e.target.classList.contains('modal-overlay')) {
+                    this.closeModal();
+                }
+            });
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modal.classList.contains('show')) {
+                    this.closeModal();
+                }
+            });
+        }
+    },
+    
+    showSpotDetail: function(spotId) {
+        const spot = this.allSpots.find(s => s.id === spotId);
+        if (!spot) return;
+        
+        const modal = document.getElementById('spot-detail-modal');
+        if (!modal) return;
+        
+        document.getElementById('modal-spot-name').textContent = spot.name;
+        document.getElementById('modal-spot-city').textContent = spot.city;
+        document.getElementById('modal-spot-image').src = spot.image;
+        document.getElementById('modal-spot-description').textContent = spot.description;
+        document.getElementById('modal-spot-full-description').textContent = spot.full_description || '暂无详细描述';
+        document.getElementById('modal-spot-history').textContent = spot.history || '暂无历史沿革信息';
+        document.getElementById('modal-spot-play-time').textContent = spot.play_time || '暂无游玩时长信息';
+        document.getElementById('modal-spot-tips').textContent = spot.tips || '暂无游览提示';
+        document.getElementById('modal-spot-encyclopedia').href = spot.encyclopedia_url || '#';
+        document.getElementById('modal-spot-rating').textContent = spot.rating ? spot.rating.toFixed(1) : '暂无';
+        document.getElementById('modal-spot-price').textContent = spot.price === 0 ? '免费' : spot.price;
+        document.getElementById('modal-spot-open-time').textContent = spot.open_time || '暂无';
+        
+        const tagsContainer = document.getElementById('modal-spot-tags');
+        if (spot.tags && spot.tags.length > 0) {
+            tagsContainer.innerHTML = spot.tags.map(tag => `<span class="spot-tag">${tag}</span>`).join('');
+        } else {
+            tagsContainer.innerHTML = '暂无';
+        }
+        
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+    },
+    
+    closeModal: function() {
+        const modal = document.getElementById('spot-detail-modal');
+        if (modal) {
+            modal.classList.remove('show');
+            document.body.style.overflow = '';
         }
     },
     
@@ -319,7 +394,7 @@ const App = {
         const cardClass = spot.ratio === 'vertical' ? 'spot-card vertical' : 'spot-card horizontal';
         
         return `
-            <div class="${cardClass}">
+            <div class="${cardClass}" data-spot-id="${spot.id}">
                 <img src="${spot.image}" alt="${spot.name}" onerror="this.src='img/s1_waitap.jpg'">
                 <div class="spot-card-content">
                     <h3>${spot.name}</h3>
