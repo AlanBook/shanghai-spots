@@ -1,0 +1,586 @@
+/* 上海景点展示系统 - 主样式表
+ * 采用上海海派文化风格配色方案
+ */
+
+/* CSS重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 主题色变量定义 */
+:root {
+    --shanghai-navy: #1a2a3a;
+    --shanghai-dark: #2c3e50;
+    --shanghai-gold: #d4af37;
+    --shanghai-red: #c0392b;
+    --shanghai-cream: #fdf5e6;
+    --shanghai-light: #e8dcc8;
+}
+
+/* 页面主体样式 */
+body {
+    font-family: 'Microsoft YaHei', 'PingFang SC', 'Songti SC', serif;
+    line-height: 1.8;
+    color: var(--shanghai-dark);
+    background: linear-gradient(180deg, var(--shanghai-cream) 0%, var(--shanghai-light) 100%);
+    min-height: 100vh;
+    position: relative;
+}
+
+/* 网格背景装饰 */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 50px,
+            rgba(212, 175, 55, 0.03) 50px,
+            rgba(212, 175, 55, 0.03) 51px
+        ),
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 50px,
+            rgba(212, 175, 55, 0.03) 50px,
+            rgba(212, 175, 55, 0.03) 51px
+        );
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* 页眉样式 */
+header {
+    background: linear-gradient(180deg, var(--shanghai-navy) 0%, var(--shanghai-dark) 100%);
+    color: white;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 6px 20px rgba(26, 42, 58, 0.4);
+    border-bottom: 3px solid var(--shanghai-gold);
+}
+
+/* 页眉装饰背景 */
+header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        linear-gradient(45deg, transparent 45%, rgba(212, 175, 55, 0.1) 45%, rgba(212, 175, 55, 0.1) 55%, transparent 55%),
+        linear-gradient(-45deg, transparent 45%, rgba(212, 175, 55, 0.05) 45%, rgba(212, 175, 55, 0.05) 55%, transparent 55%);
+    background-size: 20px 20px;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* 主标题样式 */
+header h1 {
+    margin-bottom: 0.5rem;
+    font-size: 2.8rem;
+    font-weight: 700;
+    letter-spacing: 8px;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+    position: relative;
+    display: inline-block;
+}
+
+/* 标题装饰元素 */
+header h1::before,
+header h1::after {
+    content: '◆';
+    color: var(--shanghai-gold);
+    font-size: 1.2rem;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+header h1::before {
+    left: -40px;
+}
+
+header h1::after {
+    right: -40px;
+}
+
+/* 副标题样式 */
+.subtitle {
+    color: var(--shanghai-gold);
+    font-size: 1.15rem;
+    font-weight: 400;
+    letter-spacing: 4px;
+    margin-top: 0.8rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+    font-family: 'KaiTi', '楷体', serif;
+}
+
+/* 主内容区域 */
+main {
+    max-width: 1450px;
+    margin: 2.5rem auto;
+    padding: 0 1.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+/* 景点列表容器 */
+#scenic-list-section {
+    background: var(--shanghai-cream);
+    padding: 2.5rem;
+    border-radius: 0;
+    box-shadow: 0 8px 30px rgba(26, 42, 58, 0.2);
+    border: 2px solid var(--shanghai-gold);
+    position: relative;
+}
+
+/* 容器装饰边框 */
+#scenic-list-section::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    pointer-events: none;
+}
+
+/* 瀑布流布局容器 */
+#scenic-list {
+    display: flex;
+    gap: 2.5rem;
+}
+
+/* 瀑布流列样式 */
+.masonry-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 搜索容器 */
+#search-container {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 0;
+    box-shadow: 0 4px 16px rgba(26, 42, 58, 0.1);
+    border: 1px solid var(--shanghai-light);
+}
+
+/* 搜索输入框 */
+#search-input {
+    flex: 1;
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    border: 2px solid var(--shanghai-light);
+    border-radius: 0;
+    outline: none;
+    transition: all 0.3s ease;
+    font-family: 'Microsoft YaHei', 'PingFang SC', 'Songti SC', serif;
+}
+
+/* 搜索框聚焦状态 */
+#search-input:focus {
+    border-color: var(--shanghai-gold);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
+}
+
+/* 搜索框激活状态 */
+#search-input:active {
+    border-color: var(--shanghai-dark);
+    box-shadow: 0 0 0 3px rgba(26, 42, 58, 0.1);
+}
+
+/* 搜索框占位符样式 */
+#search-input::placeholder {
+    color: #999;
+    font-style: italic;
+}
+
+/* 搜索按钮 */
+#search-btn {
+    padding: 1rem 2.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    background: linear-gradient(180deg, var(--shanghai-navy) 0%, var(--shanghai-dark) 100%);
+    color: white;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 2px;
+    border: 2px solid var(--shanghai-gold);
+    position: relative;
+}
+
+/* 搜索按钮装饰元素 */
+#search-btn::before,
+#search-btn::after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: var(--shanghai-gold);
+    transition: all 0.3s ease;
+}
+
+#search-btn::before {
+    top: -2px;
+    left: -2px;
+}
+
+#search-btn::after {
+    bottom: -2px;
+    right: -2px;
+}
+
+/* 搜索按钮悬停效果 */
+#search-btn:hover {
+    background: linear-gradient(180deg, var(--shanghai-dark) 0%, var(--shanghai-navy) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.3);
+}
+
+#search-btn:hover::before,
+#search-btn:hover::after {
+    width: 10px;
+    height: 10px;
+}
+
+/* 搜索按钮激活状态 */
+#search-btn:active {
+    transform: translateY(0);
+}
+
+/* 景点卡片基础样式 */
+.spot-card {
+    background: white;
+    border-radius: 0;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(26, 42, 58, 0.15);
+    transition: all 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--shanghai-light);
+    position: relative;
+    margin-bottom: 2.5rem;
+}
+
+/* 卡片顶部装饰条 */
+.spot-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--shanghai-gold) 0%, var(--shanghai-navy) 100%);
+    z-index: 10;
+}
+
+/* 卡片悬停效果 */
+.spot-card:hover {
+    transform: translateY(-8px) scale(1.015);
+    box-shadow: 0 20px 50px rgba(26, 42, 58, 0.35);
+    border-color: var(--shanghai-gold);
+}
+
+/* 横版图片卡片 */
+.spot-card.horizontal img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+    filter: brightness(0.95);
+}
+
+/* 竖版图片卡片 */
+.spot-card.vertical img {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: contain;
+    display: block;
+    transition: transform 0.5s ease;
+    filter: brightness(0.95);
+}
+
+/* 卡片图片悬停效果 */
+.spot-card:hover img {
+    transform: scale(1.08);
+    filter: brightness(1);
+}
+
+/* 卡片内容区域 */
+.spot-card-content {
+    padding: 1.8rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* 内容区域顶部装饰线 */
+.spot-card-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--shanghai-gold), transparent);
+}
+
+/* 景点名称 */
+.spot-card h3 {
+    color: var(--shanghai-navy);
+    margin-bottom: 0.6rem;
+    font-size: 1.35rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    border-bottom: 1px dashed var(--shanghai-light);
+    padding-bottom: 0.5rem;
+}
+
+/* 城市信息 */
+.spot-card-city {
+    color: var(--shanghai-dark);
+    font-size: 0.95rem;
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+}
+
+/* 标签容器 */
+.spot-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.2rem;
+}
+
+/* 标签样式 */
+.spot-tag {
+    background: linear-gradient(135deg, var(--shanghai-navy) 0%, var(--shanghai-dark) 100%);
+    color: var(--shanghai-gold);
+    padding: 0.35rem 1rem;
+    border-radius: 0;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    border: 1px solid var(--shanghai-gold);
+    position: relative;
+}
+
+/* 标签装饰元素 */
+.spot-tag::before,
+.spot-tag::after {
+    content: '';
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: var(--shanghai-gold);
+}
+
+.spot-tag::before {
+    top: -1px;
+    left: -1px;
+}
+
+.spot-tag::after {
+    bottom: -1px;
+    right: -1px;
+}
+
+/* 评分样式 */
+.spot-card .rating {
+    color: var(--shanghai-gold);
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    font-size: 1.05rem;
+}
+
+/* 价格样式 */
+.spot-card .price {
+    color: var(--shanghai-red);
+    font-weight: 700;
+    font-size: 1.25rem;
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    font-family: 'Georgia', serif;
+}
+
+/* 开放时间样式 */
+.spot-card .open-time {
+    color: var(--shanghai-dark);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    opacity: 0.85;
+}
+
+/* 描述文本样式 */
+.spot-card .description {
+    color: var(--shanghai-dark);
+    font-size: 0.95rem;
+    line-height: 1.9;
+    margin-top: auto;
+    text-align: justify;
+    font-family: 'KaiTi', '楷体', serif;
+}
+
+/* 页脚样式 */
+footer {
+    text-align: center;
+    padding: 2rem;
+    background: linear-gradient(180deg, var(--shanghai-dark) 0%, var(--shanghai-navy) 100%);
+    color: var(--shanghai-cream);
+    margin-top: 2.5rem;
+    position: relative;
+    z-index: 1;
+    border-top: 4px solid var(--shanghai-gold);
+}
+
+/* 页脚装饰线 */
+footer::before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.5), transparent);
+}
+
+/* 页脚文本 */
+footer p {
+    letter-spacing: 3px;
+    font-family: 'KaiTi', '楷体', serif;
+}
+
+/* 标签筛选容器 */
+#tag-filter-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 0;
+    box-shadow: 0 4px 16px rgba(26, 42, 58, 0.1);
+    border: 1px solid var(--shanghai-light);
+    flex-wrap: wrap;
+}
+
+/* 筛选标签标签 */
+.filter-label {
+    color: var(--shanghai-navy);
+    font-weight: 600;
+    font-size: 1rem;
+    white-space: nowrap;
+}
+
+/* 标签按钮容器 */
+.tag-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    flex: 1;
+    min-width: 200px;
+}
+
+/* 标签按钮样式 */
+.tag-btn {
+    padding: 0.5rem 1.2rem;
+    background: linear-gradient(135deg, var(--shanghai-light) 0%, var(--shanghai-cream) 100%);
+    color: var(--shanghai-dark);
+    border: 1px solid var(--shanghai-light);
+    border-radius: 0;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+/* 标签按钮悬停效果 */
+.tag-btn:hover {
+    background: linear-gradient(135deg, var(--shanghai-navy) 0%, var(--shanghai-dark) 100%);
+    color: var(--shanghai-gold);
+    border-color: var(--shanghai-gold);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+}
+
+/* 标签按钮选中状态 */
+.tag-btn.active {
+    background: linear-gradient(135deg, var(--shanghai-gold) 0%, var(--shanghai-navy) 100%);
+    color: white;
+    border-color: var(--shanghai-navy);
+    box-shadow: 0 4px 12px rgba(26, 42, 58, 0.2);
+}
+
+/* 清空筛选按钮 */
+.clear-btn {
+    padding: 0.5rem 1.5rem;
+    background: var(--shanghai-red);
+    color: white;
+    border: none;
+    border-radius: 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+/* 清空筛选按钮悬停效果 */
+.clear-btn:hover {
+    background: #a93226;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(192, 57, 43, 0.3);
+}
+
+/* 重置按钮样式 */
+.reset-btn {
+    padding: 0.5rem 1.5rem;
+    background: var(--shanghai-navy);
+    color: white;
+    border: none;
+    border-radius: 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+/* 重置按钮悬停效果 */
+.reset-btn:hover {
+    background: var(--shanghai-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(26, 42, 58, 0.3);
+}

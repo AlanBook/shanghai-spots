@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "name": "西湖景区",
+        "description": "杭州西湖是中国著名的风景游览地，以秀丽的湖光山色和众多的名胜古迹闻名中外。",
+        "location": "浙江省杭州市",
+        "rating": 4.8,
+        "image": "https://example.com/xihu.jpg"
+    },
+    {
+        "id": 2,
+        "name": "故宫博物院",
+        "description": "北京故宫是明清两代的皇家宫殿，世界上现存规模最大、保存最完整的木质结构古建筑群。",
+        "location": "北京市东城区",
+        "rating": 4.7,
+        "image": "https://example.com/gugong.jpg"
+    },
+    {
+        "id": 3,
+        "name": "九寨沟风景区",
+        "description": "九寨沟以翠海、叠瀑、彩林、雪峰、藏情\"蓝冰\"五绝闻名，是自然生态旅游胜地。",
+        "location": "四川省阿坝藏族羌族自治州",
+        "rating": 4.9,
+        "image": "https://example.com/jiuzhaigou.jpg"
+    }
+]

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>上海景点展示</title>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+    <!-- 页眉区域 -->
+    <header>
+        <h1>上海景点展示</h1>
+        <p class="subtitle">热门景点信息与图片</p>
+    </header>
+    
+    <!-- 主内容区域 -->
+    <main id="content">
+        <section id="scenic-list-section">
+            <!-- 搜索框 -->
+            <div id="search-container">
+                <input type="text" id="search-input" placeholder="搜索景点名称/城市...">
+                <button id="search-btn">搜索</button>
+            </div>
+            <!-- 标签筛选区域 -->
+            <div id="tag-filter-container">
+                <span class="filter-label">标签筛选：</span>
+                <div id="tag-buttons" class="tag-buttons"></div>
+                <button id="clear-tags-btn" class="clear-btn">清空筛选</button>
+                <button id="reset-btn" class="reset-btn">重置</button>
+            </div>
+            <!-- 瀑布流景点列表容器 -->
+            <div id="scenic-list">
+                <div class="masonry-column" id="col-1"></div>
+                <div class="masonry-column" id="col-2"></div>
+                <div class="masonry-column" id="col-3"></div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- 页脚区域 -->
+    <footer>
+        <p>© 2026 景点展示系统</p>
+    </footer>
+    
+    <!-- 主应用脚本 -->
+    <script src="js/app.js"></script>
+</body>
+</html>
