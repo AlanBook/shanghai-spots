@@ -28,6 +28,17 @@
                 <button id="clear-tags-btn" class="clear-btn">清空筛选</button>
                 <button id="reset-btn" class="reset-btn">重置</button>
             </div>
+            <!-- 排序区域 -->
+            <div id="sort-container">
+                <span class="sort-label">排序：</span>
+                <select id="sort-select">
+                    <option value="default">默认排序</option>
+                    <option value="rating-desc">评分：高到低</option>
+                    <option value="rating-asc">评分：低到高</option>
+                    <option value="price-desc">价格：高到低</option>
+                    <option value="price-asc">价格：低到高</option>
+                </select>
+            </div>
             <!-- 瀑布流景点列表容器 -->
             <div id="scenic-list">
                 <div class="masonry-column" id="col-1"></div>

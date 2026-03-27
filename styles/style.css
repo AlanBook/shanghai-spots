@@ -584,3 +584,43 @@ footer p {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(26, 42, 58, 0.3);
 }
+
+/* 排序容器 */
+#sort-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: white;
+    border-radius: 0;
+    box-shadow: 0 4px 16px rgba(26, 42, 58, 0.1);
+    border: 1px solid var(--shanghai-light);
+}
+
+.sort-label {
+    font-size: 1rem;
+    color: var(--shanghai-navy);
+    font-weight: 600;
+}
+
+#sort-select {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    color: var(--shanghai-navy);
+    background: white;
+    border: 2px solid var(--shanghai-light);
+    border-radius: 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#sort-select:hover {
+    border-color: var(--shanghai-gold);
+}
+
+#sort-select:focus {
+    outline: none;
+    border-color: var(--shanghai-gold);
+    box-shadow: 0 0 0 3px rgba(218, 163, 65, 0.2);
+}

@@ -2,6 +2,7 @@ const App = {
     allSpots: [],
     searchTimeout: null,
     selectedTags: [],
+    currentSort: 'default',
     
     /**
      * 初始化应用
@@ -11,6 +12,7 @@ const App = {
         this.loadScenicSpots();
         this.setupSearch();
         this.setupTagFilter();
+        this.setupSort();
     },
     
     /**
@@ -87,6 +89,8 @@ const App = {
                 this.resetAll();
             });
         }
+        
+        this.setupSort();
     },
     
     /**
@@ -194,7 +198,46 @@ const App = {
             });
         }
         
-        this.renderScenicSpots(filteredSpots);
+        this.sortSpots(filteredSpots);
+    },
+    
+    /**
+     * 对景点进行排序
+     * @param {Array} spots - 景点数据数组
+     * 根据当前选择的排序方式（评分/价格，升序/降序）对景点进行排序
+     */
+    sortSpots: function(spots) {
+        if (this.currentSort === 'default') {
+            this.renderScenicSpots(spots);
+            return;
+        }
+        
+        const sortedSpots = [...spots];
+        
+        switch (this.currentSort) {
+            case 'rating-desc':
+                sortedSpots.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+                break;
+            case 'rating-asc':
+                sortedSpots.sort((a, b) => (a.rating || 0) - (b.rating || 0));
+                break;
+            case 'price-desc':
+                sortedSpots.sort((a, b) => {
+                    const priceA = a.price === '免费' || a.price === 0 ? 0 : a.price;
+                    const priceB = b.price === '免费' || b.price === 0 ? 0 : b.price;
+                    return priceB - priceA;
+                });
+                break;
+            case 'price-asc':
+                sortedSpots.sort((a, b) => {
+                    const priceA = a.price === '免费' || a.price === 0 ? 0 : a.price;
+                    const priceB = b.price === '免费' || b.price === 0 ? 0 : b.price;
+                    return priceA - priceB;
+                });
+                break;
+        }
+        
+        this.renderScenicSpots(sortedSpots);
     },
     
     /**
