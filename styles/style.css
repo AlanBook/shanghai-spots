@@ -450,6 +450,45 @@ main {
     font-family: 'KaiTi', '楷体', serif;
 }
 
+/* 收藏按钮样式 */
+.card-favorite-btn {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid var(--shanghai-gold);
+    border-radius: 50%;
+    color: var(--shanghai-gold);
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 20;
+}
+
+.card-favorite-btn:hover {
+    background: var(--shanghai-gold);
+    color: white;
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+}
+
+.spot-card.favorited .card-favorite-btn {
+    background: var(--shanghai-gold);
+    color: white;
+    border-color: var(--shanghai-navy);
+}
+
+.spot-card.favorited .card-favorite-btn:hover {
+    background: var(--shanghai-navy);
+    color: var(--shanghai-gold);
+}
+
 /* 页脚样式 */
 footer {
     text-align: center;
@@ -727,8 +766,47 @@ footer p {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.encyclopedia-btn-container {
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
     margin-top: 0.5rem;
+}
+
+.favorite-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.5rem;
+    background: linear-gradient(135deg, var(--shanghai-cream) 0%, var(--shanghai-light) 100%);
+    color: var(--shanghai-gold);
+    border: 2px solid var(--shanghai-gold);
+    border-radius: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+}
+
+.favorite-btn:hover {
+    background: linear-gradient(135deg, var(--shanghai-gold) 0%, var(--shanghai-navy) 100%);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(212, 175, 55, 0.3);
+}
+
+.favorite-btn.active {
+    background: linear-gradient(135deg, var(--shanghai-gold) 0%, var(--shanghai-navy) 100%);
+    color: white;
+    border-color: var(--shanghai-navy);
+    box-shadow: 0 4px 12px rgba(26, 42, 58, 0.3);
+}
+
+.favorite-btn.active:hover {
+    background: linear-gradient(135deg, var(--shanghai-navy) 0%, var(--shanghai-gold) 100%);
+    color: var(--shanghai-gold);
 }
 
 .encyclopedia-btn {

@@ -3,6 +3,7 @@ const App = {
     searchTimeout: null,
     selectedTags: [],
     currentSort: 'default',
+    favorites: [],
     
     /**
      * 初始化应用
@@ -14,6 +15,8 @@ const App = {
         this.setupTagFilter();
         this.setupSort();
         this.setupModal();
+        this.loadFavorites();
+        this.setupFavoriteButtons();
     },
     
     /**
@@ -171,8 +174,99 @@ const App = {
             tagsContainer.innerHTML = '暂无';
         }
         
+        this.updateFavoriteButton(spot.id);
+        
         modal.classList.add('show');
         document.body.style.overflow = 'hidden';
+    },
+    
+    updateFavoriteButton: function(spotId) {
+        const btn = document.getElementById('modal-favorite-btn');
+        if (!btn) return;
+        
+        const isFavorite = this.favorites.includes(spotId);
+        if (isFavorite) {
+            btn.classList.add('active');
+            btn.querySelector('.btn-icon').textContent = '★';
+            btn.querySelector('.btn-text').textContent = '已收藏';
+        } else {
+            btn.classList.remove('active');
+            btn.querySelector('.btn-icon').textContent = '☆';
+            btn.querySelector('.btn-text').textContent = '收藏';
+        }
+    },
+    
+    toggleFavorite: function(spotId) {
+        const index = this.favorites.indexOf(spotId);
+        
+        if (index > -1) {
+            this.favorites.splice(index, 1);
+        } else {
+            this.favorites.push(spotId);
+        }
+        
+        this.saveFavorites();
+        this.updateFavoriteButton(spotId);
+        this.updateCardFavoriteState(spotId);
+    },
+    
+    saveFavorites: function() {
+        localStorage.setItem('spotsFavorites', JSON.stringify(this.favorites));
+    },
+    
+    loadFavorites: function() {
+        const saved = localStorage.getItem('spotsFavorites');
+        if (saved) {
+            this.favorites = JSON.parse(saved);
+        }
+    },
+    
+    updateCardFavoriteState: function(spotId) {
+        const card = document.querySelector(`.spot-card[data-spot-id="${spotId}"]`);
+        if (card) {
+            const isFavorite = this.favorites.includes(spotId);
+            if (isFavorite) {
+                card.classList.add('favorited');
+            } else {
+                card.classList.remove('favorited');
+            }
+        }
+    },
+    
+    setupFavoriteButtons: function() {
+        const btn = document.getElementById('modal-favorite-btn');
+        if (btn) {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const spotName = document.getElementById('modal-spot-name')?.textContent;
+                if (spotName) {
+                    const spot = this.allSpots.find(s => s.name === spotName);
+                    if (spot) {
+                        this.toggleFavorite(spot.id);
+                    }
+                }
+            });
+        }
+        
+        const scenicList = document.getElementById('scenic-list');
+        if (scenicList) {
+            scenicList.addEventListener('click', (e) => {
+                const card = e.target.closest('.spot-card');
+                if (card && card.dataset.spotId) {
+                    const spotId = card.dataset.spotId;
+                    this.toggleFavorite(spotId);
+                }
+                
+                const favoriteBtn = e.target.closest('.card-favorite-btn');
+                if (favoriteBtn) {
+                    const card = favoriteBtn.closest('.spot-card');
+                    if (card && card.dataset.spotId) {
+                        const spotId = card.dataset.spotId;
+                        this.toggleFavorite(spotId);
+                    }
+                }
+            });
+        }
     },
     
     closeModal: function() {
@@ -392,9 +486,10 @@ const App = {
         const priceText = spot.price === 0 ? '免费' : `¥${spot.price}`;
         const ratingText = spot.rating ? spot.rating.toFixed(1) : '暂无';
         const cardClass = spot.ratio === 'vertical' ? 'spot-card vertical' : 'spot-card horizontal';
+        const isFavorite = this.favorites.includes(spot.id) ? 'favorited' : '';
         
         return `
-            <div class="${cardClass}" data-spot-id="${spot.id}">
+            <div class="${cardClass} ${isFavorite}" data-spot-id="${spot.id}">
                 <img src="${spot.image}" alt="${spot.name}" onerror="this.src='img/s1_waitap.jpg'">
                 <div class="spot-card-content">
                     <h3>${spot.name}</h3>
@@ -404,6 +499,9 @@ const App = {
                     <p class="price">${priceText}</p>
                     <p class="open-time">开放时间: ${spot.open_time}</p>
                     <p class="description">${spot.description}</p>
+                    <button class="card-favorite-btn" title="收藏">
+                        <span class="btn-icon">★</span>
+                    </button>
                 </div>
             </div>
         `;
