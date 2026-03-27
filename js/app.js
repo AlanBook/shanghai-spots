@@ -161,7 +161,7 @@ const App = {
         document.getElementById('modal-spot-tips').textContent = spot.tips || '暂无游览提示';
         document.getElementById('modal-spot-encyclopedia').href = spot.encyclopedia_url || '#';
         document.getElementById('modal-spot-rating').textContent = spot.rating ? spot.rating.toFixed(1) : '暂无';
-        document.getElementById('modal-spot-price').textContent = spot.price === 0 ? '免费' : spot.price;
+        document.getElementById('modal-spot-price').textContent = spot.price === 0 ? '免费' : `¥${spot.price}`;
         document.getElementById('modal-spot-open-time').textContent = spot.open_time || '暂无';
         
         const tagsContainer = document.getElementById('modal-spot-tags');
@@ -389,7 +389,7 @@ const App = {
      */
     createCardHtml: function(spot) {
         const tagsHtml = spot.tags ? spot.tags.map(tag => `<span class="spot-tag">${tag}</span>`).join('') : '';
-        const priceText = spot.price === 0 ? '免费' : spot.price;
+        const priceText = spot.price === 0 ? '免费' : `¥${spot.price}`;
         const ratingText = spot.rating ? spot.rating.toFixed(1) : '暂无';
         const cardClass = spot.ratio === 'vertical' ? 'spot-card vertical' : 'spot-card horizontal';
         
