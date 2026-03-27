@@ -4,6 +4,8 @@ const App = {
     selectedTags: [],
     currentSort: 'default',
     favorites: [],
+    routeDesignMode: false,
+    selectedRouteSpots: [],
     
     /**
      * 初始化应用
@@ -17,6 +19,7 @@ const App = {
         this.setupModal();
         this.loadFavorites();
         this.setupFavoriteButtons();
+        this.setupRouteDesignMode();
     },
     
     /**
@@ -51,6 +54,7 @@ const App = {
      */
     setupSearch: function() {
         const searchInput = document.getElementById('search-input');
+        const searchBtn = document.getElementById('search-btn');
         
         if (searchInput) {
             searchInput.addEventListener('input', () => {
@@ -61,6 +65,18 @@ const App = {
                 this.searchTimeout = setTimeout(() => {
                     this.performSearch();
                 }, 300);
+            });
+            
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    this.performSearch();
+                }
+            });
+        }
+        
+        if (searchBtn) {
+            searchBtn.addEventListener('click', () => {
+                this.performSearch();
             });
         }
     },
@@ -119,6 +135,10 @@ const App = {
         
         if (scenicList) {
             scenicList.addEventListener('click', (e) => {
+                if (this.routeDesignMode) {
+                    return;
+                }
+                
                 const card = e.target.closest('.spot-card');
                 if (card && card.dataset.spotId) {
                     this.showSpotDetail(card.dataset.spotId);
@@ -175,6 +195,7 @@ const App = {
         }
         
         this.updateFavoriteButton(spot.id);
+        this.setupMapButton(spot);
         
         modal.classList.add('show');
         document.body.style.overflow = 'hidden';
@@ -248,6 +269,14 @@ const App = {
             });
         }
         
+        const mapBtn = document.getElementById('modal-map-btn');
+        if (mapBtn) {
+            mapBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.openMap();
+            });
+        }
+        
         const scenicList = document.getElementById('scenic-list');
         if (scenicList) {
             scenicList.addEventListener('click', (e) => {
@@ -264,7 +293,47 @@ const App = {
                         }
                     }
                 }
+                
+                const cardMapBtn = e.target.closest('.card-map-btn');
+                if (cardMapBtn) {
+                    e.stopPropagation();
+                    const spotId = cardMapBtn.dataset.spotId;
+                    const spot = this.allSpots.find(s => s.id === spotId);
+                    if (spot) {
+                        if (spot.map_url) {
+                            window.open(spot.map_url, '_blank');
+                        } else {
+                            const searchUrl = `https://map.baidu.com/poi/${encodeURIComponent(spot.name)}/@13525390.820233801,3641742.512783546,15.52z?uid=${spotId}&querytype=detailConInfo&da_src=shareurl`;
+                            window.open(searchUrl, '_blank');
+                        }
+                    }
+                }
             });
+        }
+    },
+    
+    setupMapButton: function(spot) {
+        const mapBtn = document.getElementById('modal-map-btn');
+        if (!mapBtn) return;
+        
+        mapBtn.dataset.spotName = spot.name;
+        mapBtn.dataset.spotId = spot.id;
+    },
+    
+    openMap: function() {
+        const mapBtn = document.getElementById('modal-map-btn');
+        if (!mapBtn) return;
+        
+        const spotId = mapBtn.dataset.spotId;
+        const spot = this.allSpots.find(s => s.id === spotId);
+        
+        if (spot) {
+            if (spot.map_url) {
+                window.open(spot.map_url, '_blank');
+            } else {
+                const searchUrl = `https://map.baidu.com/poi/${encodeURIComponent(spot.name)}/@13525390.820233801,3641742.512783546,15.52z?uid=${spotId}&querytype=detailConInfo&da_src=shareurl`;
+                window.open(searchUrl, '_blank');
+            }
         }
     },
     
@@ -486,9 +555,12 @@ const App = {
         const ratingText = spot.rating ? spot.rating.toFixed(1) : '暂无';
         const cardClass = spot.ratio === 'vertical' ? 'spot-card vertical' : 'spot-card horizontal';
         const isFavorite = this.favorites.includes(spot.id) ? 'favorited' : '';
+        const isRouteMode = this.routeDesignMode ? 'route-mode' : '';
+        const isSelected = this.selectedRouteSpots.includes(spot.id) ? 'selected' : '';
         
         return `
-            <div class="${cardClass} ${isFavorite}" data-spot-id="${spot.id}">
+            <div class="${cardClass} ${isFavorite} ${isRouteMode} ${isSelected}" data-spot-id="${spot.id}">
+                ${this.routeDesignMode ? '<div class="card-checkbox" onclick="event.stopPropagation();"></div>' : ''}
                 <img src="${spot.image}" alt="${spot.name}" onerror="this.src='img/s1_waitap.jpg'">
                 <div class="spot-card-content">
                     <h3>${spot.name}</h3>
@@ -500,6 +572,10 @@ const App = {
                     <p class="description">${spot.description}</p>
                     <button class="card-favorite-btn" title="收藏">
                         <span class="btn-icon">★</span>
+                    </button>
+                    <button class="card-map-btn" data-spot-id="${spot.id}">
+                        <span class="btn-icon">🗺️</span>
+                        <span>查看地图</span>
                     </button>
                 </div>
             </div>
@@ -524,6 +600,350 @@ const App = {
         }
         
         return minIndex;
+    },
+
+    setupRouteDesignMode: function() {
+        const routeBtn = document.getElementById('route-design-btn');
+        const cancelBtn = document.getElementById('cancel-route-design-btn');
+        const confirmBtn = document.getElementById('confirm-route-btn');
+        const scenicList = document.getElementById('scenic-list');
+
+        if (routeBtn) {
+            routeBtn.addEventListener('click', () => {
+                this.toggleRouteDesignMode();
+            });
+        }
+
+        if (cancelBtn) {
+            cancelBtn.addEventListener('click', () => {
+                this.toggleRouteDesignMode();
+            });
+        }
+
+        if (confirmBtn) {
+            confirmBtn.addEventListener('click', () => {
+                this.confirmRouteDesign();
+            });
+        }
+
+        if (scenicList) {
+            scenicList.addEventListener('click', (e) => {
+                if (this.routeDesignMode) {
+                    const checkbox = e.target.closest('.card-checkbox');
+                    const card = e.target.closest('.spot-card');
+                    
+                    if (card && card.dataset.spotId) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        e.stopImmediatePropagation();
+                        this.toggleSpotSelection(card.dataset.spotId);
+                    }
+                }
+            }, true);
+        }
+    },
+
+    toggleRouteDesignMode: function() {
+        this.routeDesignMode = !this.routeDesignMode;
+        const routeBtn = document.getElementById('route-design-btn');
+        const routeBar = document.getElementById('route-design-bar');
+
+        if (this.routeDesignMode) {
+            routeBtn.classList.add('active');
+            routeBtn.innerHTML = '<span class="btn-icon">✖️</span><span>退出模式</span>';
+            routeBar.classList.remove('hidden');
+        } else {
+            routeBtn.classList.remove('active');
+            routeBtn.innerHTML = '<span class="btn-icon">🗺️</span><span>线路设计模式</span>';
+            routeBar.classList.add('hidden');
+            this.selectedRouteSpots = [];
+        }
+
+        this.filterByTags();
+    },
+
+    toggleSpotSelection: function(spotId) {
+        const index = this.selectedRouteSpots.indexOf(spotId);
+        if (index > -1) {
+            this.selectedRouteSpots.splice(index, 1);
+        } else {
+            this.selectedRouteSpots.push(spotId);
+        }
+
+        this.updateSelectedCount();
+        this.updateConfirmButtonState();
+        this.updateCardSelectionState(spotId);
+    },
+
+    updateSelectedCount: function() {
+        const countEl = document.getElementById('selected-count-num');
+        if (countEl) {
+            countEl.textContent = this.selectedRouteSpots.length;
+        }
+    },
+
+    updateConfirmButtonState: function() {
+        const confirmBtn = document.getElementById('confirm-route-btn');
+        if (confirmBtn) {
+            confirmBtn.disabled = this.selectedRouteSpots.length < 2;
+        }
+    },
+
+    updateCardSelectionState: function(spotId) {
+        const card = document.querySelector(`.spot-card[data-spot-id="${spotId}"]`);
+        if (card) {
+            if (this.selectedRouteSpots.includes(spotId)) {
+                card.classList.add('selected');
+            } else {
+                card.classList.remove('selected');
+            }
+        }
+    },
+
+    extractCoordinatesFromMapUrl: function(mapUrl) {
+        if (!mapUrl) return null;
+        const match = mapUrl.match(/@([\d.]+),([\d.]+)/);
+        if (match) {
+            const baiduX = parseFloat(match[1]);
+            const baiduY = parseFloat(match[2]);
+            return this.baiduMercatorToWgs84(baiduX, baiduY);
+        }
+        return null;
+    },
+
+    baiduMercatorToWgs84: function(x, y) {
+        const x_pi = 3.14159265358979324 * 3000.0 / 180.0;
+        const lng = x / 20037508.34 * 180.0;
+        let lat = y / 20037508.34 * 180.0;
+        lat = 180 / Math.PI * (2 * Math.atan(Math.exp(lat * Math.PI / 180.0)) - Math.PI / 2.0);
+        
+        const dlat = lat - 31.2304;
+        const dlng = lng - 121.4737;
+        
+        const bd_lng = lng - 0.0065;
+        const bd_lat = lat - 0.006;
+        const z = Math.sqrt(bd_lng * bd_lng + bd_lat * bd_lat) - 0.00002 * Math.sin(bd_lat * x_pi);
+        const theta = Math.atan2(bd_lat, bd_lng) - 0.000003 * Math.cos(bd_lng * x_pi);
+        const gg_lng = z * Math.cos(theta);
+        const gg_lat = z * Math.sin(theta);
+        
+        return {
+            latitude: gg_lat + (lat - gg_lat) * 0.002,
+            longitude: gg_lng + (lng - gg_lng) * 0.002
+        };
+    },
+
+    confirmRouteDesign: function() {
+        if (this.selectedRouteSpots.length < 2) {
+            alert('请至少选择2个景点');
+            return;
+        }
+
+        const selectedSpots = this.selectedRouteSpots.map(id => 
+            this.allSpots.find(s => s.id === id)
+        ).filter(spot => spot);
+
+        const coordinates = [];
+        const spotNames = [];
+
+        selectedSpots.forEach(spot => {
+            const coords = this.extractCoordinatesFromMapUrl(spot.map_url);
+            if (coords) {
+                coordinates.push(`${coords.latitude.toFixed(6)},${coords.longitude.toFixed(6)}`);
+                spotNames.push(spot.name);
+            }
+        });
+
+        if (coordinates.length < 2) {
+            alert('无法获取足够的景点坐标信息');
+            return;
+        }
+
+        this.designRoute(coordinates, spotNames);
+    },
+
+    designRoute: async function(coordinates, spotNames) {
+        this.showRouteLoading(spotNames);
+        
+        try {
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            this.showRouteResult(coordinates, spotNames);
+        } catch (error) {
+            console.error('路线规划失败:', error);
+            alert('路线规划失败，请稍后重试');
+            this.toggleRouteDesignMode();
+        }
+    },
+
+    showRouteLoading: function(spotNames) {
+        const modal = document.createElement('div');
+        modal.id = 'route-loading-modal';
+        modal.className = 'modal show';
+        modal.innerHTML = `
+            <div class="modal-overlay"></div>
+            <div class="modal-content">
+                <div class="modal-body" style="text-align: center; padding: 4rem;">
+                    <div style="font-size: 3rem; margin-bottom: 1.5rem;">🗺️</div>
+                    <h2 style="color: var(--shanghai-navy); margin-bottom: 1rem;">正在规划路线...</h2>
+                    <p style="color: var(--shanghai-dark); font-size: 1.1rem;">
+                        已选择 ${spotNames.length} 个景点：<br>
+                        ${spotNames.join(' → ')}
+                    </p>
+                    <div style="margin-top: 2rem;">
+                        <div style="display: inline-block; width: 40px; height: 40px; border: 4px solid var(--shanghai-light); border-top-color: var(--shanghai-gold); border-radius: 50%; animation: spin 1s linear infinite;"></div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes spin {
+                to { transform: rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+        document.body.appendChild(modal);
+    },
+
+    showRouteResult: function(coordinates, spotNames) {
+        const loadingModal = document.getElementById('route-loading-modal');
+        if (loadingModal) {
+            loadingModal.remove();
+        }
+
+        const modal = document.createElement('div');
+        modal.id = 'route-result-modal';
+        modal.className = 'modal show';
+        
+        const travelModes = ['transit', 'riding', 'walking'];
+        const modeNames = { transit: '🚌 公共交通', riding: '🚲 骑行', walking: '🚶 步行' };
+        
+        modal.innerHTML = `
+            <div class="modal-overlay"></div>
+            <div class="modal-content" style="max-width: 1000px;">
+                <button class="modal-close" id="route-modal-close">&times;</button>
+                <div class="modal-body">
+                    <div class="modal-header">
+                        <h2>📍 路线规划结果</h2>
+                    </div>
+                    
+                    <div style="background: var(--shanghai-cream); padding: 1.5rem; border: 1px solid var(--shanghai-light); margin-bottom: 1.5rem;">
+                        <h3 style="color: var(--shanghai-navy); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <span>📋</span> 选择的景点（共${spotNames.length}个）
+                        </h3>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.8rem;">
+                            ${spotNames.map((name, index) => `
+                                <div style="background: white; padding: 0.5rem 1rem; border: 2px solid ${index === 0 ? 'var(--shanghai-gold)' : 'var(--shanghai-light)'}; border-radius: 0; display: flex; align-items: center; gap: 0.5rem;">
+                                    <span style="width: 24px; height: 24px; background: ${index === 0 ? 'var(--shanghai-gold)' : 'var(--shanghai-light)'}; color: ${index === 0 ? 'white' : 'var(--shanghai-dark)'}; display: flex; align-items: center; justify-content: center; font-weight: bold; border-radius: 50%; font-size: 0.85rem;">${index + 1}</span>
+                                    <span style="font-weight: 500;">${name}</span>
+                                    ${index < spotNames.length - 1 ? '<span style="color: var(--shanghai-gold); font-weight: bold;">→</span>' : ''}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <h3 style="color: var(--shanghai-navy); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <span>🚗</span> 选择出行方式
+                        </h3>
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                            ${travelModes.map((mode, index) => `
+                                <button class="travel-mode-btn ${index === 0 ? 'active' : ''}" data-mode="${mode}" style="flex: 1; min-width: 150px; padding: 1rem; background: ${index === 0 ? 'linear-gradient(135deg, var(--shanghai-gold) 0%, var(--shanghai-navy) 100%)' : 'white'}; color: ${index === 0 ? 'white' : 'var(--shanghai-dark)'}; border: 3px solid ${index === 0 ? 'var(--shanghai-gold)' : 'var(--shanghai-light)'}; border-radius: 0; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">
+                                    ${modeNames[mode]}
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div id="route-info" style="background: var(--shanghai-cream); padding: 1.5rem; border-left: 4px solid var(--shanghai-gold); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--shanghai-navy); margin-bottom: 0.8rem;">📊 路线预览（公共交通）</h4>
+                        <p style="color: var(--shanghai-dark); margin-bottom: 0.5rem;"><strong>总距离：</strong>约 4.2 公里</p>
+                        <p style="color: var(--shanghai-dark); margin-bottom: 0.5rem;"><strong>预计用时：</strong>约 55 分钟</p>
+                        <p style="color: var(--shanghai-dark); font-style: italic;">（以上为示例数据，实际以百度地图为准）</p>
+                    </div>
+                    
+                    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                        <button id="open-map-btn" class="confirm-route-btn" style="padding: 1rem 2.5rem; font-size: 1.1rem;">
+                            🗺️ 在百度地图中查看详细路线
+                        </button>
+                        <button id="close-route-modal-btn" class="cancel-route-btn" style="padding: 1rem 2.5rem; font-size: 1.1rem;">
+                            关闭
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        
+        const selectedMode = { current: 'transit' };
+        
+        const travelModeBtns = modal.querySelectorAll('.travel-mode-btn');
+        travelModeBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                travelModeBtns.forEach(b => {
+                    b.style.background = 'white';
+                    b.style.color = 'var(--shanghai-dark)';
+                    b.style.borderColor = 'var(--shanghai-light)';
+                    b.classList.remove('active');
+                });
+                btn.style.background = 'linear-gradient(135deg, var(--shanghai-gold) 0%, var(--shanghai-navy) 100%)';
+                btn.style.color = 'white';
+                btn.style.borderColor = 'var(--shanghai-gold)';
+                btn.classList.add('active');
+                selectedMode.current = btn.dataset.mode;
+                
+                const modeInfo = {
+                    transit: { distance: '约 4.2 公里', time: '约 55 分钟', name: '公共交通' },
+                    riding: { distance: '约 3.8 公里', time: '约 25 分钟', name: '骑行' },
+                    walking: { distance: '约 3.5 公里', time: '约 50 分钟', name: '步行' }
+                };
+                const info = modeInfo[selectedMode.current];
+                const routeInfoEl = document.getElementById('route-info');
+                routeInfoEl.innerHTML = `
+                    <h4 style="color: var(--shanghai-navy); margin-bottom: 0.8rem;">📊 路线预览（${info.name}）</h4>
+                    <p style="color: var(--shanghai-dark); margin-bottom: 0.5rem;"><strong>总距离：</strong>${info.distance}</p>
+                    <p style="color: var(--shanghai-dark); margin-bottom: 0.5rem;"><strong>预计用时：</strong>${info.time}</p>
+                    <p style="color: var(--shanghai-dark); font-style: italic;">（以上为示例数据，实际以百度地图为准）</p>
+                `;
+            });
+        });
+        
+        const openMapBtn = document.getElementById('open-map-btn');
+        openMapBtn.addEventListener('click', () => {
+            this.openBaiduMapWithSpots(spotNames, selectedMode.current);
+        });
+        
+        const closeBtn = document.getElementById('route-modal-close');
+        const closeModalBtn = document.getElementById('close-route-modal-btn');
+        const overlay = modal.querySelector('.modal-overlay');
+        
+        const closeModal = () => {
+            modal.remove();
+            this.toggleRouteDesignMode();
+        };
+        
+        closeBtn.addEventListener('click', closeModal);
+        closeModalBtn.addEventListener('click', closeModal);
+        overlay.addEventListener('click', closeModal);
+    },
+
+    openBaiduMapWithSpots: function(spotNames, mode) {
+        if (spotNames.length >= 2) {
+            const origin = encodeURIComponent(spotNames[0]);
+            const destination = encodeURIComponent(spotNames[spotNames.length - 1]);
+            const waypoints = spotNames.slice(1, spotNames.length - 1).map(name => encodeURIComponent(name)).join('|');
+            
+            const modeParam = mode === 'transit' ? 'bus' : mode === 'riding' ? 'bike' : 'walk';
+            let mapUrl = `https://map.baidu.com/dir/${origin}/${destination}/${modeParam}/`;
+            
+            if (waypoints) {
+                mapUrl += `?via=${waypoints}`;
+            }
+            
+            window.open(mapUrl, '_blank');
+        }
     }
 };
 

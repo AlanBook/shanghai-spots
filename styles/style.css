@@ -839,6 +839,53 @@ footer p {
     transform: translateX(4px);
 }
 
+.map-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.5rem;
+    background: linear-gradient(135deg, var(--shanghai-navy) 0%, var(--shanghai-dark) 100%);
+    color: white;
+    border: 2px solid var(--shanghai-gold);
+    border-radius: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(26, 42, 58, 0.2);
+}
+
+.map-btn:hover {
+    background: linear-gradient(135deg, var(--shanghai-gold) 0%, var(--shanghai-navy) 100%);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(212, 175, 55, 0.3);
+}
+
+.card-map-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, var(--shanghai-navy) 0%, var(--shanghai-dark) 100%);
+    color: white;
+    border: 1px solid var(--shanghai-gold);
+    border-radius: 0;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+    width: 100%;
+}
+
+.card-map-btn:hover {
+    background: linear-gradient(135deg, var(--shanghai-gold) 0%, var(--shanghai-navy) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+}
+
 .modal-city {
     color: var(--shanghai-gold);
     font-size: 1.25rem;
@@ -1220,7 +1267,8 @@ footer p {
     }
     
     .favorite-btn,
-    .encyclopedia-btn {
+    .encyclopedia-btn,
+    .map-btn {
         width: 100%;
         justify-content: center;
         padding: 0.6rem 1rem;
@@ -1331,4 +1379,278 @@ footer p {
     .encyclopedia-btn .btn-icon {
         font-size: 1.2rem;
     }
+}
+
+/* ==================== 线路设计模式样式 ==================== */
+#route-design-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 0;
+    box-shadow: 0 4px 16px rgba(26, 42, 58, 0.1);
+    border: 1px solid var(--shanghai-light);
+}
+
+.route-design-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1.2rem 3rem;
+    background: linear-gradient(135deg, var(--shanghai-gold) 0%, var(--shanghai-navy) 100%);
+    color: white;
+    border: 3px solid var(--shanghai-navy);
+    border-radius: 0;
+    font-size: 1.3rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.3);
+    letter-spacing: 3px;
+}
+
+.route-design-btn:hover {
+    background: linear-gradient(135deg, var(--shanghai-navy) 0%, var(--shanghai-gold) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(212, 175, 55, 0.3);
+}
+
+.route-design-btn.active {
+    background: linear-gradient(135deg, var(--shanghai-red) 0%, var(--shanghai-dark) 100%);
+    border-color: var(--shanghai-red);
+    box-shadow: 0 4px 12px rgba(192, 57, 43, 0.3);
+}
+
+.route-design-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(180deg, var(--shanghai-navy) 0%, var(--shanghai-dark) 100%);
+    padding: 1rem 2rem;
+    box-shadow: 0 -6px 20px rgba(26, 42, 58, 0.4);
+    border-top: 3px solid var(--shanghai-gold);
+    z-index: 999;
+    transition: all 0.3s ease;
+}
+
+.route-design-bar.hidden {
+    transform: translateY(100%);
+    opacity: 0;
+}
+
+.route-design-bar-content {
+    max-width: 1450px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.selected-count {
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+}
+
+.selected-count span {
+    color: var(--shanghai-gold);
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.route-design-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.cancel-route-btn {
+    padding: 0.7rem 2rem;
+    background: var(--shanghai-cream);
+    color: var(--shanghai-dark);
+    border: 2px solid var(--shanghai-gold);
+    border-radius: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 2px;
+}
+
+.cancel-route-btn:hover {
+    background: var(--shanghai-light);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+}
+
+.confirm-route-btn {
+    padding: 0.7rem 2rem;
+    background: linear-gradient(135deg, var(--shanghai-gold) 0%, var(--shanghai-navy) 100%);
+    color: white;
+    border: 2px solid var(--shanghai-gold);
+    border-radius: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 2px;
+}
+
+.confirm-route-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, var(--shanghai-navy) 0%, var(--shanghai-gold) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(212, 175, 55, 0.4);
+}
+
+.confirm-route-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* 线路设计模式下的卡片样式 */
+.spot-card.route-mode {
+    cursor: pointer;
+}
+
+.spot-card.route-mode:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 16px 40px rgba(26, 42, 58, 0.4);
+}
+
+.spot-card.route-mode.selected {
+    border-color: var(--shanghai-gold);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.3), 0 8px 24px rgba(26, 42, 58, 0.3);
+}
+
+.spot-card.route-mode.selected::before {
+    background: linear-gradient(90deg, var(--shanghai-gold) 0%, var(--shanghai-gold) 100%);
+}
+
+/* 卡片复选框样式 */
+.card-checkbox {
+    position: absolute;
+    top: 1.5rem;
+    left: 1.5rem;
+    width: 32px;
+    height: 32px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 3px solid var(--shanghai-navy);
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 25;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.card-checkbox:hover {
+    border-color: var(--shanghai-gold);
+    transform: scale(1.1);
+}
+
+.spot-card.selected .card-checkbox {
+    background: var(--shanghai-gold);
+    border-color: var(--shanghai-navy);
+}
+
+.card-checkbox::after {
+    content: '✓';
+    color: var(--shanghai-navy);
+    font-size: 1.5rem;
+    font-weight: bold;
+    opacity: 0;
+    transform: scale(0);
+    transition: all 0.2s ease;
+}
+
+.spot-card.selected .card-checkbox::after {
+    opacity: 1;
+    transform: scale(1);
+}
+
+@media (max-width: 768px) {
+    .route-design-bar-content {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .route-design-actions {
+        width: 100%;
+    }
+    
+    .cancel-route-btn,
+    .confirm-route-btn {
+        flex: 1;
+        padding: 0.6rem 1.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .selected-count {
+        font-size: 1rem;
+    }
+    
+    .card-checkbox {
+        width: 28px;
+        height: 28px;
+        top: 1rem;
+        left: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    #route-design-container {
+        padding: 1rem;
+    }
+    
+    .route-design-btn {
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+        letter-spacing: 2px;
+    }
+}
+
+@media (max-width: 479px) {
+    .route-design-bar {
+        padding: 0.8rem 1rem;
+    }
+    
+    .cancel-route-btn,
+    .confirm-route-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+        letter-spacing: 1px;
+    }
+    
+    .route-design-btn {
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+        letter-spacing: 1px;
+    }
+    
+    #route-design-container {
+        padding: 0.8rem;
+    }
+}
+
+/* ==================== 路线规划模态框补充样式 ==================== */
+#route-result-modal .modal-header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--shanghai-light);
+}
+
+#route-result-modal .modal-header h2 {
+    margin: 0;
+    color: var(--shanghai-navy);
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+#route-result-modal .travel-mode-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
 }

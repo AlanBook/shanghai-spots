@@ -39,6 +39,13 @@
                     <option value="price-asc">价格：低到高</option>
                 </select>
             </div>
+            <!-- 线路设计模式按钮 -->
+            <div id="route-design-container">
+                <button id="route-design-btn" class="route-design-btn">
+                    <span class="btn-icon">🗺️</span>
+                    <span>线路设计模式</span>
+                </button>
+            </div>
             <!-- 瀑布流景点列表容器 -->
             <div id="scenic-list">
                 <div class="masonry-column" id="col-1"></div>
@@ -53,6 +60,17 @@
         <p>© 2026 景点展示系统</p>
     </footer>
     
+    <!-- 线路设计模式悬浮操作栏 -->
+    <div id="route-design-bar" class="route-design-bar hidden">
+        <div class="route-design-bar-content">
+            <span class="selected-count">已选择 <span id="selected-count-num">0</span> 个景点</span>
+            <div class="route-design-actions">
+                <button id="cancel-route-design-btn" class="cancel-route-btn">取消</button>
+                <button id="confirm-route-btn" class="confirm-route-btn">确定选择</button>
+            </div>
+        </div>
+    </div>
+    
     <!-- 景点详情弹窗 -->
     <div id="spot-detail-modal" class="modal">
         <div class="modal-overlay"></div>
@@ -65,6 +83,10 @@
                         <button id="modal-favorite-btn" class="favorite-btn">
                             <span class="btn-icon">☆</span>
                             <span class="btn-text">收藏</span>
+                        </button>
+                        <button id="modal-map-btn" class="map-btn">
+                            <span class="btn-icon">🗺️</span>
+                            <span class="btn-text">查看地图</span>
                         </button>
                         <a id="modal-spot-encyclopedia" href="" target="_blank" class="encyclopedia-btn">
                             <span>📚 百度百科</span>
