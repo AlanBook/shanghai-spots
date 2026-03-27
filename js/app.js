@@ -174,7 +174,7 @@ const App = {
     
     /**
      * 重置所有筛选条件
-     * 清空搜索框和标签选中状态，恢复显示所有景点
+     * 清空搜索框、标签选中状态和排序选项，恢复显示所有景点
      */
     resetAll: function() {
         const searchInput = document.getElementById('search-input');
@@ -183,6 +183,13 @@ const App = {
         }
         this.selectedTags = [];
         this.updateTagButtons();
+        
+        const sortSelect = document.getElementById('sort-select');
+        if (sortSelect) {
+            sortSelect.value = 'default';
+            this.currentSort = 'default';
+        }
+        
         this.filterByTags();
     },
     
