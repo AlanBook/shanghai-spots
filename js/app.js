@@ -94,6 +94,21 @@ const App = {
     },
     
     /**
+     * 设置排序功能
+     * 为排序下拉菜单添加变化事件监听，实现排序功能
+     */
+    setupSort: function() {
+        const sortSelect = document.getElementById('sort-select');
+        
+        if (sortSelect) {
+            sortSelect.addEventListener('change', () => {
+                this.currentSort = sortSelect.value;
+                this.filterByTags();
+            });
+        }
+    },
+    
+    /**
      * 渲染标签按钮
      * 从所有景点中提取唯一标签，生成可点击的标签按钮
      */
