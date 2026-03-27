@@ -657,16 +657,17 @@ footer p {
 
 .modal-content {
     position: relative;
-    max-width: 1100px;
+    max-width: 900px;
     margin: 2rem auto;
     background: white;
-    border-radius: 8px;
+    border-radius: 0;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
     max-height: calc(100vh - 4rem);
     overflow: hidden;
     display: flex;
     flex-direction: column;
     animation: modalFadeIn 0.4s ease;
+    border: 2px solid var(--shanghai-gold);
 }
 
 @keyframes modalFadeIn {
@@ -713,111 +714,33 @@ footer p {
 
 .modal-header {
     text-align: center;
-    margin-bottom: 2.5rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 2px solid var(--shanghai-gold);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
 }
 
 .modal-header h2 {
     color: var(--shanghai-navy);
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     font-weight: 700;
     letter-spacing: 4px;
-    margin-bottom: 0.8rem;
+    margin-bottom: 1rem;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.modal-city {
-    color: var(--shanghai-dark);
-    font-size: 1.2rem;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.modal-main {
-    display: grid;
-    grid-template-columns: 1.2fr 1fr;
-    gap: 2.5rem;
-}
-
-.modal-image-container {
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 8px 24px rgba(26, 42, 58, 0.2);
-    background: var(--shanghai-cream);
-}
-
-.modal-image-container img {
-    width: 100%;
-    height: auto;
-    max-height: 450px;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.5s ease;
-}
-
-.modal-image-container:hover img {
-    transform: scale(1.03);
-}
-
-.modal-details {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-}
-
-.modal-section {
-    background: var(--shanghai-cream);
-    padding: 1.8rem;
-    border-radius: 0;
-    border-left: 4px solid var(--shanghai-gold);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.modal-section h3 {
-    color: var(--shanghai-navy);
-    font-size: 1.3rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px dashed var(--shanghai-light);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.modal-section h3::before {
-    content: '◆';
-    color: var(--shanghai-gold);
-}
-
-.modal-section p {
-    color: var(--shanghai-dark);
-    line-height: 1.9;
-    font-size: 1.02rem;
-    text-align: justify;
-}
-
-.modal-section p:first-child {
-    text-indent: 2em;
-}
-
-.modal-section p:not(:first-child) {
-    text-indent: 0;
+.encyclopedia-btn-container {
+    margin-top: 0.5rem;
 }
 
 .encyclopedia-btn {
     display: inline-flex;
     align-items: center;
     gap: 0.6rem;
-    padding: 0.9rem 2rem;
+    padding: 0.7rem 1.5rem;
     background: linear-gradient(135deg, var(--shanghai-gold) 0%, var(--shanghai-navy) 100%);
     color: white;
     text-decoration: none;
     border-radius: 0;
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     font-weight: 600;
     transition: all 0.3s ease;
     box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
@@ -838,31 +761,36 @@ footer p {
     transform: translateX(4px);
 }
 
+.modal-city {
+    color: var(--shanghai-gold);
+    font-size: 1.25rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    letter-spacing: 2px;
+}
+
 .modal-meta {
     display: flex;
     flex-wrap: wrap;
-    gap: 1.5rem;
-    margin-top: auto;
-    padding-top: 1.5rem;
-    border-top: 1px dashed var(--shanghai-light);
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: var(--shanghai-cream);
+    border: 1px solid var(--shanghai-light);
+    align-items: center;
 }
 
 .meta-item {
     display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-    padding: 0.8rem 1.5rem;
-    background: white;
-    border-radius: 0;
-    border: 1px solid var(--shanghai-light);
-    min-width: 140px;
+    align-items: center;
+    gap: 0.4rem;
 }
 
 .meta-label {
     color: var(--shanghai-dark);
-    font-size: 0.85rem;
-    font-weight: 600;
-    opacity: 0.8;
+    font-size: 0.95rem;
+    font-weight: 500;
 }
 
 .modal-meta .meta-item span:last-child {
@@ -871,28 +799,92 @@ footer p {
     font-weight: 600;
 }
 
+.modal-tags-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: var(--shanghai-cream);
+    border: 1px solid var(--shanghai-light);
+}
+
 .modal-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.4rem;
+    gap: 0.5rem;
 }
 
 .modal-tags .spot-tag {
-    padding: 0.25rem 0.9rem;
-    font-size: 0.8rem;
+    padding: 0.35rem 1rem;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
 }
 
-@media (max-width: 900px) {
-    .modal-main {
-        grid-template-columns: 1fr;
-    }
-    
-    .modal-image-container {
-        max-height: 350px;
-    }
+.modal-image-container {
+    margin-bottom: 2rem;
+    text-align: center;
+    background: var(--shanghai-cream);
+    padding: 1.5rem;
+    border: 1px solid var(--shanghai-light);
 }
 
-@media (max-width: 600px) {
+.modal-image-container img {
+    max-width: 100%;
+    height: auto;
+    max-height: 600px;
+    object-fit: contain;
+    display: inline-block;
+    box-shadow: 0 8px 24px rgba(26, 42, 58, 0.2);
+}
+
+.modal-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.modal-section {
+    background: var(--shanghai-cream);
+    padding: 1.5rem;
+    border-radius: 0;
+    border-left: 4px solid var(--shanghai-gold);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.modal-section h3 {
+    color: var(--shanghai-navy);
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px dashed var(--shanghai-light);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.modal-section h3::before {
+    content: '◆';
+    color: var(--shanghai-gold);
+}
+
+.modal-section p {
+    color: var(--shanghai-dark);
+    line-height: 1.9;
+    font-size: 1rem;
+    text-align: justify;
+}
+
+.modal-section p:first-child {
+    text-indent: 2em;
+}
+
+.modal-section p:not(:first-child) {
+    text-indent: 0;
+}
+
+@media (max-width: 768px) {
     .modal-body {
         padding: 2rem 1.5rem;
     }
@@ -907,9 +899,6 @@ footer p {
     
     .modal-meta {
         flex-direction: column;
-    }
-    
-    .meta-item {
-        width: 100%;
+        align-items: flex-start;
     }
 }
