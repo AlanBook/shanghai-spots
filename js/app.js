@@ -931,13 +931,6 @@ const App = {
                         ${hasWaypoints ? '<p style="color: var(--shanghai-gold); font-size: 0.9rem; margin-top: 0.8rem; padding-left: 0.5rem;"><strong>提示：</strong>只有驾车模式支持途经点</p>' : ''}
                     </div>
                     
-                    <div id="route-info" style="background: var(--shanghai-cream); padding: 1.5rem; border-left: 4px solid var(--shanghai-gold); margin-bottom: 1.5rem;">
-                        <h4 style="color: var(--shanghai-navy); margin-bottom: 0.8rem;">📊 路线预览（${modeNames[defaultMode]}）</h4>
-                        <p style="color: var(--shanghai-dark); margin-bottom: 0.5rem;"><strong>总距离：</strong>约 ${hasWaypoints ? '7.7' : '4.2'} 公里</p>
-                        <p style="color: var(--shanghai-dark); margin-bottom: 0.5rem;"><strong>预计用时：</strong>约 ${hasWaypoints ? '23' : '55'} 分钟</p>
-                        <p style="color: var(--shanghai-dark); font-style: italic;">（以上为示例数据，实际以百度地图为准）</p>
-                    </div>
-                    
                     <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
                         <button id="open-map-btn" class="confirm-route-btn" style="padding: 1rem 2.5rem; font-size: 1.1rem;">
                             🗺️ 在百度地图中查看详细路线
@@ -974,21 +967,6 @@ const App = {
                 btn.style.borderColor = 'var(--shanghai-gold)';
                 btn.classList.add('active');
                 selectedMode.current = btn.dataset.mode;
-                
-                const modeInfo = {
-                    transit: { distance: '约 4.2 公里', time: '约 55 分钟', name: '公共交通' },
-                    riding: { distance: '约 3.8 公里', time: '约 25 分钟', name: '骑行' },
-                    walking: { distance: '约 3.5 公里', time: '约 50 分钟', name: '步行' },
-                    driving: { distance: hasWaypoints ? '约 7.7 公里' : '约 6.7 公里', time: hasWaypoints ? '约 23 分钟' : '约 19 分钟', name: '驾车' }
-                };
-                const info = modeInfo[selectedMode.current];
-                const routeInfoEl = document.getElementById('route-info');
-                routeInfoEl.innerHTML = `
-                    <h4 style="color: var(--shanghai-navy); margin-bottom: 0.8rem;">📊 路线预览（${info.name}）</h4>
-                    <p style="color: var(--shanghai-dark); margin-bottom: 0.5rem;"><strong>总距离：</strong>${info.distance}</p>
-                    <p style="color: var(--shanghai-dark); margin-bottom: 0.5rem;"><strong>预计用时：</strong>${info.time}</p>
-                    <p style="color: var(--shanghai-dark); font-style: italic;">（以上为示例数据，实际以百度地图为准）</p>
-                `;
             });
         });
         
