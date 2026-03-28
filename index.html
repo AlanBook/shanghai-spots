@@ -41,10 +41,27 @@
             </div>
             <!-- 线路设计模式按钮 -->
             <div id="route-design-container">
-                <button id="route-design-btn" class="route-design-btn">
-                    <span class="btn-icon">🗺️</span>
-                    <span>线路设计模式</span>
-                </button>
+                <div class="route-design-wrapper">
+                    <button id="route-design-btn" class="route-design-btn">
+                        <span class="btn-icon">🗺️</span>
+                        <span>线路设计模式</span>
+                    </button>
+                    <div class="route-design-tooltip">
+                        <div class="tooltip-header">
+                            <span class="tooltip-icon">ℹ️</span>
+                            <span class="tooltip-title">线路规划功能说明</span>
+                        </div>
+                        <div class="tooltip-content">
+                            <p>进入线路规划模式后，您可以：</p>
+                            <ul>
+                                <li><span class="step-icon">1</span> 选择最多7个景点</li>
+                                <li><span class="step-icon">2</span> 点击"确定选择"按钮</li>
+                                <li><span class="step-icon">3</span> 自动在百度地图生成最优路线</li>
+                                <li><span class="step-icon">4</span> 查看完整行程规划</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
             <!-- 瀑布流景点列表容器 -->
             <div id="scenic-list">

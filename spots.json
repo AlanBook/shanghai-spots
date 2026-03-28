@@ -22,8 +22,8 @@
       "encyclopedia_url": "https://baike.baidu.com/item/%E5%A4%96%E6%BB%A9/40416",
       "map_url": "https://map.baidu.com/poi/%E5%A4%96%E6%BB%A9/@13525390.820233801,3641742.512783546,15.52z?uid=5c2dc21dd3dcd2056ec02cab&ugc_type=3&ugc_ver=1&device_ratio=2&compat=1&en_uid=5c2dc21dd3dcd2056ec02cab&pcevaname=pc4.1&querytype=detailConInfo&da_src=shareurl",
       "location": {
-        "lat": 31.238549,
-        "lng": 121.499318
+        "lat": 31.069224,
+        "lng": 121.500653
       }
     },
     {
@@ -48,8 +48,8 @@
       "encyclopedia_url": "https://baike.baidu.com/item/%E4%B8%9C%E6%96%B9%E6%98%8E%E7%8F%A0%E5%B9%BF%E6%92%AD%E7%94%B5%E8%A7%86%E5%A1%94/318179?fromtitle=%E4%B8%9C%E6%96%B9%E6%98%8E%E7%8F%A0&fromid=417422",
       "map_url": "https://map.baidu.com/poi/%E4%B8%9C%E6%96%B9%E6%98%8E%E7%8F%A0%E5%B9%BF%E6%92%AD%E7%94%B5%E8%A7%86%E5%A1%94/@13526163.033147294,3642375.9956626724,17.78z?uid=b643224025414952f4e73b2f&ugc_type=3&ugc_ver=1&device_ratio=2&compat=1&en_uid=b643224025414952f4e73b2f&pcevaname=pc4.1&querytype=detailConInfo&da_src=shareurl",
       "location": {
-        "lat": 31.2455,
-        "lng": 121.506269
+        "lat": 31.074099,
+        "lng": 121.50759
       }
     },
     {
@@ -74,8 +74,8 @@
       "encyclopedia_url": "https://baike.baidu.com/item/%E4%B8%8A%E6%B5%B7%E4%B8%AD%E5%BF%83%E5%A4%A7%E5%8E%A6?fromModule=lemma_search-box",
       "map_url": "https://map.baidu.com/poi/%E4%B8%8A%E6%B5%B7%E4%B8%AD%E5%BF%83%E5%A4%A7%E5%8E%A6/@13526794.116572883,3641521.17565835,19z?uid=05942a52df19963bd618b734&ugc_type=3&ugc_ver=1&device_ratio=2&compat=1&en_uid=05942a52df19963bd618b734&pcevaname=pc4.1&querytype=detailConInfo&da_src=shareurl",
       "location": {
-        "lat": 31.239212,
-        "lng": 121.511937
+        "lat": 31.067521,
+        "lng": 121.513259
       }
     },
     {
@@ -99,8 +99,8 @@
       "encyclopedia_url": "https://baike.baidu.com/item/%E4%B8%8A%E6%B5%B7%E9%87%91%E8%8C%82%E5%A4%A7%E5%8E%A6/2946581?fromtitle=%E9%87%91%E8%8C%82%E5%A4%A7%E5%8E%A6&fromid=486833#viewPageContent",
       "map_url": "https://map.baidu.com/poi/%E9%87%91%E8%8C%82%E5%A4%A7%E5%8E%A6/@13526830.667733543,3641745.470391,19z?uid=4e7d0a5116ba374bfa42b244&ugc_type=3&ugc_ver=1&device_ratio=2&compat=1&en_uid=4e7d0a5116ba374bfa42b244&pcevaname=pc4.1&querytype=detailConInfo&da_src=shareurl",
       "location": {
-        "lat": 31.240944,
-        "lng": 121.512267
+        "lat": 31.069247,
+        "lng": 121.513587
       }
     },
     {
@@ -125,8 +125,8 @@
       "encyclopedia_url": "https://baike.baidu.com/item/%E8%B1%AB%E5%9B%AD/567167",
       "map_url": "https://map.baidu.com/poi/%E8%B1%AB%E5%9B%AD/@13525350.263682242,3640701.132479885,18.33z?uid=606289fda2cbca54a2046453&ugc_type=3&ugc_ver=1&device_ratio=2&compat=1&en_uid=606289fda2cbca54a2046453&pcevaname=pc4.1&querytype=detailConInfo&da_src=shareurl",
       "location": {
-        "lat": 31.232745,
-        "lng": 121.498966
+        "lat": 31.061211,
+        "lng": 121.500289
       }
     },
     {
@@ -150,8 +150,8 @@
       "encyclopedia_url": "https://baike.baidu.com/item/%E5%9F%8E%E9%9A%8D%E5%BA%99/2764713",
       "map_url": "https://map.baidu.com/poi/%E4%B8%8A%E6%B5%B7%E5%9F%8E%E9%9A%8D%E5%BA%99/@13525357.850021366,3640518.3585550496,19z?uid=33c3d820f455cd9e2c4733ab&ugc_type=3&ugc_ver=1&device_ratio=2&compat=1&en_uid=33c3d820f455cd9e2c4733ab&pcevaname=pc4.1&querytype=detailConInfo&da_src=shareurl",
       "location": {
-        "lat": 31.231471,
-        "lng": 121.499034
+        "lat": 31.059805,
+        "lng": 121.500357
       }
     },
     {
@@ -173,14 +173,15 @@
       "play_time": "建议游玩时长：1.5小时。可以参观天王殿、大雄宝殿、三圣殿、观音殿、罗汉堂等建筑，感受佛教文化的庄严与宁静，登龙华塔俯瞰龙华寺全景。",
       "tips": "龙华寺在农历十二月初八（腊八节）有施粥活动，可以品尝腊八粥。每年3、4月份有龙华庙会活动，热闹非凡，有舞龙、舞狮表演，老上海街头手艺展示，当地特色美食出售等。主要景点包括龙华塔（建于宋太平兴国二年，高约41米）、弥勒殿（供奉布袋和尚）、天王殿（供奉天冠弥勒）、大雄宝殿（供奉毗卢遮那佛）、三圣殿、观音堂、罗汉堂、牡丹园等。交通可乘坐地铁11号线或12号线至龙华站。",
       "encyclopedia_url": "https://baike.baidu.com/item/%E9%BE%99%E5%8D%8E%E5%AF%BA/5928255",
+      "map_url": "https://map.baidu.com/poi/%E9%BE%99%E5%8D%8E%E5%AF%BA/@13520818.330000002,3634081.879962731,17.43z?uid=db1f39d4e4456f6ef5c59cd9&ugc_type=3&ugc_ver=1&device_ratio=2&compat=1&en_uid=db1f39d4e4456f6ef5c59cd9&pcevaname=pc4.1&querytype=detailConInfo&da_src=shareurl",
       "location": {
-        "lat": 31.181316,
-        "lng": 121.458256
+        "lat": 31.010262,
+        "lng": 121.459578
       }
     },
     {
       "id": "s8",
-      "name": "静安寺",
+      "name": "上海静安寺",
       "city": "上海 Shanghai",
       "tags": [
         "文化"
@@ -197,14 +198,15 @@
       "play_time": "建议游玩时长：1-1.5小时。可以参观大雄宝殿、天王殿、观音殿等建筑，感受佛教文化的庄严与宁静，体验千年古刹在繁华都市中的独特魅力。",
       "tips": "静安寺在农历初一、十五有烧香活动，可以体验上海的民俗文化。寺内有静安宝塔，可以登塔俯瞰静安寺全景。主要景点包括大雄宝殿、天王殿、三圣殿、静安宝塔等。交通可乘坐地铁2号线至静安寺站，步行即到。",
       "encyclopedia_url": "https://baike.baidu.com/item/%E9%9D%99%E5%AE%89%E5%AF%BA/568216",
+      "map_url": "https://map.baidu.com/poi/%E4%B8%8A%E6%B5%B7%E9%9D%99%E5%AE%89%E5%AF%BA/@13520094.839891423,3640330.2960788794,18.21z?uid=68ab5b13c5d316e8eee4a55f&ugc_type=3&ugc_ver=1&device_ratio=2&compat=1&en_uid=68ab5b13c5d316e8eee4a55f&pcevaname=pc4.1&querytype=detailConInfo&da_src=shareurl",
       "location": {
-        "lat": 31.22985,
-        "lng": 121.451754
+        "lat": 31.058357,
+        "lng": 121.453078
       }
     },
     {
       "id": "s9",
-      "name": "上海博物馆",
+      "name": "上海博物馆（人民广场馆）",
       "city": "上海 Shanghai",
       "tags": [
         "博物馆"
@@ -221,9 +223,10 @@
       "play_time": "建议游玩时长：2-3小时。可以参观中国古代青铜馆、中国古代陶瓷馆、中国历代书画馆、中国历代玉器馆等展厅，感受中国古代艺术的博大精深。",
       "tips": "上海博物馆人民广场馆位于黄浦区人民大道201号，交通便利。东馆位于浦东新区世纪大道1926号。北馆正在规划建设中，位于杨浦滨江的上海船厂旧址。主要展厅包括中国古代青铜馆（400余件青铜器）、中国古代陶瓷馆（500余件陶瓷）、中国历代书法馆（60件书法精品）、中国历代绘画馆（120余件绘画）、中国历代玉器馆（300件玉器）等。建议提前在官网预约参观。",
       "encyclopedia_url": "https://baike.baidu.com/item/%E4%B8%8A%E6%B5%B7%E5%8D%9A%E7%89%A9%E9%A6%86/556555",
+      "map_url": "https://map.baidu.com/poi/%E4%B8%8A%E6%B5%B7%E5%8D%9A%E7%89%A9%E9%A6%86(%E4%BA%BA%E6%B0%91%E5%B9%BF%E5%9C%BA%E9%A6%86)/@13523479.74722099,3641498.269153438,14.54z?uid=1020060fde6aada71994c6ab&ugc_type=3&ugc_ver=1&device_ratio=2&compat=1&en_uid=1020060fde6aada71994c6ab&pcevaname=pc4.1&querytype=detailConInfo&da_src=shareurl",
       "location": {
-        "lat": 31.23419,
-        "lng": 121.482126
+        "lat": 31.067345,
+        "lng": 121.483486
       }
     },
     {
@@ -246,9 +249,10 @@
       "play_time": "建议游玩时长：3-4小时。可以参观生物万象、地壳探秘、智慧之光、机器人世界、宇航天地等展厅，体验科技的奥秘和魅力。",
       "tips": "上海科技馆位于上海市浦东新区世纪大道2000号，地铁2号线上海科技馆站直达。主要展厅包括生物万象（云南自然风光）、智慧之光（科学实验）、机器人世界（机器人发展和应用）、信息时代（网络技术）、地球家园（生态环境）、宇航天地（航天成就）、人与健康（人体健康）等。建议提前网上购票，节假日需排队等候。",
       "encyclopedia_url": "https://baike.baidu.com/item/%E4%B8%8A%E6%B5%B7%E7%A7%91%E6%8A%80%E9%A6%86/363265",
+      "map_url": "https://map.baidu.com/poi/%E4%B8%8A%E6%B5%B7%E7%A7%91%E6%8A%80%E9%A6%86/@13530789.252273705,3639620.0985586746,18.17z?uid=aaaaf39ee7871286f60e7711&ugc_type=3&ugc_ver=1&device_ratio=2&compat=1&en_uid=aaaaf39ee7871286f60e7711&pcevaname=pc4.1&querytype=detailConInfo&da_src=shareurl",
       "location": {
-        "lat": 31.224356,
-        "lng": 121.547823
+        "lat": 31.052892,
+        "lng": 121.549148
       }
     },
     {
@@ -270,9 +274,10 @@
       "play_time": "建议游玩时长：2小时。可以参观古代航海、近代航海、现代航海、航海科技等展览，了解中国悠久的航海历史和灿烂的航海文化。",
       "tips": "建议提前网上购票，节假日需排队等候。博物馆内有餐厅，可以品尝上海传统小吃。",
       "encyclopedia_url": "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E8%88%AA%E6%B5%B7%E5%8D%9A%E7%89%A9%E9%A6%86?fromModule=lemma_search-box",
+      "map_url": "https://map.baidu.com/poi/%E4%B8%AD%E5%9B%BD%E8%88%AA%E6%B5%B7%E5%8D%9A%E7%89%A9%E9%A6%86/@13572902.50326918,3597991.676217649,18.52z?uid=09185c560b5cc720f1193711&ugc_type=3&ugc_ver=1&device_ratio=2&compat=1&en_uid=09185c560b5cc720f1193711&pcevaname=pc4.1&querytype=detailConInfo&da_src=shareurl",
       "location": {
-        "lat": 30.902522,
-        "lng": 121.926133
+        "lat": 30.73199,
+        "lng": 121.927458
       }
     },
     {
@@ -295,9 +300,10 @@
       "play_time": "建议游玩时长：2.5-3小时。可以参观\"演化的乐章\"\"生命的画卷\"\"文明的史诗\"三大主题展区，了解生命的奥秘和自然的美丽。",
       "tips": "上海自然博物馆位于上海市静安区北京西路510号（静安雕塑公园内），交通便利。地铁1号线新闸路站、地铁2号线南京西路站、地铁13号线自然博物馆站均可到达。主要展厅包括古动物史陈列厅（合川马门溪龙、黄河古象）、古人类史陈列、中国历代古尸陈列厅、动物陈列（2757件展品）、植物进化陈列（323件展品）等。建议提前网上购票，节假日需排队等候。",
       "encyclopedia_url": "https://baike.baidu.com/item/%E4%B8%8A%E6%B5%B7%E8%87%AA%E7%84%B6%E5%8D%9A%E7%89%A9%E9%A6%86?fromModule=lemma_search-box",
+      "map_url": "https://map.baidu.com/poi/%E4%B8%8A%E6%B5%B7%E8%87%AA%E7%84%B6%E5%8D%9A%E7%89%A9%E9%A6%86/@13522030.69916913,3641773.96522585,19z?uid=fc767524ceb4f4844e776ee0&ugc_type=3&ugc_ver=1&device_ratio=2&compat=1&en_uid=fc767524ceb4f4844e776ee0&pcevaname=pc4.1&querytype=detailConInfo&da_src=shareurl",
       "location": {
-        "lat": 31.241162,
-        "lng": 121.469147
+        "lat": 31.069466,
+        "lng": 121.470469
       }
     },
     {
@@ -320,9 +326,10 @@
       "play_time": "建议游玩时长：2-3小时。可以逛街购物，品尝上海小吃，参观历史建筑，体验海派文化。",
       "tips": "南京路步行街交通便利，地铁2号线南京东路站、人民广场站均可到达。主要景点包括永安百货（1918年开业，上海市文物保护单位）、先施大楼（1917年开业）、世纪广场（8404平方米，有东方宝鼎和时鸣钟）、世茂广场（333米高）。地方特产包括老大房的熏鱼和鲜肉月饼、邵万生的醉泥螺和醉蟹、蔡同德的虎骨木瓜酒和洞天长春膏、沈大成的糕团等。建议晚上逛街，夜景更美。",
       "encyclopedia_url": "https://baike.baidu.com/item/%E5%8D%97%E4%BA%AC%E8%B7%AF%E6%AD%A5%E8%A1%8C%E8%A1%97?fromModule=lemma_search-box",
+      "map_url": "https://map.baidu.com/poi/%E5%8D%97%E4%BA%AC%E8%B7%AF%E6%AD%A5%E8%A1%8C%E8%A1%97/@13523917.843573274,3641938.3233880256,17.34z?uid=3c0ea7c50e4f35e2fbf0cb2c&ugc_type=3&ugc_ver=1&device_ratio=2&compat=1&en_uid=3c0ea7c50e4f35e2fbf0cb2c&pcevaname=pc4.1&querytype=detailConInfo&da_src=shareurl",
       "location": {
-        "lat": 31.241924,
-        "lng": 121.486099
+        "lat": 31.070731,
+        "lng": 121.487421
       }
     },
     {
@@ -343,7 +350,12 @@
       "history": "淮海中路原名\"霞飞路\"，是上海著名的商业街之一，始建于1900年。1949年后，霞飞路更名为\"淮海中路\"，成为上海著名的商业街。淮海中路是上海法租界的重要街道之一，历史上曾是上海的时尚中心。街道两侧有各种高档品牌专卖店、奢侈品店、餐馆、咖啡馆等，是上海最繁华的商业街之一。淮海中路与瑞金一路的交叉口曾是上海第一个红绿灯的诞生地。",
       "play_time": "建议游玩时长：2-3小时。可以逛街购物，品尝上海小吃，参观历史建筑，体验海派文化。",
       "tips": "淮海中路交通便利，地铁1号线、10号线、12号线均可到达。主要景点包括淮海中路商业街、历史建筑群等。街道两侧有各种高档品牌专卖店、奢侈品店、餐馆、咖啡馆等。建议晚上逛街，夜景更美。",
-      "encyclopedia_url": "https://baike.baidu.com/item/%E6%B7%AE%E6%B5%B7%E4%B8%AD%E8%B7%AF?fromModule=lemma_search-box"
+      "encyclopedia_url": "https://baike.baidu.com/item/%E6%B7%AE%E6%B5%B7%E4%B8%AD%E8%B7%AF?fromModule=lemma_search-box",
+      "map_url": "https://map.baidu.com/poi/%E6%B7%AE%E6%B5%B7%E4%B8%AD%E8%B7%AF/@13519021.745,3637596.74,19z?uid=f35b6ce71cae2b60b21e3696&ugc_type=3&ugc_ver=1&device_ratio=2&compat=1&en_uid=f35b6ce71cae2b60b21e3696&pcevaname=pc4.1&querytype=detailConInfo&da_src=shareurl",
+      "location": {
+        "lat": 31.03732,
+        "lng": 121.443439
+      }
     },
     {
       "id": "s15",
@@ -364,11 +376,16 @@
       "history": "新天地原为上海石库门建筑群，始建于1920年代。1999年，上海新天地正式开工，通过整体规划，保存城市中心老街区的肌理、格局与特色建筑，特别是中共一大会址，赋予其新的生命。2001年，新天地被改造为商业区，保留了石库门建筑的外观，内部则现代化为餐厅、商店、咖啡馆等。新天地是上海著名的文化景观，融合了历史与现代。为庆祝中国共产党成立100周年，7月2日，瑞安集团与上海图书馆联合举办的主题文化展《永远的新天地》在上海图书馆拉开帷幕。",
       "play_time": "建议游玩时长：2-3小时。可以逛街购物，品尝上海小吃，参观历史建筑，体验海派文化。",
       "tips": "新天地交通便利，地铁1号线、10号线、12号线均可到达。主要景点包括石库门建筑群、中共一大会址、新天地东台里（8.8万平方米开放式商业空间）等。新天地有各种餐厅、咖啡馆，可以品尝上海传统小吃和西餐。建议晚上逛街，夜景更美。",
-      "encyclopedia_url": "https://baike.baidu.com/item/%E4%B8%8A%E6%B5%B7%E6%96%B0%E5%A4%A9%E5%9C%B0?fromModule=lemma_search-box"
+      "encyclopedia_url": "https://baike.baidu.com/item/%E4%B8%8A%E6%B5%B7%E6%96%B0%E5%A4%A9%E5%9C%B0?fromModule=lemma_search-box",
+      "map_url": "https://map.baidu.com/poi/%E6%96%B0%E5%A4%A9%E5%9C%B0%E5%B9%BF%E5%9C%BA/@13523303.089525819,3640105.81709305,19z?uid=1b94acb820a273f038e4a660&ugc_type=3&ugc_ver=1&device_ratio=2&compat=1&en_uid=1b94acb820a273f038e4a660&pcevaname=pc4.1&querytype=detailConInfo&da_src=shareurl",
+      "location": {
+        "lat": 31.05663,
+        "lng": 121.481899
+      }
     },
     {
       "id": "s16",
-      "name": "上海环球港",
+      "name": "月星环球港",
       "city": "上海 Shanghai",
       "tags": [
         "购物"
@@ -384,7 +401,12 @@
       "history": "上海环球港成立于2011年，是上海著名的大型城市综合体。2013年9月，上海环球港正式开业。环球港以欧式建筑艺术为特色，商业、旅游、文化三位一体，是月星集团旗下城市综合体品牌。环球港以\"文化、旅游、娱乐、体育、展览、教育、购物\"有机融合的创新理念打造城市商业地标。2021年5月26日，经过四十多天的\"闭店运营\"后，上海环球港重新开始了线下运营。环球港已成为普陀乃至上海的一张名片。",
       "play_time": "建议游玩时长：2-3小时。可以逛街购物，品尝上海小吃，参观历史建筑，体验海派文化。",
       "tips": "上海环球港交通便利，地铁13号线可到达。主要景点包括环球港商业街、欧式建筑群、248米双塔甲级写字楼等。环球港内有各种品牌专卖店、餐饮、电影院、游乐场等。建议提前网上购票，节假日需排队等候。",
-      "encyclopedia_url": "https://baike.baidu.com/item/%E4%B8%8A%E6%B5%B7%E7%8E%AF%E7%90%83%E6%B8%AF?fromModule=lemma_search-box"
+      "encyclopedia_url": "https://baike.baidu.com/item/%E4%B8%8A%E6%B5%B7%E7%8E%AF%E7%90%83%E6%B8%AF?fromModule=lemma_search-box",
+      "map_url": "https://map.baidu.com/poi/%E6%9C%88%E6%98%9F%E7%8E%AF%E7%90%83%E6%B8%AF/@13516466.649095234,3641606.37521641,17.75z?uid=e9f935e6a9811743ad045733&ugc_type=3&ugc_ver=1&device_ratio=2&compat=1&en_uid=e9f935e6a9811743ad045733&pcevaname=pc4.1&querytype=detailConInfo&da_src=shareurl",
+      "location": {
+        "lat": 31.068177,
+        "lng": 121.420486
+      }
     },
     {
       "id": "s17",
@@ -405,7 +427,12 @@
       "history": "上海迪士尼乐园于2011年4月8日动工建设，2016年6月16日正式开园。乐园由上海申迪集团、迪士尼公司等合作建设，总投资约340亿元人民币。乐园内有各种游乐设施、表演、游行、烟花秀等，是上海著名的旅游景点。上海迪士尼乐园是中国大陆首座迪士尼度假区，是游客们远离尘嚣、共度美好时光的绝佳去处。",
       "play_time": "建议游玩时长：8-10小时。可以参观米奇大街、奇想花园、梦幻世界、探险岛、宝藏湾、明日世界等6个主题园区，体验各种游乐设施和表演。",
       "tips": "上海迪士尼乐园交通便利，地铁11号线可到达。主要景点包括米奇大街、奇想花园、梦幻世界、探险岛、宝藏湾、明日世界等6个主题园区。乐园内有各种游乐设施、表演、游行、烟花秀等。建议提前网上购票，节假日需排队等候。",
-      "encyclopedia_url": "https://baike.baidu.com/item/%E4%B8%8A%E6%B5%B7%E8%BF%AA%E5%A3%AB%E5%B0%BC%E4%B9%90%E5%9B%AD/3246958?fromtitle=%E4%B8%8A%E6%B5%B7%E8%BF%AA%E5%A3%AB%E5%B0%BC&fromid=23669453"
+      "encyclopedia_url": "https://baike.baidu.com/item/%E4%B8%8A%E6%B5%B7%E8%BF%AA%E5%A3%AB%E5%B0%BC%E4%B9%90%E5%9B%AD/3246958?fromtitle=%E4%B8%8A%E6%B5%B7%E8%BF%AA%E5%A3%AB%E5%B0%BC&fromid=23669453",
+      "map_url": "https://map.baidu.com/poi/%E4%B8%8A%E6%B5%B7%E8%BF%AA%E5%A3%AB%E5%B0%BC%E4%B9%90%E5%9B%AD/@13544029.347740868,3630143.308812113,16.46z?uid=0d666133848d183494ec842b&ugc_type=3&ugc_ver=1&device_ratio=2&compat=1&en_uid=0d666133848d183494ec842b&pcevaname=pc4.1&querytype=detailConInfo&da_src=shareurl",
+      "location": {
+        "lat": 30.979933,
+        "lng": 121.668086
+      }
     },
     {
       "id": "s18",
@@ -426,7 +453,12 @@
       "history": "上海海昌海洋公园于2014年动工建设，2018年正式开园。公园由海昌海洋公园集团建设，总投资约50亿元人民币。上海海昌海洋公园是国家AAAA级景区，拥有《虎鲸传奇》、《百老汇海狮秀》、《海豚奇缘》、《白鲸之恋》、《人鱼童话》等六大明星剧目。2024年6月4日至11日，上海海昌海洋公园宣布向社会公众免费开放。",
       "play_time": "建议游玩时长：5-6小时。可以参观海洋奇观、海豚湾、企鹅馆、北极熊馆、海兽探险等主题区域，体验各种海洋动物表演和游乐设施。",
       "tips": "上海海昌海洋公园位于上海市浦东新区银飞路166号，临近滴水湖，距上海中心城区约80公里。主要景点包括《虎鲸传奇》、《百老汇海狮秀》、《海豚奇缘》、《白鲸之恋》、《人鱼童话》等六大明星剧目。公园内有各种海洋动物表演、游乐设施、展览等。建议提前网上购票，节假日需排队等候。",
-      "encyclopedia_url": "https://baike.baidu.com/item/%E4%B8%8A%E6%B5%B7%E6%B5%B7%E6%98%8C%E6%B5%B7%E6%B4%8B%E5%85%AC%E5%9B%AD?fromModule=lemma_search-box"
+      "encyclopedia_url": "https://baike.baidu.com/item/%E4%B8%8A%E6%B5%B7%E6%B5%B7%E6%98%8C%E6%B5%B7%E6%B4%8B%E5%85%AC%E5%9B%AD?fromModule=lemma_search-box",
+      "map_url": "https://map.baidu.com/poi/%E4%B8%8A%E6%B5%B7%E6%B5%B7%E6%98%8C%E6%B5%B7%E6%B4%8B%E5%85%AC%E5%9B%AD/@13571340.689647617,3600222.1164145707,17.22z?uid=3308108a96063ac83686f437&ugc_type=3&ugc_ver=1&device_ratio=2&compat=1&en_uid=3308108a96063ac83686f437&pcevaname=pc4.1&querytype=detailConInfo&da_src=shareurl",
+      "location": {
+        "lat": 30.749211,
+        "lng": 121.913428
+      }
     },
     {
       "id": "s19",
@@ -446,7 +478,12 @@
       "history": "上海欢乐谷于2007年动工建设，2009年9月12日正式开园。乐园由华侨城集团建设，总投资约30亿元人民币。上海欢乐谷位于上海佘山国家旅游度假区核心区东北部，东临嘉松公路，南临沈砖公路，西、北临林荫大道。2005年始建。2009年9月12日正式开业，占地面积65万平方米，年游客接待量超300万人次。乐园拥有120余项游乐设施，分别来自20多个国家和地区，是上海唯一一家国家AAAA级旅游景区。",
       "play_time": "建议游玩时长：5-6小时。可以参观阳光广场、欢乐时光、玛雅水公园等主题区域，体验各种刺激的游乐设施。",
       "tips": "上海欢乐谷位于上海市松江区佘山林湖路888号，距离上海市区大约45公里。主要景点包括阳光广场、欢乐时光、玛雅水公园、欢乐谷大道、香格里拉等主题区域。乐园内有各种刺激的游乐设施，如过山车、跳楼机、漂流等。建议提前网上购票，节假日需排队等候。",
-      "encyclopedia_url": "https://baike.baidu.com/item/%E4%B8%8A%E6%B5%B7%E6%AC%A2%E4%B9%90%E8%B0%B7?fromModule=lemma_search-box"
+      "encyclopedia_url": "https://baike.baidu.com/item/%E4%B8%8A%E6%B5%B7%E6%AC%A2%E4%B9%90%E8%B0%B7?fromModule=lemma_search-box",
+      "map_url": "https://map.baidu.com/poi/%E4%B8%8A%E6%B5%B7%E6%AC%A2%E4%B9%90%E8%B0%B7/@13494454.445072776,3623858.8779447833,16.29z?uid=cac5fc76735bee8d2cb96d1c&ugc_type=3&ugc_ver=1&device_ratio=2&compat=1&en_uid=cac5fc76735bee8d2cb96d1c&pcevaname=pc4.1&querytype=detailConInfo&da_src=shareurl",
+      "location": {
+        "lat": 30.93152,
+        "lng": 121.222747
+      }
     },
     {
       "id": "s20",
@@ -466,7 +503,12 @@
       "history": "上海锦江乐园于1996年开园，是上海著名的大型游乐园。乐园由锦江集团建设，总投资约5亿元人民币。上海锦江乐园是上海老牌游乐园，拥有过山车、摩天轮、旋转木马、碰碰车等100多件游乐设施。乐园内有各种适合不同年龄段游客的游乐设施，是上海著名的旅游景点。",
       "play_time": "建议游玩时长：3-4小时。可以体验各种游乐设施，如过山车、摩天轮、旋转木马等。",
       "tips": "上海锦江乐园交通便利，地铁5号线可到达。主要景点包括过山车、摩天轮、旋转木马、碰碰车等100多件游乐设施。乐园内有各种适合不同年龄段游客的游乐设施。建议提前网上购票，节假日需排队等候。",
-      "encyclopedia_url": "https://baike.baidu.com/item/%E9%94%A6%E6%B1%9F%E4%B9%90%E5%9B%AD?fromModule=lemma_search-box"
+      "encyclopedia_url": "https://baike.baidu.com/item/%E9%94%A6%E6%B1%9F%E4%B9%90%E5%9B%AD?fromModule=lemma_search-box",
+      "map_url": "https://map.baidu.com/poi/%E9%94%A6%E6%B1%9F%E4%B9%90%E5%9B%AD/@13516039.936166905,3629459.2968189633,17.58z?uid=60cc6ea386fb300c1d1d1199&ugc_type=3&ugc_ver=1&device_ratio=2&compat=1&en_uid=60cc6ea386fb300c1d1d1199&pcevaname=pc4.1&querytype=detailConInfo&da_src=shareurl",
+      "location": {
+        "lat": 30.974665,
+        "lng": 121.416653
+      }
     },
     {
       "id": "s21",
@@ -487,7 +529,12 @@
       "history": "世纪公园原名\"浦东中央公园\"，是浦东地区较大型的公园，地处浦东花木行政区（新区办公中心）东南侧。公园始建于1997年，2000年建成开放。公园由上海浦东新区政府建设，总投资约10亿元人民币。上海世纪公园科普基地建设从2011年底开始启动，总体规划分三期实施。",
       "play_time": "建议游玩时长：2-3小时。可以参观大草坪、音乐喷泉、世纪湖、东方之光等景点，享受自然风光。",
       "tips": "上海世纪公园位于上海市浦东新区锦绣路1001号，交通便利。主要景点包括大草坪、音乐喷泉、世纪湖、东方之光等。公园犹如一枚绿色的翡翠镶接于壮观的世纪大道终点，充满自然野趣。建议早上入园，人较少。",
-      "encyclopedia_url": "https://baike.baidu.com/item/%E4%B8%8A%E6%B5%B7%E4%B8%96%E7%BA%AA%E5%85%AC%E5%9B%AD/870808?fromtitle=%E4%B8%96%E7%BA%AA%E5%85%AC%E5%9B%AD&fromid=3515909"
+      "encyclopedia_url": "https://baike.baidu.com/item/%E4%B8%8A%E6%B5%B7%E4%B8%96%E7%BA%AA%E5%85%AC%E5%9B%AD/870808?fromtitle=%E4%B8%96%E7%BA%AA%E5%85%AC%E5%9B%AD&fromid=3515909",
+      "map_url": "https://map.baidu.com/poi/%E4%B8%96%E7%BA%AA%E5%85%AC%E5%9B%AD/@13532030.959935738,3639452.5988218053,16.36z?uid=9db9d6f6cbf3ef0433169b45&ugc_type=3&ugc_ver=1&device_ratio=2&compat=1&en_uid=9db9d6f6cbf3ef0433169b45&pcevaname=pc4.1&querytype=detailConInfo&da_src=shareurl",
+      "location": {
+        "lat": 31.051603,
+        "lng": 121.560302
+      }
     },
     {
       "id": "s22",
@@ -508,7 +555,12 @@
       "history": "上海顾村公园始建于2009年，2011年建成开放。公园由上海宝山区政府建设，总投资约5亿元人民币。顾村公园是一座集生态防护、景观观赏、休闲健身、文化娱乐、旅游度假等功能于一体的大型城市郊野森林公园，是上海市外环生态工程的重要组成部分。2025年2月22日，澎湃新闻记者从上海市宝山区了解到，位于摩天轮前樱花大道上的福建山樱花，处于盛花前期，部分已开花。",
       "play_time": "建议游玩时长：2-3小时。可以参观樱花林、梅园、竹园、盆景园等景点，享受自然风光。",
       "tips": "上海顾村公园位于宝山区外环线S20以北，交通便利。主要景点包括樱花林、梅园、竹园、盆景园等。顾村公园也是上海水系最长水上公园，推出\"春赏樱\"系列活动。建议春天入园，欣赏樱花。",
-      "encyclopedia_url": "https://baike.baidu.com/item/%E9%A1%BE%E6%9D%91%E5%85%AC%E5%9B%AD?fromModule=lemma_search-box"
+      "encyclopedia_url": "https://baike.baidu.com/item/%E9%A1%BE%E6%9D%91%E5%85%AC%E5%9B%AD?fromModule=lemma_search-box",
+      "map_url": "https://map.baidu.com/poi/%E9%A1%BE%E6%9D%91%E5%85%AC%E5%9B%AD/@13511740.32666453,3655652.2757935845,15.38z?uid=befdb292c733c89c87154106&ugc_type=3&ugc_ver=1&device_ratio=2&compat=1&en_uid=befdb292c733c89c87154106&pcevaname=pc4.1&querytype=detailConInfo&da_src=shareurl",
+      "location": {
+        "lat": 31.176192,
+        "lng": 121.378029
+      }
     },
     {
       "id": "s23",
@@ -529,7 +581,12 @@
       "history": "上海共青森林公园始建于1985年，1994年建成开放。公园由上海杨浦区政府建设，总投资约2亿元人民币。公园所在地原是浦江滩地，1956年上海市人民政府疏浚河道，取泥围垦，1985年建园，1994年正式开放。上海共青国家森林公园，是以森林为主要景观的特色公园，共种植200余种树木，总数达30多万株，是国家AAAA级景点。今年，共青森林公园开园四十年了，第二十五届都市森林百花展也如期而至。",
       "play_time": "建议游玩时长：2-3小时。可以参观森林区、湖泊区、游乐区等景点，享受自然风光。",
       "tips": "上海共青森林公园位于上海市杨浦区，交通便利。主要景点包括森林区、湖泊区、游乐区等。公园分为南北两园，北园\"共青森林公园\"1631亩，南园\"万竹园\"239.6亩。建议早上入园，人较少。",
-      "encyclopedia_url": "https://baike.baidu.com/item/%E4%B8%8A%E6%B5%B7%E5%85%B1%E9%9D%92%E5%9B%BD%E5%AE%B6%E6%A3%AE%E6%9E%97%E5%85%AC%E5%9B%AD?fromtitle=%E5%85%B1%E9%9D%92%E6%A3%AE%E6%9E%97%E5%85%AC%E5%9B%AD&fromid=7734757&fromModule=lemma_search-box"
+      "encyclopedia_url": "https://baike.baidu.com/item/%E4%B8%8A%E6%B5%B7%E5%85%B1%E9%9D%92%E5%9B%BD%E5%AE%B6%E6%A3%AE%E6%9E%97%E5%85%AC%E5%9B%AD?fromtitle=%E5%85%B1%E9%9D%92%E6%A3%AE%E6%9E%97%E5%85%AC%E5%9B%AD&fromid=7734757&fromModule=lemma_search-box",
+      "map_url": "https://map.baidu.com/poi/%E5%85%B1%E9%9D%92%E5%9B%BD%E5%AE%B6%E6%A3%AE%E6%9E%97%E5%85%AC%E5%9B%AD/@13531928.094125059,3652861.604269812,16.35z?uid=449eb70004746dd826d2bb7a&ugc_type=3&ugc_ver=1&device_ratio=2&compat=1&en_uid=449eb70004746dd826d2bb7a&pcevaname=pc4.1&querytype=detailConInfo&da_src=shareurl",
+      "location": {
+        "lat": 31.154741,
+        "lng": 121.559378
+      }
     },
     {
       "id": "s24",
@@ -550,7 +607,12 @@
       "history": "滨江大道1997年建成，全长2500米，从泰东路沿黄浦江一直到东昌路，与浦西外滩隔江相望，是集观光、绿化、交通及服务设施为一体的沿江景观工程。它由亲水平台、坡地绿化、林荫大道、观景平台等组成。上海各区的\"滨江大道\"都很不错，其中崇明环岛滨江大道有着\"百里生态秀带\"之称。",
       "play_time": "建议游玩时长：1.5-2小时。可以沿江散步，欣赏黄浦江两岸风光，体验亲水平台。",
       "tips": "滨江大道位于上海市浦东新区，交通便利。主要景点包括亲水平台、坡地绿化、林荫大道、观景平台等。建议傍晚时分散步，夜景更美。",
-      "encyclopedia_url": "https://baike.baidu.com/item/%E6%BB%A8%E6%B1%9F%E5%A4%A7%E9%81%93/8173812?fromtitle=%E4%B8%8A%E6%B5%B7%E6%BB%A8%E6%B1%9F%E5%A4%A7%E9%81%93&fromid=6811102&fromModule=lemma_search-box"
+      "encyclopedia_url": "https://baike.baidu.com/item/%E6%BB%A8%E6%B1%9F%E5%A4%A7%E9%81%93/8173812?fromtitle=%E4%B8%8A%E6%B5%B7%E6%BB%A8%E6%B1%9F%E5%A4%A7%E9%81%93&fromid=6811102&fromModule=lemma_search-box",
+      "map_url": "https://map.baidu.com/poi/%E6%BB%A8%E6%B1%9F%E5%A4%A7%E9%81%93/@13525888.659999998,3642732.1971834623,15.45z?uid=f9a5de28470d27b6246e98b1&ugc_type=3&ugc_ver=1&device_ratio=2&compat=1&en_uid=f9a5de28470d27b6246e98b1&pcevaname=pc4.1&querytype=detailConInfo&da_src=shareurl",
+      "location": {
+        "lat": 31.076839,
+        "lng": 121.505125
+      }
     },
     {
       "id": "s25",
@@ -571,7 +633,12 @@
       "history": "田子坊原为上海石库门建筑群，始建于1930年代。2003年，田子坊被改造为创意产业园区，保留了石库门建筑的外观，内部则现代化为艺术家工作室、商店、咖啡馆、餐馆等。田子坊是上海一处兼具旅游、文创、商业、弄堂、风貌于一体的综合风景区。四月，上海春光正好，田子坊的客流量节节攀升，单日最高达到3.2万人次。",
       "play_time": "建议游玩时长：1.5-2小时。可以参观艺术家工作室，购买创意商品，品尝上海小吃，体验弄堂文化。",
       "tips": "田子坊位于中国上海市泰康路210弄，交通便利。主要景点包括\"三巷一区\"核心区、艺术家工作室、商店、咖啡馆、餐馆等。建议晚上逛街，夜景更美。",
-      "encyclopedia_url": "https://baike.baidu.com/item/%E7%94%B0%E5%AD%90%E5%9D%8A?fromModule=lemma_search-box"
+      "encyclopedia_url": "https://baike.baidu.com/item/%E7%94%B0%E5%AD%90%E5%9D%8A?fromModule=lemma_search-box",
+      "map_url": "https://map.baidu.com/poi/%E7%94%B0%E5%AD%90%E5%9D%8A/@13522692.826305268,3638294.42225645,19z?uid=f21a79a60c7cbee7ebe5822d&ugc_type=3&ugc_ver=1&device_ratio=2&compat=1&en_uid=f21a79a60c7cbee7ebe5822d&pcevaname=pc4.1&querytype=detailConInfo&da_src=shareurl",
+      "location": {
+        "lat": 31.042689,
+        "lng": 121.476417
+      }
     },
     {
       "id": "s26",
@@ -592,7 +659,12 @@
       "history": "武康路原名福开森路，于清光绪三十三年（1907年）修筑，民国三年（1914年），福开森路被拆分为三段：东段改成巨泼来斯路，南段改为姚主教路，中段保留了福开森路的原名。民国三十二年（1943年），福开森路更名为武康路。2014年，武康路被命名为\"上海市林荫道\"。2022年，武康路—安福路街区入选首批国家级旅游休闲街区名单。清光绪三十三年（1907年），法租界市政当局将原来南洋公学监院福开森开辟的一条土路拓宽，铺上煤渣屑后正式命名为\"福开森路\"。1943年10月，福开森路改名为武康路。",
       "play_time": "建议游玩时长：1.5-2小时。可以参观历史建筑，如武康大楼、巴金故居、宋庆龄故居、黄兴旧居、武康庭等。",
       "tips": "武康路位于上海市徐汇区，交通便利。主要景点包括武康大楼（上海第一座外廊式公寓大楼）、巴金故居（武康路113号）、武康庭（武康路376号）、黄兴旧居（武康路393号）等。建议白天参观，光线较好。街道两侧有各种历史建筑、咖啡馆、餐馆等。",
-      "encyclopedia_url": "https://baike.baidu.com/item/%E6%AD%A6%E5%BA%B7%E8%B7%AF?fromModule=lemma_search-box"
+      "encyclopedia_url": "https://baike.baidu.com/item/%E6%AD%A6%E5%BA%B7%E8%B7%AF?fromModule=lemma_search-box",
+      "map_url": "https://map.baidu.com/poi/%E6%AD%A6%E5%BA%B7%E8%B7%AF%E5%8E%86%E5%8F%B2%E6%96%87%E5%8C%96%E5%90%8D%E8%A1%97/@13519568.62999676,3638679.4714658507,16.26z?uid=574171a54763a8c9c26c1496&ugc_type=3&ugc_ver=1&device_ratio=2&compat=1&en_uid=574171a54763a8c9c26c1496&pcevaname=pc4.1&querytype=detailConInfo&da_src=shareurl",
+      "location": {
+        "lat": 31.045653,
+        "lng": 121.448351
+      }
     },
     {
       "id": "s27",
@@ -612,7 +684,12 @@
       "history": "1933老场坊原为工部局宰杀场，始建于1933年，是上海著名的工业建筑。1933老场坊原是上海工部局的宰牲场，完工于1933年，由当时的租界工部局出资，英国建筑设计大师巴尔弗思设计。整体建筑为古罗马巴西利卡式风格，外方内圆的基本结构。据说，全世界这样格局规模的宰牲场也只有三座，而1933老场坊是目前唯一现存完好的建筑。2007年，1933老场坊被改造为创意产业园区，保留了工业建筑的风格，内部则现代化为餐厅、商店、咖啡馆、艺术展览等。",
       "play_time": "建议游玩时长：1-1.5小时。可以参观工业建筑，购买创意商品，品尝上海小吃，体验创意园区文化。",
       "tips": "1933老场坊位于上海市虹口区，交通便利。主要景点包括古罗马巴西利卡式风格建筑、高大空间结构、创意小店、特色餐馆、艺术展览等。建议晚上参观，夜景更美。",
-      "encyclopedia_url": "https://baike.baidu.com/item/1933%E8%80%81%E5%9C%BA%E5%9D%8A?fromModule=lemma_search-box"
+      "encyclopedia_url": "https://baike.baidu.com/item/1933%E8%80%81%E5%9C%BA%E5%9D%8A?fromModule=lemma_search-box",
+      "map_url": "https://map.baidu.com/poi/1933%E8%80%81%E5%9C%BA%E5%9D%8A/@13525300.319740813,3644249.258846,19z?uid=05dd7d5fc0753718ad080f78&ugc_type=3&ugc_ver=1&device_ratio=2&compat=1&en_uid=05dd7d5fc0753718ad080f78&pcevaname=pc4.1&querytype=detailConInfo&da_src=shareurl",
+      "location": {
+        "lat": 31.088511,
+        "lng": 121.49984
+      }
     }
   ]
 }

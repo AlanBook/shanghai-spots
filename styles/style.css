@@ -1422,6 +1422,85 @@ footer p {
     box-shadow: 0 4px 12px rgba(192, 57, 43, 0.3);
 }
 
+.route-design-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.route-design-tooltip {
+    position: absolute;
+    top: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    padding: 1.2rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    white-space: normal;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    border: 2px solid var(--shanghai-gold);
+    z-index: 100;
+    width: 320px;
+    max-width: 90vw;
+}
+
+.route-design-wrapper:hover .route-design-tooltip {
+    opacity: 1;
+    visibility: visible;
+    top: 110%;
+}
+
+.tooltip-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.8rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.tooltip-icon {
+    color: var(--shanghai-gold);
+    margin-right: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.tooltip-title {
+    color: var(--shanghai-navy);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.tooltip-content {
+    font-size: 0.9rem;
+}
+
+.tooltip-content p {
+    color: var(--shanghai-dark);
+    margin-bottom: 0.6rem;
+    font-weight: 500;
+}
+
+.tooltip-content ul {
+    margin: 0;
+    padding-left: 1.5rem;
+    color: var(--shanghai-dark);
+}
+
+.tooltip-content li {
+    margin-bottom: 0.4rem;
+    line-height: 1.5;
+}
+
+.step-icon {
+    color: var(--shanghai-gold);
+    font-weight: 700;
+    margin-right: 0.3rem;
+    font-size: 0.85rem;
+}
+
 .route-design-bar {
     position: fixed;
     bottom: 0;
@@ -1557,6 +1636,9 @@ footer p {
     transition: all 0.3s ease;
     z-index: 25;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--shanghai-navy);
 }
 
 .card-checkbox:hover {
@@ -1567,21 +1649,15 @@ footer p {
 .spot-card.selected .card-checkbox {
     background: var(--shanghai-gold);
     border-color: var(--shanghai-navy);
+    color: white;
 }
 
 .card-checkbox::after {
-    content: '✓';
-    color: var(--shanghai-navy);
-    font-size: 1.5rem;
-    font-weight: bold;
-    opacity: 0;
-    transform: scale(0);
-    transition: all 0.2s ease;
+    content: '';
 }
 
 .spot-card.selected .card-checkbox::after {
-    opacity: 1;
-    transform: scale(1);
+    content: '';
 }
 
 @media (max-width: 768px) {
@@ -1615,6 +1691,7 @@ footer p {
         height: 28px;
         top: 1rem;
         left: 1rem;
+        font-size: 1rem;
     }
 }
 
@@ -1627,6 +1704,29 @@ footer p {
         padding: 1rem 2rem;
         font-size: 1.1rem;
         letter-spacing: 2px;
+    }
+    
+    .route-design-tooltip {
+        font-size: 0.85rem;
+        padding: 1rem;
+        width: 280px;
+        top: 115%;
+    }
+    
+    .tooltip-title {
+        font-size: 0.9rem;
+    }
+    
+    .tooltip-content p {
+        font-size: 0.85rem;
+    }
+    
+    .tooltip-content li {
+        font-size: 0.85rem;
+    }
+    
+    .step-icon {
+        font-size: 0.8rem;
     }
 }
 
@@ -1646,6 +1746,29 @@ footer p {
         padding: 0.8rem 1.5rem;
         font-size: 1rem;
         letter-spacing: 1px;
+    }
+    
+    .route-design-tooltip {
+        font-size: 0.8rem;
+        padding: 0.8rem;
+        width: 260px;
+        top: 110%;
+    }
+    
+    .tooltip-title {
+        font-size: 0.85rem;
+    }
+    
+    .tooltip-content p {
+        font-size: 0.8rem;
+    }
+    
+    .tooltip-content li {
+        font-size: 0.8rem;
+    }
+    
+    .step-icon {
+        font-size: 0.75rem;
     }
     
     #route-design-container {

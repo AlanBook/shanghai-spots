@@ -718,10 +718,14 @@ const App = {
     updateCardSelectionState: function(spotId) {
         const card = document.querySelector(`.spot-card[data-spot-id="${spotId}"]`);
         if (card) {
-            if (this.selectedRouteSpots.includes(spotId)) {
-                card.classList.add('selected');
-            } else {
-                card.classList.remove('selected');
+            const index = this.selectedRouteSpots.indexOf(spotId);
+            const checkbox = card.querySelector('.card-checkbox');
+            if (index > -1 && checkbox) {
+                checkbox.textContent = index + 1;
+                checkbox.classList.add('selected');
+            } else if (checkbox) {
+                checkbox.textContent = '';
+                checkbox.classList.remove('selected');
             }
         }
     },
