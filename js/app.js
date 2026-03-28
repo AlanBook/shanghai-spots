@@ -541,6 +541,10 @@ const App = {
             cols[shortestColIndex].innerHTML += cardHtml;
             colHeights[shortestColIndex] += spot.ratio === 'vertical' ? 550 : 450;
         });
+        
+        if (this.routeDesignMode) {
+            this.updateCardSelectionState();
+        }
     },
     
     /**
@@ -557,10 +561,12 @@ const App = {
         const isFavorite = this.favorites.includes(spot.id) ? 'favorited' : '';
         const isRouteMode = this.routeDesignMode ? 'route-mode' : '';
         const isSelected = this.selectedRouteSpots.includes(spot.id) ? 'selected' : '';
+        const spotIndex = this.selectedRouteSpots.indexOf(spot.id);
+        const checkboxText = spotIndex > -1 ? spotIndex + 1 : '';
         
         return `
             <div class="${cardClass} ${isFavorite} ${isRouteMode} ${isSelected}" data-spot-id="${spot.id}">
-                ${this.routeDesignMode ? '<div class="card-checkbox" onclick="event.stopPropagation();"></div>' : ''}
+                ${this.routeDesignMode ? `<div class="card-checkbox" onclick="event.stopPropagation();">${checkboxText}</div>` : ''}
                 <img src="${spot.image}" alt="${spot.name}" onerror="this.src='img/s1_waitap.jpg'">
                 <div class="spot-card-content">
                     <h3>${spot.name}</h3>
@@ -677,7 +683,7 @@ const App = {
 
         this.updateSelectedCount();
         this.updateConfirmButtonState();
-        this.updateCardSelectionState(spotId);
+        this.updateCardSelectionState();
         this.updateSelectionLimitMessage();
     },
 
@@ -715,19 +721,31 @@ const App = {
         }
     },
 
-    updateCardSelectionState: function(spotId) {
-        const card = document.querySelector(`.spot-card[data-spot-id="${spotId}"]`);
-        if (card) {
-            const index = this.selectedRouteSpots.indexOf(spotId);
-            const checkbox = card.querySelector('.card-checkbox');
-            if (index > -1 && checkbox) {
-                checkbox.textContent = index + 1;
-                checkbox.classList.add('selected');
-            } else if (checkbox) {
-                checkbox.textContent = '';
-                checkbox.classList.remove('selected');
+    updateCardSelectionState: function() {
+        this.selectedRouteSpots.forEach((id, index) => {
+            const card = document.querySelector(`.spot-card[data-spot-id="${id}"]`);
+            if (card) {
+                const checkbox = card.querySelector('.card-checkbox');
+                if (checkbox) {
+                    checkbox.textContent = index + 1;
+                    checkbox.classList.add('selected');
+                }
+                card.classList.add('selected');
             }
-        }
+        });
+        
+        const allCards = document.querySelectorAll('.spot-card');
+        allCards.forEach(card => {
+            const id = card.dataset.spotId;
+            if (!this.selectedRouteSpots.includes(id)) {
+                const checkbox = card.querySelector('.card-checkbox');
+                if (checkbox) {
+                    checkbox.textContent = '';
+                    checkbox.classList.remove('selected');
+                }
+                card.classList.remove('selected');
+            }
+        });
     },
 
     extractCoordinatesFromMapUrl: function(mapUrl) {

@@ -1646,6 +1646,12 @@ footer p {
     transform: scale(1.1);
 }
 
+.card-checkbox.selected {
+    background: var(--shanghai-gold);
+    border-color: var(--shanghai-navy);
+    color: white;
+}
+
 .spot-card.selected .card-checkbox {
     background: var(--shanghai-gold);
     border-color: var(--shanghai-navy);
