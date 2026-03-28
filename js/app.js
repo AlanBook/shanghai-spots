@@ -1039,7 +1039,7 @@ const App = {
                 if (dest.uid && dest.mcCoords) {
                     let enParts = [`2$$${dest.uid}$$${dest.mcCoords.x.toFixed(2)},${dest.mcCoords.y.toFixed(2)}$$${encodeURIComponent(dest.name)}$$0$$$$$$`];
                     
-                    waypoints.forEach((wp, i) => {
+                    [...waypoints].reverse().forEach((wp, i) => {
                         if (wp.uid && wp.mcCoords) {
                             enParts.push(`1$$ to:0$$${wp.uid}$$${wp.mcCoords.x.toFixed(2)},${wp.mcCoords.y.toFixed(2)}$$${encodeURIComponent(wp.name)}$$0$$$$`);
                         }
