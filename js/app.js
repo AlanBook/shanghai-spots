@@ -1217,20 +1217,63 @@ const App = {
             const start = points[0];
             const end = points[points.length - 1];
 
-            const drivingRoute = new BMap.DrivingRoute(start, {
-                renderOptions: { map: null, panel: null, autoViewport: false },
-                onSearchComplete: function(results) {
-                    if (drivingRoute.getStatus() === BMAP_STATUS_SUCCESS) {
-                        console.log('百度地图API调用成功');
+            const optimizedSpots = [];
+            
+            const routeCallback = function(results) {
+                if (drivingRoute.getStatus() === BMAP_STATUS_SUCCESS) {
+                    const route = results.getRoute(0);
+                    if (route && route.paths && route.paths.length > 0) {
+                        console.log('路线规划成功，优化景点顺序');
+                        
+                        const path = route.paths[0];
+                        if (path.steps && path.steps.length > 0) {
+                            const optimizedOrder = [0];
+                            
+                            for (let i = 0; i < path.steps.length; i++) {
+                                const step = path.steps[i];
+                                if (step.waypoints && step.waypoints.length > 0) {
+                                    step.waypoints.forEach(waypoint => {
+                                        const wpIndex = points.findIndex(p => 
+                                            Math.abs(p.lng - waypoint.lng) < 0.0001 && 
+                                            Math.abs(p.lat - waypoint.lat) < 0.0001
+                                        );
+                                        if (wpIndex > 0 && wpIndex < points.length - 1 && !optimizedOrder.includes(wpIndex)) {
+                                            optimizedOrder.push(wpIndex);
+                                        }
+                                    });
+                                }
+                            }
+                            
+                            optimizedOrder.push(points.length - 1);
+                            
+                            optimizedSpots.length = 0;
+                            optimizedOrder.forEach(index => {
+                                if (index >= 0 && index < spotInfos.length) {
+                                    optimizedSpots.push(spotInfos[index]);
+                                }
+                            });
+                            
+                            console.log('优化后的景点顺序:', optimizedSpots.map(s => s.name));
+                        }
                     }
                 }
+            };
+
+            const drivingRoute = new BMap.DrivingRoute(start, {
+                renderOptions: { map: null, panel: null, autoViewport: false },
+                onSearchComplete: routeCallback
             });
 
             drivingRoute.search(start, end, { waypoints: waypoints });
 
-            await new Promise(resolve => setTimeout(resolve, 1500));
+            await new Promise(resolve => setTimeout(resolve, 2000));
 
-            return spotInfos;
+            if (optimizedSpots.length > 0 && optimizedSpots.length === spotInfos.length) {
+                return optimizedSpots;
+            } else {
+                console.warn('路线优化失败，使用原始顺序');
+                return spotInfos;
+            }
         } catch (error) {
             console.error('路线优化失败:', error);
             return spotInfos;
