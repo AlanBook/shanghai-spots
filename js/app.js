@@ -1199,6 +1199,9 @@ const App = {
             return spotInfos;
         }
 
+        console.log('开始路线优化，景点数量:', spotInfos.length);
+        console.log('BMap对象:', BMap);
+
         return new Promise((resolve) => {
             try {
                 const points = spotInfos.map(spot => {
@@ -1211,6 +1214,8 @@ const App = {
                     return null;
                 }).filter(p => p !== null);
 
+                console.log('转换后的坐标点数量:', points.length);
+
                 if (points.length < 2) {
                     console.warn('坐标信息不足，使用原始顺序');
                     resolve(spotInfos);
@@ -1221,28 +1226,42 @@ const App = {
                 const start = points[0];
                 const end = points[points.length - 1];
 
+                console.log('起点:', start);
+                console.log('终点:', end);
+                console.log('途经点数量:', waypoints.length);
+
                 const optimizedSpots = [];
                 
                 const drivingRoute = new BMap.DrivingRoute(start, {
                     renderOptions: { map: null, panel: null, autoViewport: false },
                     onSearchComplete: function(results) {
+                        console.log('路线规划回调被调用');
+                        console.log('API状态:', drivingRoute.getStatus());
+                        console.log('结果对象:', results);
+                        
                         if (drivingRoute.getStatus() === BMAP_STATUS_SUCCESS) {
                             const route = results.getRoute(0);
+                            console.log('路线对象:', route);
+                            
                             if (route && route.paths && route.paths.length > 0) {
                                 console.log('路线规划成功，优化景点顺序');
                                 
                                 const path = route.paths[0];
+                                console.log('路径对象:', path);
+                                
                                 if (path.steps && path.steps.length > 0) {
                                     const optimizedOrder = [0];
                                     
                                     for (let i = 0; i < path.steps.length; i++) {
                                         const step = path.steps[i];
+                                        console.log('步骤', i, ':', step);
                                         if (step.waypoints && step.waypoints.length > 0) {
                                             step.waypoints.forEach(waypoint => {
                                                 const wpIndex = points.findIndex(p => 
                                                     Math.abs(p.lng - waypoint.lng) < 0.0001 && 
                                                     Math.abs(p.lat - waypoint.lat) < 0.0001
                                                 );
+                                                console.log('找到途经点索引:', wpIndex);
                                                 if (wpIndex > 0 && wpIndex < points.length - 1 && !optimizedOrder.includes(wpIndex)) {
                                                     optimizedOrder.push(wpIndex);
                                                 }
@@ -1269,11 +1288,14 @@ const App = {
                             resolve(optimizedSpots);
                         } else {
                             console.warn('路线优化失败，使用原始顺序');
+                            console.warn('优化后的景点数量:', optimizedSpots.length);
+                            console.warn('原始景点数量:', spotInfos.length);
                             resolve(spotInfos);
                         }
                     }
                 });
 
+                console.log('开始搜索路线...');
                 drivingRoute.search(start, end, { waypoints: waypoints });
             } catch (error) {
                 console.error('路线优化失败:', error);
