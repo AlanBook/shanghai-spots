@@ -1172,15 +1172,17 @@ const App = {
         const spotNames = spotInfos.map(s => s.name);
         this.showSmartRouteLoading(spotNames);
         
-        try {
-            const optimizedSpots = await this.optimizeRouteWithBaiduAPI(spotInfos);
-            await new Promise(resolve => setTimeout(resolve, 800));
-            this.showSmartRouteResult(optimizedSpots);
-        } catch (error) {
-            console.error('智能路线规划失败:', error);
-            alert('智能路线规划失败，请检查百度地图API配置或稍后重试');
-            this.toggleSmartRouteMode();
-        }
+        this.optimizeRouteWithBaiduAPI(spotInfos)
+            .then(optimizedSpots => {
+                setTimeout(() => {
+                    this.showSmartRouteResult(optimizedSpots);
+                }, 800);
+            })
+            .catch(error => {
+                console.error('智能路线规划失败:', error);
+                alert('智能路线规划失败，请检查百度地图API配置或稍后重试');
+                this.toggleSmartRouteMode();
+            });
     },
 
     optimizeRouteWithBaiduAPI: async function(spotInfos) {
@@ -1197,85 +1199,87 @@ const App = {
             return spotInfos;
         }
 
-        try {
-            const points = spotInfos.map(spot => {
-                if (spot.mcCoords) {
-                    return new BMap.Point(spot.mcCoords.x, spot.mcCoords.y);
-                } else if (spot.location && spot.location.lng && spot.location.lat) {
-                    const mc = this.wgs84ToBaiduMercator(spot.location.lat, spot.location.lng);
-                    return new BMap.Point(mc.x, mc.y);
+        return new Promise((resolve) => {
+            try {
+                const points = spotInfos.map(spot => {
+                    if (spot.mcCoords) {
+                        return new BMap.Point(spot.mcCoords.x, spot.mcCoords.y);
+                    } else if (spot.location && spot.location.lng && spot.location.lat) {
+                        const mc = this.wgs84ToBaiduMercator(spot.location.lat, spot.location.lng);
+                        return new BMap.Point(mc.x, mc.y);
+                    }
+                    return null;
+                }).filter(p => p !== null);
+
+                if (points.length < 2) {
+                    console.warn('坐标信息不足，使用原始顺序');
+                    resolve(spotInfos);
+                    return;
                 }
-                return null;
-            }).filter(p => p !== null);
 
-            if (points.length < 2) {
-                console.warn('坐标信息不足，使用原始顺序');
-                return spotInfos;
-            }
+                const waypoints = points.slice(1, -1);
+                const start = points[0];
+                const end = points[points.length - 1];
 
-            const waypoints = points.slice(1, -1);
-            const start = points[0];
-            const end = points[points.length - 1];
-
-            const optimizedSpots = [];
-            
-            const drivingRoute = new BMap.DrivingRoute(start, {
-                renderOptions: { map: null, panel: null, autoViewport: false },
-                onSearchComplete: function(results) {
-                    if (drivingRoute.getStatus() === BMAP_STATUS_SUCCESS) {
-                        const route = results.getRoute(0);
-                        if (route && route.paths && route.paths.length > 0) {
-                            console.log('路线规划成功，优化景点顺序');
-                            
-                            const path = route.paths[0];
-                            if (path.steps && path.steps.length > 0) {
-                                const optimizedOrder = [0];
+                const optimizedSpots = [];
+                
+                const drivingRoute = new BMap.DrivingRoute(start, {
+                    renderOptions: { map: null, panel: null, autoViewport: false },
+                    onSearchComplete: function(results) {
+                        if (drivingRoute.getStatus() === BMAP_STATUS_SUCCESS) {
+                            const route = results.getRoute(0);
+                            if (route && route.paths && route.paths.length > 0) {
+                                console.log('路线规划成功，优化景点顺序');
                                 
-                                for (let i = 0; i < path.steps.length; i++) {
-                                    const step = path.steps[i];
-                                    if (step.waypoints && step.waypoints.length > 0) {
-                                        step.waypoints.forEach(waypoint => {
-                                            const wpIndex = points.findIndex(p => 
-                                                Math.abs(p.lng - waypoint.lng) < 0.0001 && 
-                                                Math.abs(p.lat - waypoint.lat) < 0.0001
-                                            );
-                                            if (wpIndex > 0 && wpIndex < points.length - 1 && !optimizedOrder.includes(wpIndex)) {
-                                                optimizedOrder.push(wpIndex);
-                                            }
-                                        });
+                                const path = route.paths[0];
+                                if (path.steps && path.steps.length > 0) {
+                                    const optimizedOrder = [0];
+                                    
+                                    for (let i = 0; i < path.steps.length; i++) {
+                                        const step = path.steps[i];
+                                        if (step.waypoints && step.waypoints.length > 0) {
+                                            step.waypoints.forEach(waypoint => {
+                                                const wpIndex = points.findIndex(p => 
+                                                    Math.abs(p.lng - waypoint.lng) < 0.0001 && 
+                                                    Math.abs(p.lat - waypoint.lat) < 0.0001
+                                                );
+                                                if (wpIndex > 0 && wpIndex < points.length - 1 && !optimizedOrder.includes(wpIndex)) {
+                                                    optimizedOrder.push(wpIndex);
+                                                }
+                                            });
+                                        }
                                     }
+                                    
+                                    optimizedOrder.push(points.length - 1);
+                                    
+                                    optimizedSpots.length = 0;
+                                    optimizedOrder.forEach(index => {
+                                        if (index >= 0 && index < spotInfos.length) {
+                                            optimizedSpots.push(spotInfos[index]);
+                                        }
+                                    });
+                                    
+                                    console.log('优化后的景点顺序:', optimizedSpots.map(s => s.name));
                                 }
-                                
-                                optimizedOrder.push(points.length - 1);
-                                
-                                optimizedSpots.length = 0;
-                                optimizedOrder.forEach(index => {
-                                    if (index >= 0 && index < spotInfos.length) {
-                                        optimizedSpots.push(spotInfos[index]);
-                                    }
-                                });
-                                
-                                console.log('优化后的景点顺序:', optimizedSpots.map(s => s.name));
                             }
                         }
+                        
+                        if (optimizedSpots.length > 0 && optimizedSpots.length === spotInfos.length) {
+                            console.log('路线优化成功');
+                            resolve(optimizedSpots);
+                        } else {
+                            console.warn('路线优化失败，使用原始顺序');
+                            resolve(spotInfos);
+                        }
                     }
-                }
-            });
+                });
 
-            drivingRoute.search(start, end, { waypoints: waypoints });
-
-            await new Promise(resolve => setTimeout(resolve, 2000));
-
-            if (optimizedSpots.length > 0 && optimizedSpots.length === spotInfos.length) {
-                return optimizedSpots;
-            } else {
-                console.warn('路线优化失败，使用原始顺序');
-                return spotInfos;
+                drivingRoute.search(start, end, { waypoints: waypoints });
+            } catch (error) {
+                console.error('路线优化失败:', error);
+                resolve(spotInfos);
             }
-        } catch (error) {
-            console.error('路线优化失败:', error);
-            return spotInfos;
-        }
+        });
     },
 
     showSmartRouteLoading: function(spotNames) {
