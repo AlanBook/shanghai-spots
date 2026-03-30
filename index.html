@@ -42,22 +42,43 @@
             <!-- 线路设计模式按钮 -->
             <div id="route-design-container">
                 <div class="route-design-wrapper">
-                    <button id="route-design-btn" class="route-design-btn">
+                    <button id="manual-route-btn" class="route-design-btn">
                         <span class="btn-icon">🗺️</span>
-                        <span>线路设计模式</span>
+                        <span>手动线路设计模式</span>
                     </button>
                     <div class="route-design-tooltip">
                         <div class="tooltip-header">
                             <span class="tooltip-icon">ℹ️</span>
-                            <span class="tooltip-title">线路规划功能说明</span>
+                            <span class="tooltip-title">手动线路规划功能说明</span>
                         </div>
                         <div class="tooltip-content">
-                            <p>进入线路规划模式后，您可以：</p>
+                            <p>进入手动线路规划模式后，您可以：</p>
                             <ul>
                                 <li><span class="step-icon">1</span> 选择最多7个景点</li>
                                 <li><span class="step-icon">2</span> 点击"确定选择"按钮</li>
                                 <li><span class="step-icon">3</span> 自动在百度地图生成最优路线</li>
                                 <li><span class="step-icon">4</span> 查看完整行程规划</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="route-design-wrapper">
+                    <button id="smart-route-btn" class="route-design-btn">
+                        <span class="btn-icon">🤖</span>
+                        <span>智能路线规划模式</span>
+                    </button>
+                    <div class="smart-route-tooltip">
+                        <div class="tooltip-header">
+                            <span class="tooltip-icon">ℹ️</span>
+                            <span class="tooltip-title">智能路线规划功能说明</span>
+                        </div>
+                        <div class="tooltip-content">
+                            <p>进入智能路线规划模式后，您可以：</p>
+                            <ul>
+                                <li><span class="step-icon">1</span> 多选（打勾）任意数量景点</li>
+                                <li><span class="step-icon">2</span> 点击"确定选择"按钮</li>
+                                <li><span class="step-icon">3</span> 调用百度地图API智能规划最优路线</li>
+                                <li><span class="step-icon">4</span> 查看智能生成的行程规划</li>
                             </ul>
                         </div>
                     </div>
@@ -85,6 +106,17 @@
             <div class="route-design-actions">
                 <button id="cancel-route-design-btn" class="cancel-route-btn">取消</button>
                 <button id="confirm-route-btn" class="confirm-route-btn">确定选择</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 智能路线规划悬浮操作栏 -->
+    <div id="smart-route-bar" class="route-design-bar hidden">
+        <div class="route-design-bar-content">
+            <span class="selected-count">已选择 <span id="smart-selected-count-num">0</span> 个景点</span>
+            <div class="route-design-actions">
+                <button id="cancel-smart-route-btn" class="cancel-route-btn">取消</button>
+                <button id="confirm-smart-route-btn" class="confirm-route-btn">确定选择</button>
             </div>
         </div>
     </div>

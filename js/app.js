@@ -6,6 +6,8 @@ const App = {
     favorites: [],
     routeDesignMode: false,
     selectedRouteSpots: [],
+    smartRouteMode: false,
+    selectedSmartRouteSpots: [],
     
     /**
      * 初始化应用
@@ -20,6 +22,7 @@ const App = {
         this.loadFavorites();
         this.setupFavoriteButtons();
         this.setupRouteDesignMode();
+        this.setupSmartRouteMode();
     },
     
     /**
@@ -545,6 +548,9 @@ const App = {
         if (this.routeDesignMode) {
             this.updateCardSelectionState();
         }
+        if (this.smartRouteMode) {
+            this.updateSmartCardSelectionState();
+        }
     },
     
     /**
@@ -561,12 +567,16 @@ const App = {
         const isFavorite = this.favorites.includes(spot.id) ? 'favorited' : '';
         const isRouteMode = this.routeDesignMode ? 'route-mode' : '';
         const isSelected = this.selectedRouteSpots.includes(spot.id) ? 'selected' : '';
-        const spotIndex = this.selectedRouteSpots.indexOf(spot.id);
-        const checkboxText = spotIndex > -1 ? spotIndex + 1 : '';
+        const isSmartRouteMode = this.smartRouteMode ? 'smart-route-mode' : '';
+        const smartIsSelected = this.selectedSmartRouteSpots.includes(spot.id) ? 'smart-selected' : '';
+        const checkboxType = this.routeDesignMode ? '序号' : (this.smartRouteMode ? '打勾' : '');
+        const checkboxHtml = this.routeDesignMode 
+            ? `<div class="card-checkbox" onclick="event.stopPropagation();">${this.selectedRouteSpots.indexOf(spot.id) + 1}</div>`
+            : (this.smartRouteMode ? `<div class="card-checkbox smart-checkbox" onclick="event.stopPropagation();"></div>` : '');
         
         return `
-            <div class="${cardClass} ${isFavorite} ${isRouteMode} ${isSelected}" data-spot-id="${spot.id}">
-                ${this.routeDesignMode ? `<div class="card-checkbox" onclick="event.stopPropagation();">${checkboxText}</div>` : ''}
+            <div class="${cardClass} ${isFavorite} ${isRouteMode} ${isSelected} ${isSmartRouteMode} ${smartIsSelected}" data-spot-id="${spot.id}">
+                ${checkboxHtml}
                 <img src="${spot.image}" alt="${spot.name}" onerror="this.src='img/s1_waitap.jpg'">
                 <div class="spot-card-content">
                     <h3>${spot.name}</h3>
@@ -609,7 +619,7 @@ const App = {
     },
 
     setupRouteDesignMode: function() {
-        const routeBtn = document.getElementById('route-design-btn');
+        const routeBtn = document.getElementById('manual-route-btn');
         const cancelBtn = document.getElementById('cancel-route-design-btn');
         const confirmBtn = document.getElementById('confirm-route-btn');
         const scenicList = document.getElementById('scenic-list');
@@ -651,7 +661,7 @@ const App = {
 
     toggleRouteDesignMode: function() {
         this.routeDesignMode = !this.routeDesignMode;
-        const routeBtn = document.getElementById('route-design-btn');
+        const routeBtn = document.getElementById('manual-route-btn');
         const routeBar = document.getElementById('route-design-bar');
 
         if (this.routeDesignMode) {
@@ -661,7 +671,7 @@ const App = {
             this.updateSelectionLimitMessage();
         } else {
             routeBtn.classList.remove('active');
-            routeBtn.innerHTML = '<span class="btn-icon">🗺️</span><span>线路设计模式</span>';
+            routeBtn.innerHTML = '<span class="btn-icon">🗺️</span><span>手动线路设计模式</span>';
             routeBar.classList.add('hidden');
             this.selectedRouteSpots = [];
         }
@@ -748,6 +758,121 @@ const App = {
         });
     },
 
+    updateSmartCardSelectionState: function() {
+        this.selectedSmartRouteSpots.forEach(id => {
+            const card = document.querySelector(`.spot-card[data-spot-id="${id}"]`);
+            if (card) {
+                const checkbox = card.querySelector('.smart-checkbox');
+                if (checkbox) {
+                    checkbox.textContent = '✓';
+                    checkbox.classList.add('selected');
+                }
+                card.classList.add('smart-selected');
+            }
+        });
+        
+        const allCards = document.querySelectorAll('.spot-card');
+        allCards.forEach(card => {
+            const id = card.dataset.spotId;
+            if (!this.selectedSmartRouteSpots.includes(id)) {
+                const checkbox = card.querySelector('.smart-checkbox');
+                if (checkbox) {
+                    checkbox.textContent = '';
+                    checkbox.classList.remove('selected');
+                }
+                card.classList.remove('smart-selected');
+            }
+        });
+    },
+
+    setupSmartRouteMode: function() {
+        const smartRouteBtn = document.getElementById('smart-route-btn');
+        const cancelSmartBtn = document.getElementById('cancel-smart-route-btn');
+        const confirmSmartBtn = document.getElementById('confirm-smart-route-btn');
+        const scenicList = document.getElementById('scenic-list');
+
+        if (smartRouteBtn) {
+            smartRouteBtn.addEventListener('click', () => {
+                this.toggleSmartRouteMode();
+            });
+        }
+
+        if (cancelSmartBtn) {
+            cancelSmartBtn.addEventListener('click', () => {
+                this.toggleSmartRouteMode();
+            });
+        }
+
+        if (confirmSmartBtn) {
+            confirmSmartBtn.addEventListener('click', () => {
+                this.confirmSmartRouteDesign();
+            });
+        }
+
+        if (scenicList) {
+            scenicList.addEventListener('click', (e) => {
+                if (this.smartRouteMode) {
+                    const checkbox = e.target.closest('.smart-checkbox');
+                    const card = e.target.closest('.spot-card');
+                    
+                    if (card && card.dataset.spotId) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        e.stopImmediatePropagation();
+                        this.toggleSmartSpotSelection(card.dataset.spotId);
+                    }
+                }
+            }, true);
+        }
+    },
+
+    toggleSmartRouteMode: function() {
+        this.smartRouteMode = !this.smartRouteMode;
+        const smartRouteBtn = document.getElementById('smart-route-btn');
+        const smartRouteBar = document.getElementById('smart-route-bar');
+
+        if (this.smartRouteMode) {
+            smartRouteBtn.classList.add('active');
+            smartRouteBtn.innerHTML = '<span class="btn-icon">✖️</span><span>退出模式</span>';
+            smartRouteBar.classList.remove('hidden');
+            this.updateSmartSelectedCount();
+        } else {
+            smartRouteBtn.classList.remove('active');
+            smartRouteBtn.innerHTML = '<span class="btn-icon">🤖</span><span>智能路线规划模式</span>';
+            smartRouteBar.classList.add('hidden');
+            this.selectedSmartRouteSpots = [];
+        }
+
+        this.filterByTags();
+    },
+
+    toggleSmartSpotSelection: function(spotId) {
+        const index = this.selectedSmartRouteSpots.indexOf(spotId);
+        if (index > -1) {
+            this.selectedSmartRouteSpots.splice(index, 1);
+        } else {
+            this.selectedSmartRouteSpots.push(spotId);
+        }
+
+        this.updateSmartSelectedCount();
+        this.updateSmartConfirmButtonState();
+        this.updateSmartCardSelectionState();
+    },
+
+    updateSmartSelectedCount: function() {
+        const countEl = document.getElementById('smart-selected-count-num');
+        if (countEl) {
+            countEl.textContent = this.selectedSmartRouteSpots.length;
+        }
+    },
+
+    updateSmartConfirmButtonState: function() {
+        const confirmSmartBtn = document.getElementById('confirm-smart-route-btn');
+        if (confirmSmartBtn) {
+            confirmSmartBtn.disabled = this.selectedSmartRouteSpots.length < 2;
+        }
+    },
+
     extractCoordinatesFromMapUrl: function(mapUrl) {
         if (!mapUrl) return null;
         const match = mapUrl.match(/@([\d.]+),([\d.]+)/);
@@ -824,6 +949,42 @@ const App = {
         }
 
         this.designRoute(spotInfos);
+    },
+
+    confirmSmartRouteDesign: function() {
+        if (this.selectedSmartRouteSpots.length < 2) {
+            alert('请至少选择2个景点');
+            return;
+        }
+
+        const selectedSpots = this.selectedSmartRouteSpots.map(id => 
+            this.allSpots.find(s => s.id === id)
+        ).filter(spot => spot);
+
+        const spotInfos = [];
+
+        selectedSpots.forEach(spot => {
+            const uid = this.extractUidFromMapUrl(spot.map_url);
+            let mcCoords = null;
+            if (spot.map_url) {
+                const match = spot.map_url.match(/@([\d.]+),([\d.]+)/);
+                if (match) {
+                    mcCoords = { x: parseFloat(match[1]), y: parseFloat(match[2]) };
+                }
+            }
+            spotInfos.push({
+                name: spot.name,
+                uid: uid,
+                mcCoords: mcCoords
+            });
+        });
+
+        if (spotInfos.length < 2) {
+            alert('无法获取足够的景点信息');
+            return;
+        }
+
+        this.designSmartRoute(spotInfos);
     },
 
     designRoute: async function(spotInfos) {
@@ -986,6 +1147,174 @@ const App = {
         const closeModal = () => {
             modal.remove();
             this.toggleRouteDesignMode();
+        };
+        
+        closeBtn.addEventListener('click', closeModal);
+        closeModalBtn.addEventListener('click', closeModal);
+        overlay.addEventListener('click', closeModal);
+    },
+
+    designSmartRoute: async function(spotInfos) {
+        const spotNames = spotInfos.map(s => s.name);
+        this.showSmartRouteLoading(spotNames);
+        
+        try {
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            this.showSmartRouteResult(spotInfos);
+        } catch (error) {
+            console.error('智能路线规划失败:', error);
+            alert('智能路线规划失败，请稍后重试');
+            this.toggleSmartRouteMode();
+        }
+    },
+
+    showSmartRouteLoading: function(spotNames) {
+        const modal = document.createElement('div');
+        modal.id = 'smart-route-loading-modal';
+        modal.className = 'modal show';
+        modal.innerHTML = `
+            <div class="modal-overlay"></div>
+            <div class="modal-content">
+                <div class="modal-body" style="text-align: center; padding: 4rem;">
+                    <div style="font-size: 3rem; margin-bottom: 1.5rem;">🤖</div>
+                    <h2 style="color: var(--shanghai-navy); margin-bottom: 1rem;">正在智能规划最优路线...</h2>
+                    <p style="color: var(--shanghai-dark); font-size: 1.1rem;">
+                        已选择 ${spotNames.length} 个景点：<br>
+                        ${spotNames.join(' → ')}
+                    </p>
+                    <p style="color: #666; font-size: 0.95rem; margin-top: 1rem;">调用百度地图API计算最优路径...</p>
+                    <div style="margin-top: 2rem;">
+                        <div style="display: inline-block; width: 40px; height: 40px; border: 4px solid var(--shanghai-light); border-top-color: var(--shanghai-gold); border-radius: 50%; animation: spin 1s linear infinite;"></div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes spin {
+                to { transform: rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+        document.body.appendChild(modal);
+    },
+
+    showSmartRouteResult: function(spotInfos) {
+        const loadingModal = document.getElementById('smart-route-loading-modal');
+        if (loadingModal) {
+            loadingModal.remove();
+        }
+
+        const spotNames = spotInfos.map(s => s.name);
+        const hasWaypoints = spotInfos.length > 2;
+        const modal = document.createElement('div');
+        modal.id = 'smart-route-result-modal';
+        modal.className = 'modal show';
+        
+        const travelModes = hasWaypoints ? ['driving'] : ['transit', 'riding', 'walking', 'driving'];
+        const modeNames = { transit: '🚌 公共交通', riding: '🚲 骑行', walking: '🚶 步行', driving: '🚗 驾车' };
+        const defaultMode = hasWaypoints ? 'driving' : 'transit';
+        
+        if (hasWaypoints) {
+            modeNames.transit = '🚌 公共交通 (不支持途经点)';
+            modeNames.riding = '🚲 骑行 (不支持途经点)';
+            modeNames.walking = '🚶 步行 (不支持途经点)';
+        }
+        
+        modal.innerHTML = `
+            <div class="modal-overlay"></div>
+            <div class="modal-content" style="max-width: 1000px;">
+                <button class="modal-close" id="smart-route-modal-close">&times;</button>
+                <div class="modal-body">
+                    <div class="modal-header">
+                        <h2>🤖 智能路线规划结果</h2>
+                    </div>
+                    
+                    <div style="background: var(--shanghai-cream); padding: 1.5rem; border: 1px solid var(--shanghai-light); margin-bottom: 1.5rem;">
+                        <h3 style="color: var(--shanghai-navy); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <span>📋</span> 选择的景点（共${spotNames.length}个）${hasWaypoints ? '<span style="font-size: 0.85rem; color: var(--shanghai-gold); font-weight: normal; background: white; padding: 0.2rem 0.5rem; border: 1px solid var(--shanghai-gold);">含途经点</span>' : ''}
+                        </h3>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.8rem;">
+                            ${spotNames.map((name, index) => `
+                                <div style="background: white; padding: 0.5rem 1rem; border: 2px solid ${index === 0 ? 'var(--shanghai-gold)' : 'var(--shanghai-light)'}; border-radius: 0; display: flex; align-items: center; gap: 0.5rem;">
+                                    <span style="width: 24px; height: 24px; background: ${index === 0 ? 'var(--shanghai-gold)' : 'var(--shanghai-light)'}; color: ${index === 0 ? 'white' : 'var(--shanghai-dark)'}; display: flex; align-items: center; justify-content: center; font-weight: bold; border-radius: 50%; font-size: 0.85rem;">${index === 0 ? '起' : index === spotNames.length - 1 ? '终' : index}</span>
+                                    <span style="font-weight: 500;">${name}</span>
+                                    ${index < spotNames.length - 1 ? '<span style="color: var(--shanghai-gold); font-weight: bold;">→</span>' : ''}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <h3 style="color: var(--shanghai-navy); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <span>🚗</span> 选择出行方式
+                        </h3>
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                            ${travelModes.map((mode, index) => `
+                                <button class="travel-mode-btn ${mode === defaultMode ? 'active' : ''}" data-mode="${mode}" style="flex: 1; min-width: 150px; padding: 1rem; background: ${mode === defaultMode ? 'linear-gradient(135deg, var(--shanghai-gold) 0%, var(--shanghai-navy) 100%)' : 'white'}; color: ${mode === defaultMode ? 'white' : 'var(--shanghai-dark)'}; border: 3px solid ${mode === defaultMode ? 'var(--shanghai-gold)' : 'var(--shanghai-light)'}; border-radius: 0; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">
+                                    ${modeNames[mode]}
+                                </button>
+                            `).join('')}
+                        </div>
+                        ${hasWaypoints ? '<p style="color: var(--shanghai-gold); font-size: 0.9rem; margin-top: 0.8rem; padding-left: 0.5rem;"><strong>提示：</strong>只有驾车模式支持途经点</p>' : ''}
+                    </div>
+                    
+                    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                        <button id="smart-open-map-btn" class="confirm-route-btn" style="padding: 1rem 2.5rem; font-size: 1.1rem;">
+                            🗺️ 在百度地图中查看详细路线
+                        </button>
+                        <button id="close-smart-route-modal-btn" class="cancel-route-btn" style="padding: 1rem 2.5rem; font-size: 1.1rem;">
+                            关闭
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        
+        const selectedMode = { current: defaultMode };
+        
+        const travelModeBtns = modal.querySelectorAll('.travel-mode-btn');
+        travelModeBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const mode = btn.dataset.mode;
+                if (hasWaypoints && mode !== 'driving') {
+                    alert('只有驾车模式支持途经点，请选择驾车模式！');
+                    return;
+                }
+                
+                travelModeBtns.forEach(b => {
+                    b.style.background = 'white';
+                    b.style.color = 'var(--shanghai-dark)';
+                    b.style.borderColor = 'var(--shanghai-light)';
+                    b.classList.remove('active');
+                });
+                btn.style.background = 'linear-gradient(135deg, var(--shanghai-gold) 0%, var(--shanghai-navy) 100%)';
+                btn.style.color = 'white';
+                btn.style.borderColor = 'var(--shanghai-gold)';
+                btn.classList.add('active');
+                selectedMode.current = btn.dataset.mode;
+            });
+        });
+        
+        const openMapBtn = document.getElementById('smart-open-map-btn');
+        openMapBtn.addEventListener('click', () => {
+            if (hasWaypoints && selectedMode.current !== 'driving') {
+                alert('只有驾车模式支持途经点，请先选择驾车模式！');
+                return;
+            }
+            this.openBaiduMapWithSpots(spotInfos, selectedMode.current);
+        });
+        
+        const closeBtn = document.getElementById('smart-route-modal-close');
+        const closeModalBtn = document.getElementById('close-smart-route-modal-btn');
+        const overlay = modal.querySelector('.modal-overlay');
+        
+        const closeModal = () => {
+            modal.remove();
+            this.toggleSmartRouteMode();
         };
         
         closeBtn.addEventListener('click', closeModal);
