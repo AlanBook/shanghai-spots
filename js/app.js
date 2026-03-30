@@ -916,14 +916,13 @@ const App = {
     },
 
     wgs84ToBaiduMercator: function(lat, lng) {
-        const x_pi = 3.14159265358979324 * 3000.0 / 180.0;
-        const lngBd = lng * 180.0 / Math.PI;
-        const latBd = lat * 180.0 / Math.PI;
-        const x = lngBd * 20037508.34 / 180.0;
-        const y = Math.log(Math.tan((90 + latBd) * Math.PI / 360.0)) / (Math.PI / 180.0);
-        const yBd = y * 20037508.34 / 180.0;
+        const x = lng * 20037508.34 / 180.0;
+        const y = Math.log(Math.tan((90 + lat) * Math.PI / 360.0)) / (Math.PI / 180.0) * 20037508.34 / 180.0;
         
-        return { x: x, y: yBd };
+        console.log('WGS84经纬度:', lat, lng);
+        console.log('墨卡托坐标:', x, y);
+        
+        return { x: x, y: y };
     },
 
     confirmRouteDesign: function() {
