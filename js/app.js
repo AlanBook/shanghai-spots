@@ -1037,22 +1037,38 @@ const App = {
                 }
                 
                 if (dest.uid && dest.mcCoords) {
-                    let enParts = [`2$$${dest.uid}$$${dest.mcCoords.x.toFixed(2)},${dest.mcCoords.y.toFixed(2)}$$${encodeURIComponent(dest.name)}$$0$$$$$$`];
+                    let enParts = [];
                     
-                    [...waypoints].reverse().forEach((wp, i) => {
-                        if (wp.uid && wp.mcCoords) {
-                            enParts.push(`1$$ to:0$$${wp.uid}$$${wp.mcCoords.x.toFixed(2)},${wp.mcCoords.y.toFixed(2)}$$${encodeURIComponent(wp.name)}$$0$$$$`);
+                    if (waypoints.length > 0) {
+                        const firstWp = waypoints[0];
+                        const firstWpUid = firstWp.uid || 'undefined';
+                        const firstWpCoords = firstWp.mcCoords ? `${firstWp.mcCoords.x.toFixed(2)},${firstWp.mcCoords.y.toFixed(2)}` : '';
+                        enParts.push(`2$$${firstWpUid}$$${firstWpCoords}$$${encodeURIComponent(firstWp.name)}$$0$$$$$$`);
+                        
+                        for (let i = 1; i < waypoints.length; i++) {
+                            const wp = waypoints[i];
+                            const uid = wp.uid || 'undefined';
+                            const coords = wp.mcCoords ? `${wp.mcCoords.x.toFixed(2)},${wp.mcCoords.y.toFixed(2)}` : '';
+                            enParts.push(`1$$%20to:2$$${uid}$$${coords}$$${encodeURIComponent(wp.name)}$$0$$$$$$`);
                         }
-                    });
+                    }
+                    
+                    const destUid = dest.uid || 'undefined';
+                    const destCoords = dest.mcCoords ? `${dest.mcCoords.x.toFixed(2)},${dest.mcCoords.y.toFixed(2)}` : '';
+                    enParts.push(`1$$%20to:0$$${destUid}$$${destCoords}$$${encodeURIComponent(dest.name)}$$$$$$`);
                     
                     const enParam = `en=${enParts.join('')}`;
                     queryParams.push(enParam);
+                    
+                    const ecParts = ['289'];
+                    waypoints.forEach(() => ecParts.push('289'));
+                    queryParams.push(`ec=${ecParts.join('+to:')}`);
+                } else {
+                    queryParams.push('sc=289');
+                    const ecParts = ['289'];
+                    waypoints.forEach(() => ecParts.push('289'));
+                    queryParams.push(`ec=${ecParts.join('+to:')}`);
                 }
-                
-                queryParams.push('sc=289');
-                const ecParts = ['289'];
-                waypoints.forEach(() => ecParts.push('289'));
-                queryParams.push(`ec=${ecParts.join('+to:')}`);
                 queryParams.push('pn=0');
                 queryParams.push('rn=5');
                 queryParams.push('mrs=0');
