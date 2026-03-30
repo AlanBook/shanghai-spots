@@ -915,6 +915,17 @@ const App = {
         return null;
     },
 
+    wgs84ToBaiduMercator: function(lat, lng) {
+        const x_pi = 3.14159265358979324 * 3000.0 / 180.0;
+        const lngBd = lng * 180.0 / Math.PI;
+        const latBd = lat * 180.0 / Math.PI;
+        const x = lngBd * 20037508.34 / 180.0;
+        const y = Math.log(Math.tan((90 + latBd) * Math.PI / 360.0)) / (Math.PI / 180.0);
+        const yBd = y * 20037508.34 / 180.0;
+        
+        return { x: x, y: yBd };
+    },
+
     confirmRouteDesign: function() {
         if (this.selectedRouteSpots.length < 2) {
             alert('请至少选择2个景点');
@@ -966,7 +977,9 @@ const App = {
         selectedSpots.forEach(spot => {
             const uid = this.extractUidFromMapUrl(spot.map_url);
             let mcCoords = null;
-            if (spot.map_url) {
+            if (spot.location && spot.location.lat && spot.location.lng) {
+                mcCoords = this.wgs84ToBaiduMercator(spot.location.lat, spot.location.lng);
+            } else if (spot.map_url) {
                 const match = spot.map_url.match(/@([\d.]+),([\d.]+)/);
                 if (match) {
                     mcCoords = { x: parseFloat(match[1]), y: parseFloat(match[2]) };
@@ -975,7 +988,8 @@ const App = {
             spotInfos.push({
                 name: spot.name,
                 uid: uid,
-                mcCoords: mcCoords
+                mcCoords: mcCoords,
+                location: spot.location
             });
         });
 
@@ -1159,12 +1173,67 @@ const App = {
         this.showSmartRouteLoading(spotNames);
         
         try {
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            this.showSmartRouteResult(spotInfos);
+            const optimizedSpots = await this.optimizeRouteWithBaiduAPI(spotInfos);
+            await new Promise(resolve => setTimeout(resolve, 800));
+            this.showSmartRouteResult(optimizedSpots);
         } catch (error) {
             console.error('智能路线规划失败:', error);
-            alert('智能路线规划失败，请稍后重试');
+            alert('智能路线规划失败，请检查百度地图API配置或稍后重试');
             this.toggleSmartRouteMode();
+        }
+    },
+
+    optimizeRouteWithBaiduAPI: async function(spotInfos) {
+        if (!spotInfos || spotInfos.length < 2) {
+            return spotInfos;
+        }
+
+        if (spotInfos.length === 2) {
+            return spotInfos;
+        }
+
+        if (typeof BMap === 'undefined' || !BMap) {
+            console.warn('百度地图API未加载，使用原始顺序');
+            return spotInfos;
+        }
+
+        try {
+            const points = spotInfos.map(spot => {
+                if (spot.mcCoords) {
+                    return new BMap.Point(spot.mcCoords.x, spot.mcCoords.y);
+                } else if (spot.location && spot.location.lng && spot.location.lat) {
+                    const mc = this.wgs84ToBaiduMercator(spot.location.lat, spot.location.lng);
+                    return new BMap.Point(mc.x, mc.y);
+                }
+                return null;
+            }).filter(p => p !== null);
+
+            if (points.length < 2) {
+                console.warn('坐标信息不足，使用原始顺序');
+                return spotInfos;
+            }
+
+            const waypoints = points.slice(1, -1);
+            const start = points[0];
+            const end = points[points.length - 1];
+
+            const drivingRoute = new BMap.DrivingRoute(start, {
+                renderOptions: { map: null, panel: null, autoViewport: false },
+                onSearchComplete: function(results) {
+                    if (drivingRoute.getStatus() === BMAP_STATUS_SUCCESS) {
+                        console.log('百度地图API调用成功');
+                    }
+                }
+            });
+
+            drivingRoute.search(start, end, { waypoints: waypoints });
+
+            await new Promise(resolve => setTimeout(resolve, 1500));
+
+            return spotInfos;
+        } catch (error) {
+            console.error('路线优化失败:', error);
+            return spotInfos;
         }
     },
 

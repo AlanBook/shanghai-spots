@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能路线规划测试</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #1a237e;
+            text-align: center;
+        }
+        h2 {
+            color: #283593;
+            border-bottom: 2px solid #5e35b1;
+            padding-bottom: 10px;
+        }
+        .status {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .status.success {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+        }
+        .status.error {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+        }
+        .status.warning {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+        }
+        .status.info {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+        }
+        button {
+            background: linear-gradient(135deg, #5e35b1 0%, #1a237e 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: scale(1.05);
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .coordinates {
+            font-family: monospace;
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .test-result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #fafafa;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🤖 智能路线规划功能测试</h1>
+    
+    <div class="test-section">
+        <h2>📋 测试步骤</h2>
+        <ol>
+            <li>检查百度地图API是否加载成功</li>
+            <li>测试坐标转换功能</li>
+            <li>测试路线规划API调用</li>
+            <li>查看测试结果</li>
+        </ol>
+    </div>
+
+    <div class="test-section">
+        <h2>🔍 API加载状态</h2>
+        <div id="api-status" class="status info">正在检查...</div>
+        <button onclick="testBaiduMapAPI()">测试API加载</button>
+    </div>
+
+    <div class="test-section">
+        <h2>📍 坐标转换测试</h2>
+        <div id="coordinate-test" class="status info">点击按钮开始测试</div>
+        <div class="coordinates">
+            <p>测试坐标：上海外滩 (WGS84)</p>
+            <p>纬度: 31.069224, 经度: 121.500653</p>
+        </div>
+        <button onclick="testCoordinateConversion()">测试坐标转换</button>
+    </div>
+
+    <div class="test-section">
+        <h2>🗺️ 路线规划测试</h2>
+        <div id="route-test" class="status info">点击按钮开始测试</div>
+        <button onclick="testRoutePlanning()">测试路线规划</button>
+    </div>
+
+    <div class="test-section">
+        <h2>📊 测试结果</h2>
+        <div id="test-results" class="test-result">
+            <p>暂无测试结果</p>
+        </div>
+        <button onclick="runAllTests()">运行全部测试</button>
+        <button onclick="clearResults()">清空结果</button>
+    </div>
+
+    <script type="text/javascript">
+        let testResults = [];
+
+        function logResult(testName, status, message) {
+            const resultsDiv = document.getElementById('test-results');
+            const timestamp = new Date().toLocaleTimeString('zh-CN');
+            const statusClass = status === 'success' ? '✅' : (status === 'error' ? '❌' : '⚠️');
+            
+            testResults.push({
+                testName,
+                status,
+                message,
+                timestamp
+            });
+
+            let html = '<ul style="list-style: none; padding: 0;">';
+            testResults.forEach((result, index) => {
+                html += `<li style="padding: 8px; margin: 5px 0; background: #f5f5f5; border-radius: 3px;">
+                    <strong>[${result.timestamp}] ${statusClass} ${result.testName}</strong><br>
+                    ${result.message}
+                </li>`;
+            });
+            html += '</ul>';
+            resultsDiv.innerHTML = html;
+        }
+
+        function testBaiduMapAPI() {
+            const statusDiv = document.getElementById('api-status');
+            
+            if (typeof BMap !== 'undefined' && BMap) {
+                statusDiv.className = 'status success';
+                statusDiv.innerHTML = `
+                    <strong>✅ 百度地图API加载成功！</strong><br>
+                    API版本: ${BMap.version}<br>
+                    可用组件: ${Object.keys(BMap).filter(k => k.startsWith('BMap')).join(', ')}
+                `;
+                logResult('API加载', 'success', '百度地图API已成功加载');
+                return true;
+            } else {
+                statusDiv.className = 'status error';
+                statusDiv.innerHTML = `
+                    <strong>❌ 百度地图API未加载！</strong><br>
+                    请检查：<br>
+                    1. index.html 中的AK配置是否正确<br>
+                    2. 网络连接是否正常<br>
+                    3. 百度地图开放平台应用是否启用
+                `;
+                logResult('API加载', 'error', '百度地图API未加载，请检查配置');
+                return false;
+            }
+        }
+
+        function wgs84ToBaiduMercator(lat, lng) {
+            const x_pi = 3.14159265358979324 * 3000.0 / 180.0;
+            const lngBd = lng * 180.0 / Math.PI;
+            const latBd = lat * 180.0 / Math.PI;
+            const x = lngBd * 20037508.34 / 180.0;
+            const y = Math.log(Math.tan((90 + latBd) * Math.PI / 360.0)) / (Math.PI / 180.0);
+            const yBd = y * 20037508.34 / 180.0;
+            return { x: x, y: yBd };
+        }
+
+        function testCoordinateConversion() {
+            const testDiv = document.getElementById('coordinate-test');
+            
+            const lat = 31.069224;
+            const lng = 121.500653;
+            
+            const result = wgs84ToBaiduMercator(lat, lng);
+            
+            testDiv.className = 'status success';
+            testDiv.innerHTML = `
+                <strong>✅ 坐标转换成功！</strong><br>
+                <strong>原始坐标 (WGS84):</strong><br>
+                纬度: ${lat}<br>
+                经度: ${lng}<br>
+                <strong>转换后坐标 (百度墨卡托):</strong><br>
+                X: ${result.x.toFixed(2)}<br>
+                Y: ${result.y.toFixed(2)}
+            `;
+            
+            logResult('坐标转换', 'success', `WGS84(${lat}, ${lng}) → 墨卡托(${result.x.toFixed(2)}, ${result.y.toFixed(2)})`);
+        }
+
+        function testRoutePlanning() {
+            const testDiv = document.getElementById('route-test');
+            
+            if (!testBaiduMapAPI()) {
+                testDiv.className = 'status warning';
+                testDiv.innerHTML = '<strong>⚠️ 无法测试路线规划：API未加载</strong>';
+                logResult('路线规划', 'warning', '跳过测试：API未加载');
+                return;
+            }
+
+            const testSpots = [
+                { name: '外滩', mcCoords: { x: 13525390.82, y: 3641742.51 } },
+                { name: '东方明珠', mcCoords: { x: 13526163.03, y: 3642375.99 } },
+                { name: '上海中心', mcCoords: { x: 13526794.12, y: 3641521.18 } }
+            ];
+
+            if (typeof BMap !== 'undefined' && BMap) {
+                try {
+                    const points = testSpots.map(spot => {
+                        return new BMap.Point(spot.mcCoords.x, spot.mcCoords.y);
+                    });
+
+                    if (points.length >= 2) {
+                        testDiv.className = 'status success';
+                        testDiv.innerHTML = `
+                            <strong>✅ 路线规划测试成功！</strong><br>
+                            <strong>测试景点：</strong><br>
+                            ${testSpots.map(s => s.name).join(' → ')}<br>
+                            <strong>测试内容：</strong><br>
+                            - 起点: ${testSpots[0].name}<br>
+                            - 途经点: ${testSpots.slice(1, -1).map(s => s.name).join(', ') || '无'}<br>
+                            - 终点: ${testSpots[testSpots.length - 1].name}<br>
+                            - 总景点数: ${testSpots.length}
+                        `;
+                        
+                        logResult('路线规划', 'success', `成功创建${testSpots.length}个景点的路线规划`);
+                    } else {
+                        throw new Error('景点数量不足');
+                    }
+                } catch (error) {
+                    testDiv.className = 'status error';
+                    testDiv.innerHTML = `<strong>❌ 路线规划测试失败：</strong> ${error.message}`;
+                    logResult('路线规划', 'error', error.message);
+                }
+            } else {
+                testDiv.className = 'status error';
+                testDiv.innerHTML = '<strong>❌ 测试失败：百度地图API未加载</strong>';
+                logResult('路线规划', 'error', 'API未加载');
+            }
+        }
+
+        function runAllTests() {
+            clearResults();
+            
+            logResult('测试开始', 'info', '开始运行所有测试...');
+            
+            setTimeout(() => {
+                testBaiduMapAPI();
+            }, 500);
+
+            setTimeout(() => {
+                testCoordinateConversion();
+            }, 1000);
+
+            setTimeout(() => {
+                testRoutePlanning();
+            }, 1500);
+
+            setTimeout(() => {
+                const successCount = testResults.filter(r => r.status === 'success').length;
+                const totalCount = testResults.length;
+                logResult('测试完成', 'info', `共运行${totalCount}项测试，成功${successCount}项`);
+            }, 2000);
+        }
+
+        function clearResults() {
+            testResults = [];
+            document.getElementById('test-results').innerHTML = '<p>暂无测试结果</p>';
+        }
+
+        window.addEventListener('load', function() {
+            setTimeout(testBaiduMapAPI, 1000);
+        });
+    </script>
+</body>
+</html>

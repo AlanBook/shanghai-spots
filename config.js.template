@@ -1,0 +1,39 @@
+/**
+ * 应用配置文件模板
+ * 复制此文件为 config.js 并填写您的百度地图AK
+ */
+
+const AppConfig = {
+    /**
+     * 百度地图API密钥
+     * 请在 https://lbsyun.baidu.com/ 获取
+     * 将 YOUR_AK_HERE 替换为您的实际AK
+     */
+    baiduMapAK: 'YOUR_AK_HERE',
+    
+    /**
+     * 是否启用智能路线规划功能
+     * true: 启用（需要有效的AK）
+     * false: 禁用（使用简单路线展示）
+     */
+    enableSmartRoute: true,
+    
+    /**
+     * API调用超时时间（毫秒）
+     */
+    apiTimeout: 10000,
+    
+    /**
+     * 路线优化算法类型
+     * 'distance': 距离最短
+     * 'time': 时间最短
+     * 'ferry': 含轮渡
+     * 'traffic': 考虑路况
+     */
+    routeOptimization: 'time'
+};
+
+// 导出配置（支持ES6模块和CommonJS）
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = AppConfig;
+}

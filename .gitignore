@@ -3,3 +3,26 @@ dist/
 *.log
 .DS_Store
 Thumbs.db
+
+# 配置文件（包含敏感信息）
+config.js
+config.js.backup
+*.ak
+*.key
+
+# 测试覆盖
+coverage/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 备份文件
+*.backup
+*~
+
+# 操作系统
+.DS_Store
+Thumbs.db
