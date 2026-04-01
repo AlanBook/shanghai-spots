@@ -1247,15 +1247,24 @@ const App = {
                                 
                                 const route = results.Wl[0];
                                 console.log('路线对象:', route);
+                                console.log('路线对象属性:', Object.keys(route));
+                                console.log('路线对象wg:', route.wg);
+                                console.log('路线对象steps:', route.steps);
                                 
                                 if (route.steps && route.steps.length > 0) {
+                                    console.log('步骤数量:', route.steps.length);
                                     const optimizedOrder = [0];
                                     
                                     for (let i = 0; i < route.steps.length; i++) {
                                         const step = route.steps[i];
                                         console.log('步骤', i, ':', step);
+                                        console.log('步骤属性:', Object.keys(step));
+                                        console.log('步骤waypoints:', step.waypoints);
                                         if (step.waypoints && step.waypoints.length > 0) {
                                             step.waypoints.forEach(waypoint => {
+                                                console.log('途经点:', waypoint);
+                                                console.log('途经点属性:', Object.keys(waypoint));
+                                                console.log('途经点坐标:', waypoint.lng, waypoint.lat);
                                                 const wpIndex = points.findIndex(p => 
                                                     Math.abs(p.lng - waypoint.lng) < 0.0001 && 
                                                     Math.abs(p.lat - waypoint.lat) < 0.0001
@@ -1268,16 +1277,63 @@ const App = {
                                         }
                                     }
                                     
+                                    console.log('优化后的顺序:', optimizedOrder);
                                     optimizedOrder.push(points.length - 1);
+                                    console.log('添加终点后的顺序:', optimizedOrder);
                                     
                                     optimizedSpots.length = 0;
                                     optimizedOrder.forEach(index => {
                                         if (index >= 0 && index < spotInfos.length) {
                                             optimizedSpots.push(spotInfos[index]);
+                                            console.log('添加景点:', spotInfos[index].name);
                                         }
                                     });
                                     
                                     console.log('优化后的景点顺序:', optimizedSpots.map(s => s.name));
+                                } else if (route.wg && route.wg.length > 0) {
+                                    console.log('使用wg属性作为路线信息');
+                                    const path = route.wg[0];
+                                    console.log('路径对象:', path);
+                                    console.log('路径对象属性:', Object.keys(path));
+                                    console.log('路径steps:', path.steps);
+                                    
+                                    if (path.steps && path.steps.length > 0) {
+                                        console.log('步骤数量:', path.steps.length);
+                                        const optimizedOrder = [0];
+                                        
+                                        for (let i = 0; i < path.steps.length; i++) {
+                                            const step = path.steps[i];
+                                            console.log('步骤', i, ':', step);
+                                            console.log('步骤waypoints:', step.waypoints);
+                                            if (step.waypoints && step.waypoints.length > 0) {
+                                                step.waypoints.forEach(waypoint => {
+                                                    console.log('途经点:', waypoint);
+                                                    const wpIndex = points.findIndex(p => 
+                                                        Math.abs(p.lng - waypoint.lng) < 0.0001 && 
+                                                        Math.abs(p.lat - waypoint.lat) < 0.0001
+                                                    );
+                                                    console.log('找到途经点索引:', wpIndex);
+                                                    if (wpIndex > 0 && wpIndex < points.length - 1 && !optimizedOrder.includes(wpIndex)) {
+                                                        optimizedOrder.push(wpIndex);
+                                                    }
+                                                });
+                                            }
+                                        }
+                                        
+                                        console.log('优化后的顺序:', optimizedOrder);
+                                        optimizedOrder.push(points.length - 1);
+                                        console.log('添加终点后的顺序:', optimizedOrder);
+                                        
+                                        optimizedSpots.length = 0;
+                                        optimizedOrder.forEach(index => {
+                                            if (index >= 0 && index < spotInfos.length) {
+                                                optimizedSpots.push(spotInfos[index]);
+                                                console.log('添加景点:', spotInfos[index].name);
+                                            }
+                                        });
+                                        
+                                        console.log('优化后的景点顺序:', optimizedSpots.map(s => s.name));
+                                    }
                                 }
                             }
                         }
