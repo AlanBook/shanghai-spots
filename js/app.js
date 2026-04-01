@@ -1239,20 +1239,20 @@ const App = {
                         console.log('结果对象:', results);
                         
                         if (drivingRoute.getStatus() === BMAP_STATUS_SUCCESS) {
-                            const route = results.getRoute(0);
-                            console.log('路线对象:', route);
+                            console.log('路线规划成功');
+                            console.log('路线数组:', results.Wl);
                             
-                            if (route && route.paths && route.paths.length > 0) {
+                            if (results.Wl && results.Wl.length > 0) {
                                 console.log('路线规划成功，优化景点顺序');
                                 
-                                const path = route.paths[0];
-                                console.log('路径对象:', path);
+                                const route = results.Wl[0];
+                                console.log('路线对象:', route);
                                 
-                                if (path.steps && path.steps.length > 0) {
+                                if (route.steps && route.steps.length > 0) {
                                     const optimizedOrder = [0];
                                     
-                                    for (let i = 0; i < path.steps.length; i++) {
-                                        const step = path.steps[i];
+                                    for (let i = 0; i < route.steps.length; i++) {
+                                        const step = route.steps[i];
                                         console.log('步骤', i, ':', step);
                                         if (step.waypoints && step.waypoints.length > 0) {
                                             step.waypoints.forEach(waypoint => {
