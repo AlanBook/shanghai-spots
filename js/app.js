@@ -1295,6 +1295,10 @@ const App = {
                 });
 
                 console.log('开始搜索路线...');
+                
+                const waypointsStr = waypoints.map(p => `${p.lat.toFixed(6)},${p.lng.toFixed(6)}`).join('|');
+                console.log('途经点字符串:', waypointsStr);
+                
                 drivingRoute.search(start, end, { waypoints: waypoints });
             } catch (error) {
                 console.error('路线优化失败:', error);
