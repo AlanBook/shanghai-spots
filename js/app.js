@@ -1231,7 +1231,7 @@ const App = {
 
                 const optimizedSpots = [];
                 
-                const drivingRoute = new BMap.DrivingRoute(start, {
+                const drivingRoute = new BMap.DrivingRoute("上海", {
                     renderOptions: { map: null, panel: null, autoViewport: false },
                     onSearchComplete: function(results) {
                         console.log('路线规划回调被调用');
