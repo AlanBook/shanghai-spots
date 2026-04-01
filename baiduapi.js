@@ -1,184 +1,779 @@
-/**
- * 百度地图驾车路线规划 API 调用模块
- * 基于官方文档示例实现
- * 文档地址：https://lbsyun.baidu.com/docs/webapi?title=directionv2/webservice-direction/dirve
- */
-
-const BaiduRouteAPI = {
-    /**
-     * API 基础地址
-     */
-    host: 'https://api.map.baidu.com',
-    
-    /**
-     * 接口地址
-     */
-    uri: '/direction/v2/driving',
-    
-    /**
-     * 百度地图 AK
-     */
-    ak: 'S419BrfiTWEi88HtzgzMVtf8D4nR6ZR3',
-    
-    /**
-     * 计算两点之间的距离（Haversine 公式）
-     * @param {number} lat1 - 起点纬度
-     * @param {number} lng1 - 起点经度
-     * @param {number} lat2 - 终点纬度
-     * @param {number} lng2 - 终点经度
-     * @returns {number} 距离（米）
-     */
-    calculateDistance: function(lat1, lng1, lat2, lng2) {
-        const R = 6371000; // 地球半径（米）
-        const dLat = (lat2 - lat1) * Math.PI / 180;
-        const dLng = (lng2 - lng1) * Math.PI / 180;
-        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                  Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-                  Math.sin(dLng / 2) * Math.sin(dLng / 2);
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        return R * c;
-    },
-    
-    /**
-     * 调用驾车路线规划 API（使用 Fetch API）
-     * @param {string} origin - 起点坐标（格式：纬度，经度）
-     * @param {string} destination - 终点坐标（格式：纬度，经度）
-     * @param {Array} waypoints - 途经点数组（可选，格式：["纬度，经度", "纬度，经度"]）
-     * @returns {Promise} 返回路线规划结果
-     */
-    planRoute: async function(origin, destination, waypoints = []) {
-        const url = this.host + this.uri;
-        
-        const params = new URLSearchParams({
-            origin: origin,
-            destination: destination,
-            ak: this.ak,
-            coordination: 'wgs84' // 使用 WGS84 坐标
-        });
-        
-        // 添加途经点
-        if (waypoints && waypoints.length > 0) {
-            params.append('waypoints', waypoints.join('|'));
-        }
-        
-        try {
-            const response = await fetch(`${url}?${params.toString()}`);
-            const data = await response.json();
-            
-            console.log('API 返回结果:', data);
-            
-            if (data.status === 0) {
-                console.log('路线规划成功');
-                console.log('总距离:', data.result.routes[0].distance, '米');
-                console.log('总时间:', data.result.routes[0].duration, '秒');
-                console.log('步骤数量:', data.result.routes[0].steps.length);
-                return {
-                    success: true,
-                    data: data
-                };
-            } else {
-                console.error('路线规划失败:', data.message);
-                return {
-                    success: false,
-                    message: data.message,
-                    status: data.status
-                };
-            }
-        } catch (error) {
-            console.error('API 调用失败:', error);
-            return {
-                success: false,
-                message: error.message
-            };
-        }
-    },
-    
-    /**
-     * 优化路线顺序（基于最近邻算法）
-     * @param {Array} spots - 景点数组（包含 location.lat 和 location.lng）
-     * @returns {Array} 优化后的景点顺序
-     */
-    optimizeRoute: function(spots) {
-        if (!spots || spots.length < 2) {
-            return spots;
-        }
-        
-        // 如果只有 2 个点，直接返回
-        if (spots.length === 2) {
-            return spots;
-        }
-        
-        console.log('开始路线优化，景点数量:', spots.length);
-        
-        const optimized = [spots[0]]; // 起点
-        const remaining = spots.slice(1); // 剩余的点
-        
-        while (remaining.length > 0) {
-            const lastPoint = optimized[optimized.length - 1];
-            let nearestIndex = 0;
-            let nearestDistance = Infinity;
-            
-            // 找到最近的点
-            for (let i = 0; i < remaining.length; i++) {
-                const distance = this.calculateDistance(
-                    lastPoint.location.lat,
-                    lastPoint.location.lng,
-                    remaining[i].location.lat,
-                    remaining[i].location.lng
-                );
-                
-                if (distance < nearestDistance) {
-                    nearestDistance = distance;
-                    nearestIndex = i;
+{
+    "status": 0,
+    "message": "成功",
+    "type": 2,
+    "result": {
+      "restriction": "",
+      "total": 1,
+      "session_id": "{"codr":"1424d73fdffaac34791b007bd9c5c3cd_40.00547995022,116.33267814409_39.930670852142,116.44599163213_6","loc":"nj"}@564",
+      "routes": [
+        {
+          "origin": {
+            "lng": 116.339646,
+            "lat": 40.010519
+          },
+          "destination": {
+            "lng": 116.452389,
+            "lat": 39.936406
+          },
+          "tag": "时间少",
+          "mrsl": ""g":"0_1","w":"AAAA","p":"1","label":"8","s":"0","seq":"0"",
+          "route_md5": "7242503eaa561373b57b2006ea8eb5b2",
+          "traffic_light": 13,
+          "distance": 17585,
+          "duration": 2052,
+          "taxi_fee": 51,
+          "steps": [
+            {
+              "leg_index": 0,
+              "link_num": 2,
+              "road_name": "无名路",
+              "direction": 3,
+              "distance": 104,
+              "duration": 27,
+              "road_type": 6,
+              "toll": 0,
+              "toll_distance": 0,
+              "adcodes": "110000",
+              "traffic_condition": [
+                {
+                  "status": 0,
+                  "geo_cnt": 2,
+                  "distance": 105.1
                 }
+              ],
+              "path": "116.339646,40.010519;116.340006,40.010546;116.340878,40.010561",
+              "start_location": {
+                "lng": 116.339646,
+                "lat": 40.010519
+              },
+              "end_location": {
+                "lng": 116.340878,
+                "lat": 40.010561
+              }
+            },
+            {
+              "leg_index": 0,
+              "link_num": 2,
+              "road_name": "明德路",
+              "direction": 6,
+              "distance": 132,
+              "duration": 26,
+              "road_type": 6,
+              "toll": 0,
+              "toll_distance": 0,
+              "adcodes": "110000",
+              "traffic_condition": [
+                {
+                  "status": 0,
+                  "geo_cnt": 2,
+                  "distance": 132.57
+                }
+              ],
+              "path": "116.340878,40.010561;116.340929,40.009611;116.340919,40.009371",
+              "start_location": {
+                "lng": 116.340878,
+                "lat": 40.010561
+              },
+              "end_location": {
+                "lng": 116.340919,
+                "lat": 40.009371
+              }
+            },
+            {
+              "leg_index": 0,
+              "link_num": 6,
+              "road_name": "无名路",
+              "direction": 3,
+              "distance": 228,
+              "duration": 48,
+              "road_type": 6,
+              "toll": 0,
+              "toll_distance": 0,
+              "adcodes": "110000",
+              "traffic_condition": [
+                {
+                  "status": 0,
+                  "geo_cnt": 6,
+                  "distance": 229.63
+                }
+              ],
+              "path": "116.340919,40.009371;116.341881,40.009337;116.342381,40.009305;116.342491,40.009304;116.343343,40.009311;116.343513,40.009321;116.343613,40.009320",
+              "start_location": {
+                "lng": 116.340919,
+                "lat": 40.009371
+              },
+              "end_location": {
+                "lng": 116.343613,
+                "lat": 40.00932
+              }
+            },
+            {
+              "leg_index": 0,
+              "link_num": 5,
+              "road_name": "荷清路",
+              "direction": 6,
+              "distance": 353,
+              "duration": 97,
+              "road_type": 5,
+              "toll": 0,
+              "toll_distance": 0,
+              "adcodes": "110000",
+              "traffic_condition": [
+                {
+                  "status": 1,
+                  "geo_cnt": 5,
+                  "distance": 353.09
+                }
+              ],
+              "path": "116.343613,40.009320;116.343633,40.008830;116.343684,40.007600;116.343694,40.007110;116.343704,40.007050;116.343745,40.006151",
+              "start_location": {
+                "lng": 116.343613,
+                "lat": 40.00932
+              },
+              "end_location": {
+                "lng": 116.343745,
+                "lat": 40.006151
+              }
+            },
+            {
+              "leg_index": 0,
+              "link_num": 1,
+              "road_name": "无名路",
+              "direction": 5,
+              "distance": 13,
+              "duration": 4,
+              "road_type": 6,
+              "toll": 0,
+              "toll_distance": 0,
+              "adcodes": "110000",
+              "traffic_condition": [
+                {
+                  "status": 1,
+                  "geo_cnt": 1,
+                  "distance": 12.62
+                }
+              ],
+              "path": "116.343745,40.006151;116.343835,40.006060",
+              "start_location": {
+                "lng": 116.343745,
+                "lat": 40.006151
+              },
+              "end_location": {
+                "lng": 116.343835,
+                "lat": 40.00606
+              }
+            },
+            {
+              "leg_index": 0,
+              "link_num": 62,
+              "road_name": "清华东路",
+              "direction": 3,
+              "distance": 2778,
+              "duration": 415,
+              "road_type": 4,
+              "toll": 0,
+              "toll_distance": 0,
+              "adcodes": "110000",
+              "traffic_condition": [
+                {
+                  "status": 1,
+                  "geo_cnt": 63,
+                  "distance": 2779.95
+                }
+              ],
+              "path": "116.343835,40.006060;116.343945,40.006060;116.344515,40.006089;116.344806,40.006148;116.345106,40.006198;116.345226,40.006217;116.346186,40.006247;116.346546,40.006267;116.346656,40.006257;116.346916,40.006267;116.347256,40.006267;116.347716,40.006297;116.349015,40.006329;116.349535,40.006350;116.350094,40.006362;116.350504,40.006374;116.350553,40.006374;116.351622,40.006408;116.351941,40.006420;116.352001,40.006420;116.353109,40.006466;116.354286,40.006504;116.354975,40.006529;116.355374,40.006552;116.355573,40.006564;116.357118,40.006608;116.357617,40.006623;116.358384,40.006651;116.358922,40.006676;116.359091,40.006688;116.359251,40.006690;116.359460,40.006692;116.359629,40.006704;116.359898,40.006708;116.360555,40.006745;116.360934,40.006760;116.361631,40.006799;116.362566,40.006841;116.362944,40.006857;116.364009,40.006912;116.364646,40.006941;116.366745,40.007034;116.367192,40.007061;116.367590,40.007077;116.368048,40.007095;116.368197,40.007097;116.368286,40.007109;116.368465,40.007112;116.369966,40.007187;116.371239,40.007240;116.371328,40.007241;116.371427,40.007243;116.371467,40.007244;116.371706,40.007248;116.371905,40.007251;116.372541,40.007283;116.372819,40.007298;116.373276,40.007316;116.373544,40.007341;116.373604,40.007342;116.374121,40.007361;116.374796,40.007394;116.375909,40.007454;116.376267,40.007461",
+              "start_location": {
+                "lng": 116.343835,
+                "lat": 40.00606
+              },
+              "end_location": {
+                "lng": 116.376267,
+                "lat": 40.007461
+              }
+            },
+            {
+              "leg_index": 0,
+              "link_num": 5,
+              "road_name": "G6辅路",
+              "direction": 5,
+              "distance": 353,
+              "duration": 36,
+              "road_type": 5,
+              "toll": 0,
+              "toll_distance": 0,
+              "adcodes": "110000",
+              "traffic_condition": [
+                {
+                  "status": 1,
+                  "geo_cnt": 5,
+                  "distance": 353.68
+                }
+              ],
+              "path": "116.376267,40.007461;116.376655,40.006998;116.376665,40.006978;116.377421,40.006022;116.377828,40.005490;116.378375,40.004770",
+              "start_location": {
+                "lng": 116.376267,
+                "lat": 40.007461
+              },
+              "end_location": {
+                "lng": 116.378375,
+                "lat": 40.00477
+              }
+            },
+            {
+              "leg_index": 0,
+              "link_num": 1,
+              "road_name": "无名路",
+              "direction": 4,
+              "distance": 47,
+              "duration": 5,
+              "road_type": 6,
+              "toll": 0,
+              "toll_distance": 0,
+              "adcodes": "110000",
+              "traffic_condition": [
+                {
+                  "status": 1,
+                  "geo_cnt": 1,
+                  "distance": 46.84
+                }
+              ],
+              "path": "116.378375,40.004770;116.378783,40.004497",
+              "start_location": {
+                "lng": 116.378375,
+                "lat": 40.00477
+              },
+              "end_location": {
+                "lng": 116.378783,
+                "lat": 40.004497
+              }
+            },
+            {
+              "leg_index": 0,
+              "link_num": 25,
+              "road_name": "京藏高速",
+              "direction": 5,
+              "distance": 3436,
+              "duration": 190,
+              "road_type": 0,
+              "toll": 0,
+              "toll_distance": 0,
+              "adcodes": "110000",
+              "traffic_condition": [
+                {
+                  "status": 1,
+                  "geo_cnt": 45,
+                  "distance": 3441.64
+                }
+              ],
+              "path": "116.378783,40.004497;116.379877,40.003088;116.380055,40.002871;116.381229,40.001362;116.381487,40.001037;116.382750,39.999399;116.383277,39.998578;116.383466,39.998191;116.383635,39.997784;116.383864,39.997078;116.384162,39.996093;116.384579,39.994700;116.384689,39.994342;116.385066,39.993058;116.385384,39.991904;116.385543,39.991336;116.385643,39.990988;116.385961,39.989933;116.386060,39.989594;116.386775,39.987085;116.386924,39.986558;116.387053,39.986080;116.387281,39.985263;116.387430,39.984725;116.387490,39.984496;116.387530,39.984337;116.387609,39.983978;116.387639,39.983798;116.387668,39.983629;116.387688,39.983409;116.387718,39.983169;116.387718,39.982579;116.387697,39.982169;116.387677,39.981988;116.387617,39.981347;116.387547,39.980776;116.387457,39.980035;116.387437,39.979854;116.387367,39.979253;116.387327,39.978932;116.387227,39.978101;116.387197,39.977830;116.387067,39.976728;116.386876,39.975204;116.386866,39.975104;116.386856,39.975064",
+              "start_location": {
+                "lng": 116.378783,
+                "lat": 40.004497
+              },
+              "end_location": {
+                "lng": 116.386856,
+                "lat": 39.975064
+              }
+            },
+            {
+              "leg_index": 0,
+              "link_num": 9,
+              "road_name": "京青线",
+              "direction": 6,
+              "distance": 354,
+              "duration": 21,
+              "road_type": 1,
+              "toll": 0,
+              "toll_distance": 0,
+              "adcodes": "110000",
+              "traffic_condition": [
+                {
+                  "status": 1,
+                  "geo_cnt": 15,
+                  "distance": 354.35
+                }
+              ],
+              "path": "116.386856,39.975064;116.386816,39.974673;116.386806,39.974573;116.386796,39.974433;116.386776,39.974292;116.386746,39.973992;116.386716,39.973791;116.386696,39.973601;116.386676,39.973451;116.386666,39.973320;116.386656,39.973240;116.386626,39.973000;116.386586,39.972669;116.386545,39.972298;116.386515,39.972048;116.386485,39.971887",
+              "start_location": {
+                "lng": 116.386856,
+                "lat": 39.975064
+              },
+              "end_location": {
+                "lng": 116.386485,
+                "lat": 39.971887
+              }
+            },
+            {
+              "leg_index": 0,
+              "link_num": 12,
+              "road_name": "德胜门外大街",
+              "direction": 6,
+              "distance": 1553,
+              "duration": 207,
+              "road_type": 4,
+              "toll": 0,
+              "toll_distance": 0,
+              "adcodes": "110000",
+              "traffic_condition": [
+                {
+                  "status": 1,
+                  "geo_cnt": 4,
+                  "distance": 509.71
+                },
+                {
+                  "status": 3,
+                  "geo_cnt": 8,
+                  "distance": 261.33
+                },
+                {
+                  "status": 2,
+                  "geo_cnt": 11,
+                  "distance": 784.15
+                }
+              ],
+              "path": "116.386485,39.971887;116.386435,39.971376;116.386295,39.970284;116.386255,39.969933;116.385944,39.967317;116.385914,39.967056;116.385894,39.966876;116.385874,39.966666;116.385803,39.966084;116.385753,39.965683;116.385723,39.965293;116.385713,39.965103;116.385703,39.964972;116.385693,39.964752;116.385682,39.964282;116.385672,39.963661;116.385701,39.962542;116.385700,39.962311;116.385738,39.960231;116.385748,39.960102;116.385748,39.960082;116.385767,39.958791;116.385756,39.958271;116.385696,39.957930",
+              "start_location": {
+                "lng": 116.386485,
+                "lat": 39.971887
+              },
+              "end_location": {
+                "lng": 116.385696,
+                "lat": 39.95793
+              }
+            },
+            {
+              "leg_index": 0,
+              "link_num": 3,
+              "road_name": "无名路",
+              "direction": 7,
+              "distance": 49,
+              "duration": 13,
+              "road_type": 6,
+              "toll": 0,
+              "toll_distance": 0,
+              "adcodes": "110000",
+              "traffic_condition": [
+                {
+                  "status": 2,
+                  "geo_cnt": 2,
+                  "distance": 38.91
+                },
+                {
+                  "status": 1,
+                  "geo_cnt": 1,
+                  "distance": 10.27
+                }
+              ],
+              "path": "116.385696,39.957930;116.385597,39.957718;116.385547,39.957597;116.385487,39.957516",
+              "start_location": {
+                "lng": 116.385696,
+                "lat": 39.95793
+              },
+              "end_location": {
+                "lng": 116.385487,
+                "lat": 39.957516
+              }
+            },
+            {
+              "leg_index": 0,
+              "link_num": 6,
+              "road_name": "德胜门外大街",
+              "direction": 7,
+              "distance": 188,
+              "duration": 29,
+              "road_type": 4,
+              "toll": 0,
+              "toll_distance": 0,
+              "adcodes": "110000",
+              "traffic_condition": [
+                {
+                  "status": 1,
+                  "geo_cnt": 9,
+                  "distance": 189.41
+                }
+              ],
+              "path": "116.385487,39.957516;116.385318,39.957294;116.385198,39.957062;116.385168,39.956921;116.385158,39.956861;116.385148,39.956771;116.385148,39.956581;116.385128,39.956160;116.385098,39.956010;116.385058,39.955869",
+              "start_location": {
+                "lng": 116.385487,
+                "lat": 39.957516
+              },
+              "end_location": {
+                "lng": 116.385058,
+                "lat": 39.955869
+              }
+            },
+            {
+              "leg_index": 0,
+              "link_num": 16,
+              "road_name": "德胜门桥",
+              "direction": 5,
+              "distance": 407,
+              "duration": 69,
+              "road_type": 4,
+              "toll": 0,
+              "toll_distance": 0,
+              "adcodes": "110000",
+              "traffic_condition": [
+                {
+                  "status": 1,
+                  "geo_cnt": 25,
+                  "distance": 406.9
+                }
+              ],
+              "path": "116.385058,39.955869;116.385197,39.955741;116.385426,39.955465;116.385445,39.955445;116.385485,39.955336;116.385495,39.955176;116.385505,39.954876;116.385514,39.954726;116.385564,39.954637;116.385654,39.954558;116.385733,39.954510;116.385823,39.954491;116.385912,39.954463;116.386071,39.954515;116.386141,39.954546;116.386191,39.954577;116.386230,39.954608;116.386310,39.954749;116.386489,39.954752;116.386569,39.954753;116.387076,39.954771;116.387534,39.954788;116.387653,39.954790;116.387882,39.954804;116.388160,39.954878;116.388280,39.954920",
+              "start_location": {
+                "lng": 116.385058,
+                "lat": 39.955869
+              },
+              "end_location": {
+                "lng": 116.38828,
+                "lat": 39.95492
+              }
+            },
+            {
+              "leg_index": 0,
+              "link_num": 6,
+              "road_name": "德胜门东大街",
+              "direction": 3,
+              "distance": 424,
+              "duration": 41,
+              "road_type": 4,
+              "toll": 0,
+              "toll_distance": 0,
+              "adcodes": "110000",
+              "traffic_condition": [
+                {
+                  "status": 1,
+                  "geo_cnt": 7,
+                  "distance": 425.08
+                }
+              ],
+              "path": "116.388280,39.954920;116.388668,39.954915;116.388976,39.954920;116.389374,39.954926;116.389842,39.954932;116.389971,39.954944;116.391136,39.954970;116.393237,39.955006",
+              "start_location": {
+                "lng": 116.38828,
+                "lat": 39.95492
+              },
+              "end_location": {
+                "lng": 116.393237,
+                "lat": 39.955006
+              }
+            },
+            {
+              "leg_index": 0,
+              "link_num": 1,
+              "road_name": "无名路",
+              "direction": 2,
+              "distance": 37,
+              "duration": 4,
+              "road_type": 6,
+              "toll": 0,
+              "toll_distance": 0,
+              "adcodes": "110000",
+              "traffic_condition": [
+                {
+                  "status": 1,
+                  "geo_cnt": 1,
+                  "distance": 36.75
+                }
+              ],
+              "path": "116.393237,39.955006;116.393626,39.955150",
+              "start_location": {
+                "lng": 116.393237,
+                "lat": 39.955006
+              },
+              "end_location": {
+                "lng": 116.393626,
+                "lat": 39.95515
+              }
+            },
+            {
+              "leg_index": 0,
+              "link_num": 29,
+              "road_name": "北二环",
+              "direction": 3,
+              "distance": 3896,
+              "duration": 233,
+              "road_type": 1,
+              "toll": 0,
+              "toll_distance": 0,
+              "adcodes": "110000",
+              "traffic_condition": [
+                {
+                  "status": 1,
+                  "geo_cnt": 45,
+                  "distance": 3896.74
+                }
+              ],
+              "path": "116.393626,39.955150;116.395529,39.955191;116.396107,39.955196;116.396266,39.955198;116.397373,39.955227;116.397822,39.955231;116.398300,39.955235;116.398689,39.955238;116.399647,39.955254;116.399817,39.955255;116.400475,39.955269;116.401054,39.955272;116.401973,39.955276;116.403671,39.955312;116.404930,39.955325;116.406790,39.955326;116.409942,39.955350;116.411514,39.955353;116.411815,39.955352;116.412195,39.955350;116.417028,39.955363;116.417801,39.955385;116.419306,39.955409;116.420762,39.955442;116.421425,39.955453;116.422912,39.955483;116.423113,39.955481;116.423314,39.955488;116.424590,39.955509;116.426390,39.955552;116.426692,39.955557;116.426732,39.955556;116.427084,39.955561;116.428341,39.955580;116.430765,39.955629;116.431942,39.955649;116.432234,39.955643;116.433240,39.955665;116.433693,39.955667;116.434478,39.955673;116.435273,39.955689;116.437104,39.955696;116.437567,39.955637;116.438472,39.955381;116.438784,39.955235;116.439166,39.954998",
+              "start_location": {
+                "lng": 116.393626,
+                "lat": 39.95515
+              },
+              "end_location": {
+                "lng": 116.439166,
+                "lat": 39.954998
+              }
+            },
+            {
+              "leg_index": 0,
+              "link_num": 9,
+              "road_name": "东二环",
+              "direction": 4,
+              "distance": 1235,
+              "duration": 196,
+              "road_type": 1,
+              "toll": 0,
+              "toll_distance": 0,
+              "adcodes": "110000",
+              "traffic_condition": [
+                {
+                  "status": 1,
+                  "geo_cnt": 3,
+                  "distance": 122.7
+                },
+                {
+                  "status": 3,
+                  "geo_cnt": 3,
+                  "distance": 315.55
+                },
+                {
+                  "status": 4,
+                  "geo_cnt": 7,
+                  "distance": 473.21
+                },
+                {
+                  "status": 3,
+                  "geo_cnt": 3,
+                  "distance": 326.34
+                }
+              ],
+              "path": "116.439166,39.954998;116.439367,39.954844;116.439659,39.954559;116.439981,39.954083;116.440151,39.953670;116.440241,39.953078;116.440190,39.951269;116.440190,39.951029;116.440190,39.950839;116.440169,39.949929;116.440169,39.949879;116.440168,39.949489;116.440187,39.947378;116.440217,39.947017;116.440227,39.946727;116.440267,39.945396;116.440337,39.944085",
+              "start_location": {
+                "lng": 116.439166,
+                "lat": 39.954998
+              },
+              "end_location": {
+                "lng": 116.440337,
+                "lat": 39.944085
+              }
+            },
+            {
+              "leg_index": 0,
+              "link_num": 1,
+              "road_name": "无名路",
+              "direction": 7,
+              "distance": 31,
+              "duration": 13,
+              "road_type": 6,
+              "toll": 0,
+              "toll_distance": 0,
+              "adcodes": "110000",
+              "traffic_condition": [
+                {
+                  "status": 3,
+                  "geo_cnt": 1,
+                  "distance": 31
+                }
+              ],
+              "path": "116.440337,39.944085;116.440176,39.943837",
+              "start_location": {
+                "lng": 116.440337,
+                "lat": 39.944085
+              },
+              "end_location": {
+                "lng": 116.440176,
+                "lat": 39.943837
+              }
+            },
+            {
+              "leg_index": 0,
+              "link_num": 12,
+              "road_name": "东直门南大街",
+              "direction": 6,
+              "distance": 428,
+              "duration": 85,
+              "road_type": 4,
+              "toll": 0,
+              "toll_distance": 0,
+              "adcodes": "110000",
+              "traffic_condition": [
+                {
+                  "status": 1,
+                  "geo_cnt": 5,
+                  "distance": 133.67
+                },
+                {
+                  "status": 2,
+                  "geo_cnt": 9,
+                  "distance": 293.82
+                }
+              ],
+              "path": "116.440176,39.943837;116.440196,39.943417;116.440215,39.943017;116.440215,39.942927;116.440215,39.942817;116.440225,39.942636;116.440225,39.942586;116.440245,39.941936;116.440275,39.941655;116.440205,39.941627;116.440165,39.941547;116.440165,39.940997;116.440185,39.940687;116.440184,39.940197;116.440164,39.940037",
+              "start_location": {
+                "lng": 116.440176,
+                "lat": 39.943837
+              },
+              "end_location": {
+                "lng": 116.440164,
+                "lat": 39.940037
+              }
+            },
+            {
+              "leg_index": 0,
+              "link_num": 15,
+              "road_name": "东四十条桥",
+              "direction": 8,
+              "distance": 227,
+              "duration": 44,
+              "road_type": 4,
+              "toll": 0,
+              "toll_distance": 0,
+              "adcodes": "110000",
+              "traffic_condition": [
+                {
+                  "status": 1,
+                  "geo_cnt": 17,
+                  "distance": 230.12
+                }
+              ],
+              "path": "116.440164,39.940037;116.440134,39.940018;116.439893,39.939822;116.439872,39.939742;116.439883,39.939552;116.439923,39.939431;116.439983,39.939360;116.440104,39.939268;116.440214,39.939226;116.440255,39.939205;116.440345,39.939194;116.440386,39.939193;116.440879,39.939224;116.440919,39.939234;116.441040,39.939242;116.441160,39.939299;116.441341,39.939466;116.441382,39.939556",
+              "start_location": {
+                "lng": 116.440164,
+                "lat": 39.940037
+              },
+              "end_location": {
+                "lng": 116.441382,
+                "lat": 39.939556
+              }
+            },
+            {
+              "leg_index": 0,
+              "link_num": 12,
+              "road_name": "工人体育场北路",
+              "direction": 3,
+              "distance": 755,
+              "duration": 113,
+              "road_type": 4,
+              "toll": 0,
+              "toll_distance": 0,
+              "adcodes": "110000",
+              "traffic_condition": [
+                {
+                  "status": 1,
+                  "geo_cnt": 12,
+                  "distance": 754.68
+                }
+              ],
+              "path": "116.441382,39.939556;116.442036,39.939554;116.442508,39.939546;116.443142,39.939535;116.443886,39.939542;116.444953,39.939535;116.445224,39.939530;116.445445,39.939527;116.446310,39.939503;116.448783,39.939465;116.449446,39.939465;116.450049,39.939457;116.450270,39.939444",
+              "start_location": {
+                "lng": 116.441382,
+                "lat": 39.939556
+              },
+              "end_location": {
+                "lng": 116.45027,
+                "lat": 39.939444
+              }
+            },
+            {
+              "leg_index": 0,
+              "link_num": 1,
+              "road_name": "无名路",
+              "direction": 6,
+              "distance": 9,
+              "duration": 2,
+              "road_type": 6,
+              "toll": 0,
+              "toll_distance": 0,
+              "adcodes": "110000",
+              "traffic_condition": [
+                {
+                  "status": 3,
+                  "geo_cnt": 1,
+                  "distance": 8.91
+                }
+              ],
+              "path": "116.450270,39.939444;116.450270,39.939364",
+              "start_location": {
+                "lng": 116.45027,
+                "lat": 39.939444
+              },
+              "end_location": {
+                "lng": 116.45027,
+                "lat": 39.939364
+              }
+            },
+            {
+              "leg_index": 0,
+              "link_num": 4,
+              "road_name": "工人体育场北路辅路",
+              "direction": 3,
+              "distance": 135,
+              "duration": 32,
+              "road_type": 7,
+              "toll": 0,
+              "toll_distance": 0,
+              "adcodes": "110000",
+              "traffic_condition": [
+                {
+                  "status": 2,
+                  "geo_cnt": 1,
+                  "distance": 8.54
+                },
+                {
+                  "status": 0,
+                  "geo_cnt": 3,
+                  "distance": 127.19
+                }
+              ],
+              "path": "116.450270,39.939364;116.450371,39.939362;116.451174,39.939362;116.451375,39.939359;116.451867,39.939353",
+              "start_location": {
+                "lng": 116.45027,
+                "lat": 39.939364
+              },
+              "end_location": {
+                "lng": 116.451867,
+                "lat": 39.939353
+              }
+            },
+            {
+              "leg_index": 0,
+              "link_num": 14,
+              "road_name": "无名路",
+              "direction": 6,
+              "distance": 413,
+              "duration": 102,
+              "road_type": 6,
+              "toll": 0,
+              "toll_distance": 0,
+              "adcodes": "110000",
+              "traffic_condition": [
+                {
+                  "status": 0,
+                  "geo_cnt": 19,
+                  "distance": 415.44
+                }
+              ],
+              "path": "116.451867,39.939353;116.451867,39.939313;116.451867,39.939153;116.451877,39.939073;116.451887,39.938972;116.452490,39.938945;116.452681,39.938943;116.452731,39.938882;116.452701,39.938502;116.452671,39.938433;116.452661,39.938293;116.452721,39.938212;116.452821,39.938021;116.452982,39.937809;116.452691,39.937532;116.452530,39.937314;116.452399,39.936996;116.452359,39.936696;116.452349,39.936597;116.452389,39.936406",
+              "start_location": {
+                "lng": 116.451867,
+                "lat": 39.939353
+              },
+              "end_location": {
+                "lng": 116.452389,
+                "lat": 39.936406
+              }
             }
-            
-            // 添加最近的点到优化路线
-            optimized.push(remaining[nearestIndex]);
-            remaining.splice(nearestIndex, 1);
+          ],
+          "restriction_info": {
+            "status": 0,
+            "desc": ""
+          },
+          "toll": 0,
+          "toll_distance": 0,
+          "route_id": "v1_1424d73fdffaac34791b007bd9c5c3cd_82e2f3a503e525b55a17bb82901143782ed49bafcf3770e512609186415300dccac3c279f2703472d2a138e2fa717c1583de0b2a95efb8b9e7b0fb0886171139491ac39a5ef756434860ac42f6c627ab95467f230b78ebc34eff1d803040fd126cf3a5f0b3abd940b33f961e839cc4c5f44cc0d0409b1c59915bada6ca86e5e7ef3608cd2b4d9e4660f75cbe7f9d740c_7242503eaa561373b57b2006ea8eb5b2_nonavi"
         }
-        
-        console.log('优化后的景点顺序:', optimized.map(s => s.name));
-        return optimized;
-    },
-    
-    /**
-     * 提取路线中的关键信息
-     * @param {Object} routeData - API 返回的路线数据
-     * @returns {Object} 提取的关键信息
-     */
-    extractRouteInfo: function(routeData) {
-        if (!routeData || !routeData.result || !routeData.result.routes) {
-            return null;
-        }
-        
-        const route = routeData.result.routes[0];
-        
-        return {
-            distance: route.distance, // 总距离（米）
-            duration: route.duration, // 总时间（秒）
-            taxiFee: route.taxi_fee, // 出租车费用
-            trafficLightCount: route.traffic_light, // 红绿灯数量
-            stepsCount: route.steps.length, // 步骤数量
-            steps: route.steps.map(step => ({
-                roadName: step.road_name, // 道路名称
-                distance: step.distance, // 步骤距离（米）
-                duration: step.duration, // 步骤时间（秒）
-                direction: step.direction, // 方向
-                roadType: step.road_type, // 道路类型
-                startLocation: step.start_location, // 起点坐标
-                endLocation: step.end_location // 终点坐标
-            }))
-        };
+      ],
+      "holiday": ""
     }
-};
-
-// 导出模块
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = BaiduRouteAPI;
-}
-
-// 浏览器全局变量
-if (typeof window !== 'undefined') {
-    window.BaiduRouteAPI = BaiduRouteAPI;
-}
+  }
