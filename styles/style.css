@@ -125,6 +125,66 @@ header h1::after {
     font-family: 'KaiTi', '楷体', serif;
 }
 
+.header-container {
+    max-width: 1450px;
+    margin: 0 auto;
+    min-height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 0 1rem;
+}
+
+.header-titles {
+    text-align: center;
+}
+
+.theme-selector {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(212, 175, 55, 0.7);
+    border-radius: 12px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(6px);
+}
+
+.theme-selector label {
+    color: var(--shanghai-gold);
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    white-space: nowrap;
+}
+
+.theme-selector select {
+    min-height: 44px;
+    padding: 0.55rem 2rem 0.55rem 0.9rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--shanghai-navy);
+    background: var(--shanghai-cream);
+    border: 2px solid var(--shanghai-gold);
+    border-radius: 8px;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.theme-selector select:hover,
+.theme-selector select:focus {
+    background: #fff7e8;
+    border-color: #f0cc65;
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+}
+
 /* 主内容区域 */
 main {
     max-width: 1450px;
@@ -1010,6 +1070,30 @@ footer p {
 }
 
 @media (max-width: 768px) {
+    .header-container {
+        min-height: auto;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.9rem;
+    }
+
+    .theme-selector {
+        position: static;
+        transform: none;
+        width: fit-content;
+        margin: 0 auto;
+    }
+
+    .theme-selector label {
+        font-size: 0.95rem;
+    }
+
+    .theme-selector select {
+        min-height: 40px;
+        font-size: 0.95rem;
+    }
+
     .modal-body {
         padding: 2rem 1.5rem;
     }
@@ -1091,6 +1175,27 @@ footer p {
     header h1 {
         font-size: 1.8rem;
         letter-spacing: 4px;
+    }
+
+    .header-container {
+        gap: 0.7rem;
+    }
+
+    .theme-selector {
+        width: 100%;
+        justify-content: space-between;
+        padding: 0.65rem 0.7rem;
+    }
+
+    .theme-selector label {
+        font-size: 0.88rem;
+    }
+
+    .theme-selector select {
+        min-width: 148px;
+        min-height: 38px;
+        padding: 0.4rem 1.8rem 0.4rem 0.7rem;
+        font-size: 0.88rem;
     }
     
     .subtitle {

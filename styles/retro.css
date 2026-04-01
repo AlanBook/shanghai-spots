@@ -1,0 +1,389 @@
+/* 海派UI经典复古风设计 - 核心样式 */
+/* 核心配色：
+主色调: #B22222(石库门砖红), #F5F5DC(外滩米黄)
+辅助色: #FFFFF0(象牙白), #808080(老洋房灰), #D2B48C(老木棕)
+点睛色: #008B8B(孔雀蓝), #FFD700(鎏金)
+中性色: #333333(深灰黑), #666666(中灰), #FFFFFF(纯白)
+*/
+
+body.theme-retro {
+    /* 重写变量，方便一些直接继承的样式 */
+    --shanghai-navy: #333333;
+    --shanghai-dark: #333333;
+    --shanghai-gold: #FFD700;
+    --shanghai-red: #B22222;
+    --shanghai-cream: #F5F5DC;
+    --shanghai-light: #FFFFF0;
+
+    --retro-primary: #B22222;
+    --retro-primary-hover: #A01A1A;
+    --retro-primary-active: #881515;
+    
+    --retro-bg-main: #F5F5DC;
+    --retro-bg-card: #FFFFF0;
+    
+    --retro-gray: #808080;
+    --retro-brown: #D2B48C;
+    --retro-teal: #008B8B;
+    --retro-gold: #FFD700;
+    
+    --retro-text-main: #333333;
+    --retro-text-sub: #666666;
+    --retro-white: #FFFFFF;
+
+    /* 字体排版 */
+    font-family: "思源黑体", "Microsoft YaHei", "微软雅黑", sans-serif;
+    color: var(--retro-text-main);
+    background: var(--retro-bg-main);
+    background-image: none; /* 移除默认渐变和网格 */
+}
+
+/* 装饰性全屏背景（叠加复古肌理） */
+body.theme-retro::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: repeating-linear-gradient(45deg, rgba(210, 180, 140, 0.05) 0px, rgba(210, 180, 140, 0.05) 2px, transparent 2px, transparent 8px);
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* ==== 1. 页眉 & 标题 ==== */
+body.theme-retro header {
+    background: var(--retro-bg-main);
+    color: var(--retro-text-main);
+    border-bottom: 2px solid var(--retro-primary);
+    box-shadow: 0 4px 10px rgba(178, 34, 34, 0.1);
+    position: relative;
+}
+
+body.theme-retro header::before {
+    background-image: none;
+}
+
+body.theme-retro header h1 {
+    font-family: "方正行楷简体", "STXingkai", "汉仪隶书繁", "LiSu", serif;
+    color: var(--retro-primary);
+    text-shadow: none;
+    letter-spacing: 4px;
+}
+
+body.theme-retro header h1::before,
+body.theme-retro header h1::after {
+    color: var(--retro-gold);
+    content: '✤'; /* Art Deco 风格小装饰 */
+    font-size: 1.5rem;
+}
+
+body.theme-retro .subtitle {
+    color: var(--retro-text-sub);
+    font-family: "Microsoft YaHei", sans-serif;
+    text-shadow: none;
+    letter-spacing: 2px;
+}
+
+body.theme-retro .theme-selector {
+    background: var(--retro-bg-card);
+    border: 1px solid var(--retro-brown);
+    color: var(--retro-text-main);
+    box-shadow: none;
+}
+
+body.theme-retro .theme-selector select {
+    background: var(--retro-bg-card);
+    color: var(--retro-text-main);
+    border: 1px solid var(--retro-brown);
+}
+
+body.theme-retro .theme-selector select:hover {
+    background: var(--retro-bg-main);
+    box-shadow: 0 0 5px rgba(210, 180, 140, 0.5);
+}
+
+/* ==== 2. 搜索框 & 输入区域 ==== */
+body.theme-retro #scenic-list-section {
+    background: transparent;
+    box-shadow: none;
+    border: none;
+}
+
+body.theme-retro #search-input,
+body.theme-retro select {
+    background: var(--retro-bg-card);
+    border: 1px solid var(--retro-gray);
+    color: var(--retro-text-main);
+    border-radius: 4px;
+}
+
+body.theme-retro #search-input:focus,
+body.theme-retro select:focus {
+    border-color: var(--retro-primary);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(178, 34, 34, 0.1);
+}
+
+/* ==== 3. 按钮设计 ==== */
+/* 主按钮（核心操作：搜索、确认） */
+body.theme-retro #search-btn,
+body.theme-retro .confirm-route-btn {
+    background: var(--retro-primary);
+    border: 1px solid var(--retro-gold);
+    color: var(--retro-white);
+    font-weight: bold;
+    font-size: 16px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+body.theme-retro #search-btn::before, body.theme-retro #search-btn::after {
+    display: none; /* 移除默认光效 */
+}
+
+body.theme-retro #search-btn:hover,
+body.theme-retro .confirm-route-btn:hover {
+    background: var(--retro-primary-hover);
+    border: 2px solid var(--retro-gold);
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(178, 34, 34, 0.3);
+}
+
+body.theme-retro #search-btn:active,
+body.theme-retro .confirm-route-btn:active {
+    background: var(--retro-primary-active);
+    transform: scale(0.98);
+}
+
+/* 次要按钮（标签、取消、重置） */
+body.theme-retro .tag-btn,
+body.theme-retro .clear-btn,
+body.theme-retro .reset-btn,
+body.theme-retro .cancel-route-btn {
+    background: var(--retro-bg-card);
+    border: 1px solid var(--retro-brown);
+    color: var(--retro-text-main);
+    border-radius: 4px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+body.theme-retro .tag-btn:hover,
+body.theme-retro .clear-btn:hover,
+body.theme-retro .reset-btn:hover,
+body.theme-retro .cancel-route-btn:hover {
+    background: var(--retro-bg-main);
+    border-color: var(--retro-primary);
+    color: var(--retro-primary);
+}
+
+body.theme-retro .tag-btn.active {
+    background: var(--retro-primary);
+    color: var(--retro-white);
+    border-color: var(--retro-gold);
+}
+
+/* 路线设计模式按钮 (展示卡片风格) */
+body.theme-retro .route-design-btn {
+    background: var(--retro-bg-card);
+    border: 1px solid var(--retro-brown);
+    color: var(--retro-text-main);
+    border-radius: 6px;
+}
+
+body.theme-retro .route-design-btn:hover {
+    background: var(--retro-bg-main);
+    border-color: var(--retro-primary);
+    transform: scale(1.01);
+}
+
+body.theme-retro .route-design-btn.active {
+    background: var(--retro-bg-main);
+    border: 2px solid var(--retro-gold);
+    color: var(--retro-primary);
+}
+
+/* ==== 4. 卡片设计 ==== */
+body.theme-retro .spot-card {
+    background: var(--retro-bg-card);
+    border: 1px solid var(--retro-brown);
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(128, 128, 128, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    background-image: repeating-linear-gradient(90deg, rgba(210, 180, 140, 0.03) 0px, rgba(210, 180, 140, 0.03) 1px, transparent 1px, transparent 10px),
+                      repeating-linear-gradient(0deg, rgba(210, 180, 140, 0.03) 0px, rgba(210, 180, 140, 0.03) 1px, transparent 1px, transparent 10px);
+}
+
+/* 移除默认的边框和渐变 */
+body.theme-retro .spot-card::before { display: none; }
+body.theme-retro .spot-card-content::before { display: none; }
+
+body.theme-retro .spot-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--retro-primary);
+    box-shadow: 0 8px 20px rgba(178, 34, 34, 0.15);
+}
+
+/* 卡片顶部装饰 */
+body.theme-retro .spot-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--retro-primary);
+}
+
+/* 图片容器 */
+body.theme-retro .spot-card img {
+    border-bottom: 1px solid var(--retro-brown);
+}
+
+/* 卡片文本内容 */
+body.theme-retro .spot-card-content {
+    background: transparent;
+}
+
+body.theme-retro .spot-card h3 {
+    font-family: "方正行楷简体", "STXingkai", "汉仪隶书繁", "LiSu", serif;
+    color: var(--retro-primary);
+    font-size: 18px;
+    border-bottom: none;
+    margin-bottom: 8px;
+}
+
+body.theme-retro .spot-card-city {
+    color: var(--retro-text-sub);
+    font-size: 13px;
+}
+
+body.theme-retro .spot-card .description {
+    color: var(--retro-text-main);
+    line-height: 1.5;
+}
+
+/* 标签样式 */
+body.theme-retro .spot-card-tags span {
+    background: transparent;
+    border: 1px solid var(--retro-teal);
+    color: var(--retro-teal);
+    border-radius: 2px;
+    padding: 2px 6px;
+}
+
+/* 卡片内部图标按钮 (特殊按钮) */
+body.theme-retro .card-favorite-btn,
+body.theme-retro .card-map-btn {
+    background: var(--retro-bg-main);
+    border: 1px solid var(--retro-gold);
+    color: var(--retro-primary);
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+}
+
+body.theme-retro .card-favorite-btn:hover,
+body.theme-retro .card-map-btn:hover {
+    background: var(--retro-primary);
+    color: var(--retro-white);
+    transform: scale(0.95);
+    border-width: 2px;
+}
+
+body.theme-retro .spot-card.favorited .card-favorite-btn {
+    background: var(--retro-primary);
+    color: var(--retro-white);
+    border-color: var(--retro-gold);
+}
+
+/* ==== 5. 弹窗与详情 ==== */
+body.theme-retro .modal-content {
+    background: var(--retro-bg-card);
+    border: 2px solid var(--retro-gold);
+    border-radius: 8px;
+    background-image: repeating-linear-gradient(45deg, rgba(210, 180, 140, 0.03) 0px, rgba(210, 180, 140, 0.03) 2px, transparent 2px, transparent 8px);
+}
+
+body.theme-retro .modal-header {
+    border-bottom: 1px solid var(--retro-brown);
+}
+
+body.theme-retro .modal-header h2 {
+    font-family: "方正行楷简体", "STXingkai", "汉仪隶书繁", "LiSu", serif;
+    color: var(--retro-primary);
+}
+
+body.theme-retro .modal-close {
+    color: var(--retro-text-main);
+}
+body.theme-retro .modal-close:hover {
+    color: var(--retro-primary);
+}
+
+body.theme-retro .modal-section h3 {
+    color: var(--retro-primary);
+    border-left: 4px solid var(--retro-primary);
+    border-bottom: none;
+    padding-left: 12px;
+    margin-bottom: 12px;
+    font-family: "方正行楷简体", "STXingkai", "汉仪隶书繁", "LiSu", serif;
+    font-size: 18px;
+}
+
+/* 弹窗内的操作按钮 */
+body.theme-retro .modal-actions button,
+body.theme-retro .modal-actions a {
+    background: var(--retro-bg-main);
+    border: 1px solid var(--retro-brown);
+    color: var(--retro-text-main);
+    border-radius: 4px;
+}
+
+body.theme-retro .modal-actions button:hover,
+body.theme-retro .modal-actions a:hover {
+    background: var(--retro-primary);
+    color: var(--retro-white);
+    border-color: var(--retro-gold);
+}
+
+/* 浮动操作栏 */
+body.theme-retro .route-design-bar {
+    background: var(--retro-bg-card);
+    border-top: 2px solid var(--retro-primary);
+    box-shadow: 0 -4px 15px rgba(128, 128, 128, 0.2);
+}
+
+body.theme-retro .route-design-bar-content {
+    color: var(--retro-text-main);
+}
+
+/* 选中状态 */
+body.theme-retro .spot-card.route-mode.selected {
+    border: 2px solid var(--retro-primary);
+    background: var(--retro-bg-main);
+}
+body.theme-retro .spot-card.route-mode.selected::before {
+    display: none;
+}
+body.theme-retro .spot-card.selected .card-checkbox {
+    border-color: var(--retro-primary);
+    background-color: var(--retro-primary);
+}
+body.theme-retro .spot-card.selected .card-checkbox::after {
+    border-color: var(--retro-white);
+}
+
+/* 提示气泡 */
+body.theme-retro .route-design-tooltip,
+body.theme-retro .smart-route-tooltip {
+    background: var(--retro-bg-card);
+    border: 1px solid var(--retro-brown);
+    box-shadow: 0 4px 15px rgba(128, 128, 128, 0.2);
+}
+body.theme-retro .tooltip-header {
+    border-bottom: 1px solid var(--retro-brown);
+    color: var(--retro-primary);
+}
+body.theme-retro .step-icon {
+    background: var(--retro-primary);
+    color: var(--retro-white);
+}

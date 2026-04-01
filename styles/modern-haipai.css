@@ -85,22 +85,35 @@ body.theme-modern .subtitle {
 
 body.theme-modern .theme-selector {
     color: var(--modern-white);
-    background: rgba(12, 12, 45, 0.55);
-    border: 1px solid rgba(255, 105, 180, 0.5);
-    box-shadow: 0 6px 18px rgba(5, 5, 35, 0.45);
+    background: linear-gradient(135deg, rgba(14, 14, 62, 0.72) 0%, rgba(24, 24, 90, 0.72) 100%);
+    border: 1px solid rgba(255, 105, 180, 0.66);
+    box-shadow: 0 12px 26px rgba(5, 5, 35, 0.5);
     backdrop-filter: blur(8px);
+    padding: 0.82rem 1.05rem;
+    border-radius: 12px;
 }
 
 body.theme-modern .theme-selector select {
     color: var(--modern-white);
-    background: rgba(44, 44, 90, 0.88);
-    border: 1px solid rgba(255, 105, 180, 0.7);
+    background: linear-gradient(180deg, rgba(42, 42, 100, 0.94) 0%, rgba(30, 30, 82, 0.94) 100%);
+    border: 2px solid rgba(255, 105, 180, 0.75);
+    min-height: 44px;
+    min-width: 164px;
+    padding: 0.5rem 2rem 0.5rem 0.85rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+}
+
+body.theme-modern .theme-selector select option {
+    background: #1e1e52;
+    color: var(--modern-white);
 }
 
 body.theme-modern .theme-selector select:hover,
 body.theme-modern .theme-selector select:focus {
-    box-shadow: 0 0 0 2px rgba(255, 105, 180, 0.25);
-    background: rgba(28, 28, 74, 0.92);
+    box-shadow: 0 0 0 3px rgba(255, 105, 180, 0.3);
+    background: linear-gradient(180deg, rgba(34, 34, 88, 0.95) 0%, rgba(24, 24, 70, 0.95) 100%);
 }
 
 body.theme-modern #scenic-list-section {
