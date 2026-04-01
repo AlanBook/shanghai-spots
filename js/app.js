@@ -23,6 +23,41 @@ const App = {
         this.setupFavoriteButtons();
         this.setupRouteDesignMode();
         this.setupSmartRouteMode();
+        this.setupThemeSelector();
+    },
+    
+    /**
+     * 设置皮肤切换功能
+     */
+    setupThemeSelector: function() {
+        const themeSelect = document.getElementById('theme-select');
+        if (themeSelect) {
+            // 从 localStorage 读取已保存的皮肤
+            const savedTheme = localStorage.getItem('app-theme') || 'default';
+            themeSelect.value = savedTheme;
+            this.applyTheme(savedTheme);
+
+            themeSelect.addEventListener('change', (e) => {
+                const newTheme = e.target.value;
+                localStorage.setItem('app-theme', newTheme);
+                this.applyTheme(newTheme);
+            });
+        }
+    },
+
+    /**
+     * 应用皮肤样式
+     */
+    applyTheme: function(theme) {
+        // 移除所有已有的皮肤类
+        document.body.classList.remove('theme-retro', 'theme-modern');
+        
+        // 根据选择添加对应的皮肤类
+        if (theme === 'retro') {
+            document.body.classList.add('theme-retro');
+        } else if (theme === 'modern') {
+            document.body.classList.add('theme-modern');
+        }
     },
     
     /**
