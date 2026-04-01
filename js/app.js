@@ -1296,18 +1296,116 @@ const App = {
                                     console.log('路径对象:', path);
                                     console.log('路径对象属性:', Object.keys(path));
                                     console.log('路径steps:', path.steps);
+                                    console.log('路径Yr:', path.Yr);
+                                    console.log('路径Ir:', path.Ir);
                                     
                                     if (path.steps && path.steps.length > 0) {
-                                        console.log('步骤数量:', path.steps.length);
+                                        console.log('使用steps属性作为步骤信息');
+                                        const steps = path.steps;
+                                        console.log('步骤数量:', steps.length);
                                         const optimizedOrder = [0];
                                         
-                                        for (let i = 0; i < path.steps.length; i++) {
-                                            const step = path.steps[i];
+                                        for (let i = 0; i < steps.length; i++) {
+                                            const step = steps[i];
                                             console.log('步骤', i, ':', step);
-                                            console.log('步骤waypoints:', step.waypoints);
-                                            if (step.waypoints && step.waypoints.length > 0) {
-                                                step.waypoints.forEach(waypoint => {
+                                            console.log('步骤属性:', Object.keys(step));
+                                            
+                                            // 尝试从不同属性获取途经点信息
+                                            const waypoints = step.waypoints || step.waypoint || step.wayPoints || [];
+                                            console.log('步骤waypoints:', waypoints);
+                                            if (waypoints && waypoints.length > 0) {
+                                                waypoints.forEach(waypoint => {
                                                     console.log('途经点:', waypoint);
+                                                    console.log('途经点属性:', Object.keys(waypoint));
+                                                    console.log('途经点坐标:', waypoint.lng, waypoint.lat);
+                                                    const wpIndex = points.findIndex(p => 
+                                                        Math.abs(p.lng - waypoint.lng) < 0.0001 && 
+                                                        Math.abs(p.lat - waypoint.lat) < 0.0001
+                                                    );
+                                                    console.log('找到途经点索引:', wpIndex);
+                                                    if (wpIndex > 0 && wpIndex < points.length - 1 && !optimizedOrder.includes(wpIndex)) {
+                                                        optimizedOrder.push(wpIndex);
+                                                    }
+                                                });
+                                            }
+                                        }
+                                        
+                                        console.log('优化后的顺序:', optimizedOrder);
+                                        optimizedOrder.push(points.length - 1);
+                                        console.log('添加终点后的顺序:', optimizedOrder);
+                                        
+                                        optimizedSpots.length = 0;
+                                        optimizedOrder.forEach(index => {
+                                            if (index >= 0 && index < spotInfos.length) {
+                                                optimizedSpots.push(spotInfos[index]);
+                                                console.log('添加景点:', spotInfos[index].name);
+                                            }
+                                        });
+                                        
+                                        console.log('优化后的景点顺序:', optimizedSpots.map(s => s.name));
+                                    } else if (path.Yr && path.Yr.length > 0) {
+                                        console.log('使用Yr属性作为步骤信息');
+                                        const steps = path.Yr;
+                                        console.log('步骤数量:', steps.length);
+                                        const optimizedOrder = [0];
+                                        
+                                        for (let i = 0; i < steps.length; i++) {
+                                            const step = steps[i];
+                                            console.log('步骤', i, ':', step);
+                                            console.log('步骤属性:', Object.keys(step));
+                                            
+                                            // 尝试从不同属性获取途经点信息
+                                            const waypoints = step.waypoints || step.waypoint || step.wayPoints || [];
+                                            console.log('步骤waypoints:', waypoints);
+                                            if (waypoints && waypoints.length > 0) {
+                                                waypoints.forEach(waypoint => {
+                                                    console.log('途经点:', waypoint);
+                                                    console.log('途经点属性:', Object.keys(waypoint));
+                                                    console.log('途经点坐标:', waypoint.lng, waypoint.lat);
+                                                    const wpIndex = points.findIndex(p => 
+                                                        Math.abs(p.lng - waypoint.lng) < 0.0001 && 
+                                                        Math.abs(p.lat - waypoint.lat) < 0.0001
+                                                    );
+                                                    console.log('找到途经点索引:', wpIndex);
+                                                    if (wpIndex > 0 && wpIndex < points.length - 1 && !optimizedOrder.includes(wpIndex)) {
+                                                        optimizedOrder.push(wpIndex);
+                                                    }
+                                                });
+                                            }
+                                        }
+                                        
+                                        console.log('优化后的顺序:', optimizedOrder);
+                                        optimizedOrder.push(points.length - 1);
+                                        console.log('添加终点后的顺序:', optimizedOrder);
+                                        
+                                        optimizedSpots.length = 0;
+                                        optimizedOrder.forEach(index => {
+                                            if (index >= 0 && index < spotInfos.length) {
+                                                optimizedSpots.push(spotInfos[index]);
+                                                console.log('添加景点:', spotInfos[index].name);
+                                            }
+                                        });
+                                        
+                                        console.log('优化后的景点顺序:', optimizedSpots.map(s => s.name));
+                                    } else if (path.Ir && path.Ir.length > 0) {
+                                        console.log('使用Ir属性作为步骤信息');
+                                        const steps = path.Ir;
+                                        console.log('步骤数量:', steps.length);
+                                        const optimizedOrder = [0];
+                                        
+                                        for (let i = 0; i < steps.length; i++) {
+                                            const step = steps[i];
+                                            console.log('步骤', i, ':', step);
+                                            console.log('步骤属性:', Object.keys(step));
+                                            
+                                            // 尝试从不同属性获取途经点信息
+                                            const waypoints = step.waypoints || step.waypoint || step.wayPoints || [];
+                                            console.log('步骤waypoints:', waypoints);
+                                            if (waypoints && waypoints.length > 0) {
+                                                waypoints.forEach(waypoint => {
+                                                    console.log('途经点:', waypoint);
+                                                    console.log('途经点属性:', Object.keys(waypoint));
+                                                    console.log('途经点坐标:', waypoint.lng, waypoint.lat);
                                                     const wpIndex = points.findIndex(p => 
                                                         Math.abs(p.lng - waypoint.lng) < 0.0001 && 
                                                         Math.abs(p.lat - waypoint.lat) < 0.0001
