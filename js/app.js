@@ -1204,11 +1204,11 @@ const App = {
         return new Promise((resolve) => {
             try {
                 const points = spotInfos.map(spot => {
-                    if (spot.mcCoords) {
-                        return new BMap.Point(spot.mcCoords.x, spot.mcCoords.y);
-                    } else if (spot.location && spot.location.lng && spot.location.lat) {
-                        const mc = this.wgs84ToBaiduMercator(spot.location.lat, spot.location.lng);
-                        return new BMap.Point(mc.x, mc.y);
+                    if (spot.location && spot.location.lng && spot.location.lat) {
+                        const lng = spot.location.lng;
+                        const lat = spot.location.lat;
+                        console.log('使用经纬度坐标:', lat, lng);
+                        return new BMap.Point(lng, lat);
                     }
                     return null;
                 }).filter(p => p !== null);
